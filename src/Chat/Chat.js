@@ -6,12 +6,13 @@ import img3 from "./upload 1.png";
 import img4 from "./logout 1.png";
 import ScrollToBottom from "react-scroll-to-bottom";
 
-function Chat({ socket, username, room }) {
+function Chat({ socket, username }) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
-
+  console.log(username);
   const sendMessage = async () => {
     if (currentMessage !== "") {
+      console.log("ffffff");
       const messageData = {
         author: username,
         message: currentMessage,

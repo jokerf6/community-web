@@ -1,3 +1,53 @@
-.form{
-    padding: 0 10%;
+.form {
+  padding: 0 10%;
+}
+.formItem {
+  display: flex;
+  flex-direction: column;
+  margin: 6% 0;
+}
+.input {
+  background-color: #f0f1f3;
+  border: none;
+  width: 100%;
+  padding: 2% 3%;
+}
+.label {
+  font-weight: 500;
+  font-size: large;
+}
+.reset {
+  text-align: right;
+}
+.resetbtn {
+  color: #7d7d7d;
+  background-color: white;
+  border: none;
+}
+.buttons {
+  margin: 10% 0;
+}
+.btn {
+  padding: 15px;
+  background-color: white;
+  width: 100%;
+  border-radius: 30px;
+  margin: 2%;
+  border-color: #7cc1f9;
+  color: #7cc1f9;
+  font-size: large;
+}
+.btnone {
+  background-color: #7cc1f9;
+  padding: 15px;
+  width: 100%;
+  border-radius: 30px;
+  margin: 2%;
+  border: none;
+  color: white;
+  font-size: large;
+}
+.err {
+  color: red;
+  margin-top: -5%;
 }
