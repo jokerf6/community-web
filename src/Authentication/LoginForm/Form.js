@@ -15,6 +15,8 @@ export default function LoginForm() {
   const [modalShow, setModalShow] = React.useState(false);
   const [loading, changeLoading] = React.useState(false);
   const [cookies, setCookie] = useCookies(["access_token", "username"]);
+  const [error, setError] = React.useState("");
+
   const navigate = useNavigate();
 
   return (
@@ -28,9 +30,7 @@ export default function LoginForm() {
           if (!values.phone) {
             errors.phone = "Required";
           }
-          if (!values.password) {
-            errors.password = "Required";
-          }
+
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
@@ -83,17 +83,8 @@ export default function LoginForm() {
                 />
               </div>
             </div>
-            <ErrorMessage name="password">
-              {(msg) => <p className={Styles.err}>{errors.password}</p>}
-            </ErrorMessage>
+            <p className={Styles.err}>{error}</p>
             <div className={Styles.reset}>
-              <button
-                type="submit"
-                className={Styles.resetbtn}
-                onClick={() => setModalShow(true)}
-              >
-                Reset Password?
-              </button>
               <Reset show={modalShow} onHide={() => setModalShow(false)} />
             </div>
             <div>
@@ -102,16 +93,17 @@ export default function LoginForm() {
                 {loading ? <img src={Img} className={sharedStyles.load} /> : ""}
               </button>
             </div>
-            <Buttons />
           </form>
         )}
       </Formik>
+      <Buttons />
     </div>
   );
   // -----------------------------------------------------------------------------------------------
   async function handleFormSubmit(phone, password) {
     let phoneValue = phone;
     let passwordValue = password;
+    console.log(phoneValue, passwordValue);
     const person = {
       phone: phoneValue,
       password: passwordValue,
@@ -124,13 +116,20 @@ export default function LoginForm() {
 
   function onGetSignInResponse(json) {
     let status = json.type;
+    console.log(json);
     if (status == "Success") {
       console.log(json);
       console.log(json.data);
-      setCookie("access_token", json.data.accessToken, { path: "/" });
-      setCookie("username", json.data.userExist.number, { path: "/" });
+      localStorage.setItem("logging", true);
+      localStorage.setItem("Access Token", json.data.accessToken);
+      localStorage.setItem("number", json.data.userExist.number);
+
+      setError("");
 
       navigate("/room");
+    } else if (status != "Success") {
+      setError("invalid username or password");
+      console.log(error);
     }
     // console.log(cookies.get("username")); // Pacman
   }

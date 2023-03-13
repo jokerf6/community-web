@@ -1,80 +1,89 @@
 .paragraph {
-    color: #7d7d7d;
-    font-size: medium;
+  color: #7d7d7d;
+  font-size: medium;
 }
-.first{
-    text-align: center;
+.first {
+  text-align: center;
 }
-.title{
-    margin: 8% 0;
+.title {
+  margin: 8% 0;
 }
 .input {
-    background-color: #f0f1f3;
-    border: none;
-    width: 100%;
-    padding: 2% 3%;
+  background-color: #f0f1f3;
+  border: none;
+  width: 100%;
+  padding: 2% 3%;
 }
 .formItem {
-    display: flex;
-    flex-direction: column;
-    margin: 6% 0;
+  display: flex;
+  flex-direction: column;
+  margin: 6% 0;
 }
-.modal{
-    padding: 10%;
+
+.next {
+  width: 45%;
+  padding: 3%;
+  margin-left: 5%;
+  background-color: #7cc1f9;
+  color: white;
+  border: none;
+  font-size: large;
 }
-.next{
-    width: 45%;
-    padding: 3%;
-    margin-left: 5%;
-    background-color: #7cc1f9;
-    color: white;
-    border: none;
-    font-size: large;
+.cancel {
+  width: 45%;
+  padding: 3%;
+  margin-right: 5%;
+  background-color: white;
+  color: #7cc1f9;
+  border: none;
+  font-size: large;
 }
-.cancel{
-    width: 45%;
-    padding: 3%;
-    margin-right: 5%;
-    background-color: white;
-    color: #7cc1f9;
-    border: none;
-    font-size: large;
+.congImage {
+  width: 100%;
 }
-.congImage{
-    width: 100%;
+.done {
+  width: 100%;
+  background-color: #7cc1f9;
+  color: white;
+  border: none;
+  font-size: large;
+  padding: 5%;
+  border-radius: 15px;
 }
-.done{
-    width: 100%;
-    background-color: #7cc1f9;
-    color: white;
-    border: none;
-    font-size: large;
-    padding: 5%;
-    border-radius: 15px;
+.change {
+  width: 100%;
+  background-color: #7cc1f9;
+  color: white;
+  border: none;
+  font-size: large;
+  padding: 3%;
+  margin: 3% 0;
+  border-radius: 15px;
 }
-.change{
-    width: 100%;
-    background-color: #7cc1f9;
-    color: white;
-    border: none;
-    font-size: large;
-    padding: 3%;
-    margin: 3% 0;
-    border-radius: 15px;
+.save {
+  width: 100%;
+  background-color: white;
+  color: #7cc1f9;
+  border-color: #7cc1f9;
+  font-size: large;
+  padding: 3%;
+  margin: 3% 0;
+  border-radius: 15px;
 }
-.save{
-    width: 100%;
-    background-color: white;
-    color: #7cc1f9;
-    border-color: #7cc1f9;
-    font-size: large;
-    padding: 3%;
-    margin: 3% 0;
-    border-radius: 15px;
+.your {
+  margin-bottom: 15%;
 }
-.your{
-    margin-bottom: 15%;
+.color {
+  color: #7cc1f9;
 }
-.color{
-    color: #7cc1f9;
+.err {
+  color: red;
+  margin-top: -5%;
+}
+.err {
+  color: red;
+  margin-top: 5%;
+}
+.modal2 {
+  padding: 10%;
 }

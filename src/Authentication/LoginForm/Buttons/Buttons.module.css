@@ -3,10 +3,10 @@
   background-color: white;
   width: 100%;
   border-radius: 30px;
-  margin: 2%;
   border-color: #7cc1f9;
   color: #7cc1f9;
   font-size: large;
+  margin-bottom: 5%;
 }
 .btnone {
   background-color: #7cc1f9;
@@ -17,4 +17,7 @@
   border: none;
   color: white;
   font-size: large;
+}
+.buttons {
+  margin-top: 5%;
 }

@@ -11,11 +11,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/"
-            exact
-            element={cookies.get("username") ? <Room /> : <Login />}
-          />
+          <Route path="/" exact element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/room" element={<Room />} />
         </Routes>
