@@ -7,7 +7,7 @@ import Cookies from "universal-cookie";
 import { ROOM } from "../constants";
 const cookies = new Cookies();
 
-const username = cookies.get("username");
+const username = localStorage.getItem("number");
 const URL = username ? ROOM : undefined;
 const socket = io.connect(URL);
 
