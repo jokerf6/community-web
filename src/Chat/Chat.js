@@ -7,33 +7,28 @@ import img4 from "./logout 1.png";
 import ScrollToBottom from "react-scroll-to-bottom";
 
 function Chat({ socket, username }) {
-  const [currentMessage, setCurrentMessage] = useState("");
-  const [messageList, setMessageList] = useState([]);
-  console.log(username);
-  const sendMessage = async () => {
-    if (currentMessage !== "") {
-      console.log("ffffff");
-      const messageData = {
-        author: username,
-        message: currentMessage,
-        time:
-          new Date(Date.now()).getHours() +
-          ":" +
-          new Date(Date.now()).getMinutes(),
-      };
+  console.log("rec");
+  const userId = localStorage.getItem("userId");
 
-      await socket.emit("message", messageData);
-      setMessageList((list) => [...list, messageData]);
-      setCurrentMessage("");
-    }
-  };
+  const [messageList, setMessageList] = useState([]);
 
   useEffect(() => {
-    socket.on("message", (data) => {
-      setMessageList((list) => [...list, data]);
-    });
+    socket.on(
+      "receive_message",
+      (data) => {
+        setMessageList((list) => [...list, data]);
+        console.log(messageList);
+      },
+      [socket]
+    );
   }, [socket]);
-
+  document.addEventListener("visibilitychange", async function (event) {
+    if (document.hidden) {
+      socket.emit("disConnent", userId);
+    } else {
+      socket.emit("Connent", userId);
+    }
+  });
   return (
     <div className="chat-window">
       <div className="chat-header">
@@ -49,11 +44,19 @@ function Chat({ socket, username }) {
               >
                 <div>
                   <div className="message-content">
-                    <p>{messageContent.message}</p>
+                    <br />
+                    <p>
+                      {username !== messageContent.author ? (
+                        <span className="auth">{messageContent.author}</span>
+                      ) : undefined}
+
+                      {username !== messageContent.author ? <br /> : undefined}
+
+                      {messageContent.message}
+                    </p>
                   </div>
                   <div className="message-meta">
                     <p id="time">{messageContent.time}</p>
-                    <p id="author">{messageContent.author}</p>
                   </div>
                 </div>
               </div>
@@ -61,7 +64,7 @@ function Chat({ socket, username }) {
           })}
         </ScrollToBottom>
       </div>
-      <div className="chat-footer">
+      <form className="chat-footer" onSubmit={sendMessage} id="for">
         <button>
           <img src={img2} alt="" className="images" />
         </button>
@@ -70,21 +73,42 @@ function Chat({ socket, username }) {
         </button>
         <input
           type="text"
-          value={currentMessage}
-          placeholder="Type a Message"
-          onChange={(event) => {
-            setCurrentMessage(event.target.value);
-          }}
+          required="required"
+          name="message"
+          placeholder="Type your message"
+        />
+        <input
+          type="submit"
+          hidden
           onKeyPress={(event) => {
             event.key === "Enter" && sendMessage();
           }}
         />
-        <button onClick={sendMessage}>
+        <button type="submit">
           <img src={img1} alt="" className="images" />
         </button>
-      </div>
+      </form>
     </div>
   );
+
+  async function sendMessage(e) {
+    e.preventDefault();
+    const currentMessage = e.target.message.value;
+    e.target.message.value = null;
+    if (currentMessage !== "") {
+      const messageData = {
+        author: username,
+        message: currentMessage,
+        time:
+          new Date(Date.now()).getHours() +
+          ":" +
+          new Date(Date.now()).getMinutes(),
+      };
+
+      await socket.emit("send_message", messageData);
+      //setMessageList((list) => [...list, messageData]);
+    }
+  }
 }
 
 export default Chat;

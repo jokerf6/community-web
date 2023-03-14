@@ -1,10 +1,6 @@
-import React from 'react'
-import img from '../images/74908-girl-chatting-with-online-friends.gif'
-import Styles from './Image.module.css'
-
+import React from "react";
+import Styles from "./Image.module.css";
+import Img from "../images/74908-girl-chatting-with-online-friends.gif";
 export default function Image() {
-    return (
-        <img src={img}  className = {Styles.image} alt=""/>
-    )
+  return <img src={Img} className={Styles.image} alt="" />;
 }
-

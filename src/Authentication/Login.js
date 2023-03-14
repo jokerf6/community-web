@@ -6,12 +6,12 @@ import Styles from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  console.log("D");
   const navigate = useNavigate();
   console.log(localStorage.getItem("logging"));
 
   useEffect(() => {
     if (localStorage.getItem("logging")) {
-      console.log("yes");
       navigate("/room");
     }
   });

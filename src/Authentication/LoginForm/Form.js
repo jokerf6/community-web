@@ -8,7 +8,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
 import { ErrorMessage, Formik } from "formik";
-import Reset from "../LoginForm/Modals/ResetModal/Reset";
+import Reset from "./Modals/ResetModal/Reset";
 import { SIGNIN_LINK } from "../../constants";
 import Img from "../../General/loading/images/loading.gif";
 export default function LoginForm() {
@@ -105,7 +105,7 @@ export default function LoginForm() {
     let passwordValue = password;
     console.log(phoneValue, passwordValue);
     const person = {
-      phone: phoneValue,
+      number: phoneValue,
       password: passwordValue,
     };
 
@@ -118,11 +118,10 @@ export default function LoginForm() {
     let status = json.type;
     console.log(json);
     if (status == "Success") {
-      console.log(json);
-      console.log(json.data);
       localStorage.setItem("logging", true);
       localStorage.setItem("Access Token", json.data.accessToken);
       localStorage.setItem("number", json.data.userExist.number);
+      localStorage.setItem("userId", json.data.userExist.id);
 
       setError("");
 
