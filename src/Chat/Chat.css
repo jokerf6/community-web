@@ -1,19 +1,10 @@
-.chatContainer {
-  width: 100vw;
-  height: 100vh;
-  background: #fff;
-  color: #212121;
-  font-family: "Open Sans", sans-serif;
-  display: grid;
-  place-items: center;
-}
+
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,700");
 
 body {
   margin: 0%;
   padding: 0%;
 }
-
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,700");
 
 .joinChatContainer {
   display: flex;
@@ -53,17 +44,25 @@ body {
   background: #7cc1f9;
 }
 
+.chatContainer {
+  width: 100vw;
+  height: 100vh;
+  font-family: "Open Sans", sans-serif;
+  display: grid;
+  place-items: center;
+}
+
 .chat-window {
-  width: 700px;
-  height: 600px;
+  width: 98%;
+  height: 700px;
   border: #7cc1f9 solid 1px;
+  border-bottom:none;
 }
 .bob {
   background-color: #212121;
 }
 .chat-window .chat-header {
   height: 10%;
-  cursor: pointer;
   text-align: right;
   padding: 2%;
 }
@@ -192,36 +191,31 @@ body {
 }
 
 .images {
-  width: 50%;
+  width: 70%;
 }
 .logout {
-  width: 5%;
+  width: 50%;
 }
 .chat-window .chat-footer input {
   height: 100%;
+  width: 92%;
   flex: 85%;
-  border: 0;
+  border: none;
   padding: 0 0.7em;
   font-size: 1em;
 }
 
-.chat-window .chat-footer img {
-  color: #7cc1f9;
-}
-
 .chat-window .chat-footer button {
-  border: 0;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  flex: 15%;
-  height: 100%;
+  border: none;
   background: transparent;
-  outline: none;
-  font-size: 25px;
   color: lightgray;
 }
 
+.chat-header button {
+  border: none;
+  background: transparent;
+  color: lightgray;
+}
 .chat-window .chat-footer button:hover {
   color: #7cc1f9;
 }

@@ -4,13 +4,21 @@ import img1 from "./right-arrow (1) 1.png";
 import img2 from "./smiling-face 1.png";
 import img3 from "./upload 1.png";
 import img4 from "./logout 1.png";
+import img5 from './settings 1.png';
 import ScrollToBottom from "react-scroll-to-bottom";
+import { useNavigate } from "react-router-dom";
+
 
 function Chat({ socket, username }) {
   console.log("rec");
   const userId = localStorage.getItem("userId");
 
   const [messageList, setMessageList] = useState([]);
+
+  const navigate = useNavigate();
+  const handleGoToSetting = () => {
+    navigate('/settings');
+  }
 
   useEffect(() => {
     socket.on(
@@ -32,7 +40,12 @@ function Chat({ socket, username }) {
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <img src={img4} alt="" className="logout" />
+        <button onClick={handleGoToSetting}>
+          <img src={img5} alt="" className="logout" />
+        </button>
+        <button >
+          <img src={img4} alt="" className="logout" />
+        </button>
       </div>
       <div className="chat-body">
         <ScrollToBottom className="message-container">
