@@ -1,114 +1,84 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Chat.css";
-import img1 from "./right-arrow (1) 1.png";
-import img2 from "./smiling-face 1.png";
-import img3 from "./upload 1.png";
 import img4 from "./logout 1.png";
-import ScrollToBottom from "react-scroll-to-bottom";
+import OnlineMessage from "./components/message/onlineMessage";
+import Fotter from "./footter";
+import Picker from "emoji-picker-react";
+import Notification from "./components/message/toast";
 
 function Chat({ socket, username }) {
-  console.log("rec");
+  // const divRef = useRef();
   const userId = localStorage.getItem("userId");
 
   const [messageList, setMessageList] = useState([]);
+  const [newMessageList, setNewMessageList] = useState([]);
+  const [rep, setrep] = useState(true);
+  const [userRep, setuserRep] = useState("");
+  const [repBody, setrepBody] = useState("");
+  const [replayId, setReplayId] = useState("");
+  const [chosenEmoji, setChosenEmoji] = useState("");
+  const [showPicker, setShowPicker] = useState(true);
 
   useEffect(() => {
-    socket.on(
-      "receive_message",
-      (data) => {
-        setMessageList((list) => [...list, data]);
-        console.log(messageList);
-      },
-      [socket]
-    );
+    socket.on("receive_message", async (data) => {
+      setMessageList((list) => [...list, data]);
+      data["resId"] = userId;
+      socket.emit("unreadReq", data);
+    });
+
+    document.addEventListener("visibilitychange", async function (event) {
+      if (document.hidden) {
+        socket.emit("logout", userId);
+        new Notification("New message from Open Chat");
+      } else {
+        socket.emit("join", userId);
+      }
+    });
   }, [socket]);
-  document.addEventListener("visibilitychange", async function (event) {
-    if (document.hidden) {
-      socket.emit("disConnent", userId);
-    } else {
-      socket.emit("Connent", userId);
-    }
-  });
+
+  const onEmojiClick = (event, emojiObject) => {
+    console.log(event.emoji);
+    setChosenEmoji(event.emoji);
+  };
   return (
     <div className="chat-window">
       <div className="chat-header">
         <img src={img4} alt="" className="logout" />
       </div>
-      <div className="chat-body">
-        <ScrollToBottom className="message-container">
-          {messageList.map((messageContent) => {
-            return (
-              <div
-                className="message"
-                id={username === messageContent.author ? "you" : "other"}
-              >
-                <div>
-                  <div className="message-content">
-                    <br />
-                    <p>
-                      {username !== messageContent.author ? (
-                        <span className="auth">{messageContent.author}</span>
-                      ) : undefined}
-
-                      {username !== messageContent.author ? <br /> : undefined}
-
-                      {messageContent.message}
-                    </p>
-                  </div>
-                  <div className="message-meta">
-                    <p id="time">{messageContent.time}</p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </ScrollToBottom>
+      <OnlineMessage
+        messageList={messageList}
+        username={username}
+        newmessageList={newMessageList}
+        socket={socket}
+        setrep={setrep}
+        setuserRep={setuserRep}
+        setrepBody={setrepBody}
+        setReplayId={setReplayId}
+      />
+      <div className="emo" hidden={showPicker}>
+        <Picker
+          onEmojiClick={onEmojiClick}
+          width={700}
+          height={400}
+          disableAutoFocus={true}
+          native
+        />
       </div>
-      <form className="chat-footer" onSubmit={sendMessage} id="for">
-        <button>
-          <img src={img2} alt="" className="images" />
-        </button>
-        <button>
-          <img src={img3} alt="" className="images" />
-        </button>
-        <input
-          type="text"
-          required="required"
-          name="message"
-          placeholder="Type your message"
-        />
-        <input
-          type="submit"
-          hidden
-          onKeyPress={(event) => {
-            event.key === "Enter" && sendMessage();
-          }}
-        />
-        <button type="submit">
-          <img src={img1} alt="" className="images" />
-        </button>
-      </form>
+      <Fotter
+        socket={socket}
+        username={username}
+        Rep={rep}
+        userRep={userRep}
+        repBody={repBody}
+        setrep={setrep}
+        replayId={replayId}
+        setShowPicker={setShowPicker}
+        showPicker={showPicker}
+        chosenEmoji={chosenEmoji}
+        setChosenEmoji={setChosenEmoji}
+      />
     </div>
   );
-
-  async function sendMessage(e) {
-    e.preventDefault();
-    const currentMessage = e.target.message.value;
-    e.target.message.value = null;
-    if (currentMessage !== "") {
-      const messageData = {
-        author: username,
-        message: currentMessage,
-        time:
-          new Date(Date.now()).getHours() +
-          ":" +
-          new Date(Date.now()).getMinutes(),
-      };
-
-      await socket.emit("send_message", messageData);
-      //setMessageList((list) => [...list, messageData]);
-    }
-  }
 }
 
 export default Chat;
