@@ -1,0 +1,11 @@
+.settings{
+    padding: 3% 5%; 
+}
+
+.title{
+    color: #7cc1f9;
+}
+
+.content{
+    display: flex;
+}

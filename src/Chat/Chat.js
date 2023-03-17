@@ -1,10 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./Chat.css";
 import img4 from "./logout 1.png";
+import img5 from "./settings 1.png";
+import { useNavigate } from "react-router-dom";
 import OnlineMessage from "./components/message/onlineMessage";
 import Fotter from "./footter";
 import Picker from "emoji-picker-react";
 import Notification from "./components/message/toast";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 function Chat({ socket, username }) {
   // const divRef = useRef();
@@ -19,6 +22,10 @@ function Chat({ socket, username }) {
   const [chosenEmoji, setChosenEmoji] = useState("");
   const [showPicker, setShowPicker] = useState(true);
 
+  const navigate = useNavigate();
+  const handleGoToSetting = () => {
+    navigate("/settings");
+  };
   useEffect(() => {
     socket.on("receive_message", async (data) => {
       setMessageList((list) => [...list, data]);
@@ -43,7 +50,12 @@ function Chat({ socket, username }) {
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <img src={img4} alt="" className="logout" />
+        <button onClick={handleGoToSetting}>
+          <img src={img5} alt="" className="logout" />
+        </button>
+        <button>
+          <img src={img4} alt="" className="logout" />
+        </button>
       </div>
       <OnlineMessage
         messageList={messageList}
