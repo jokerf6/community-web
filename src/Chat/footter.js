@@ -3,10 +3,8 @@ import img1 from "./right-arrow (1) 1.png";
 import img2 from "./smiling-face 1.png";
 import img3 from "./upload 1.png";
 import exit from "./exit.png";
-import Picker from "emoji-picker-react";
-
+import mic from "./mic.png";
 import "./Chat.css";
-import checkPageStatus from "../utils/functions";
 export default function Fotter({
   socket,
   username,
@@ -19,13 +17,17 @@ export default function Fotter({
   showPicker,
   chosenEmoji,
   setChosenEmoji,
+  role,
 }) {
   const userId = localStorage.getItem("userId");
-  const [Input, setInput] = useState(null);
-  const [send, setSend] = useState(false);
 
   function close() {
     setrep(true);
+  }
+  const [input, setInput] = useState("");
+  function handelChange(e) {
+    console.log(e.target.value);
+    setInput(e.target.value);
   }
   function openPicker(e) {
     showPicker ? setShowPicker(false) : setShowPicker(true);
@@ -36,53 +38,63 @@ export default function Fotter({
     setChosenEmoji("");
   }
   return (
-    <div className="fotterBox" id="fotterBox">
-      <div className={!Rep ? "chat-footer3" : "chat-footer2"}>
-        <div className="chat-footer-child">
-          <div className="boxLine">
-            <hr
-              className="
-      line"
-            />
-          </div>
-          <div className="replayInfo">
-            <p className="replayUser">{userRep}</p>
-
-            <p className="replayText">{repBody}</p>
-          </div>
+    <div>
+      {" "}
+      {role !== "ADMIN" ? (
+        <div className="chat-footer footer2">
+          <p>Only admins can send messages</p>
         </div>
-        <img src={exit} className="exit" onClick={close} />
-      </div>
-      <form className="chat-footer" onSubmit={sendMessage} id="for">
-        <button onClick={openPicker} type="button">
-          {!showPicker ? (
-            <img src={exit} alt="" className="images" />
-          ) : (
-            <img src={img2} alt="" className="images" />
-          )}
-        </button>
-        <button>
-          <img src={img3} alt="" className="images" />
-        </button>
-        <input
-          type="text"
-          required="required"
-          name="message"
-          placeholder="Type your message"
-          id="inp"
-        />
+      ) : (
+        <div className="fotterBox" id="fotterBox">
+          <div className={!Rep ? "chat-footer3" : "chat-footer2"}>
+            <div className="chat-footer-child">
+              <div className="boxLine">
+                <hr
+                  className="
+      line"
+                />
+              </div>
+              <div className="replayInfo">
+                <p className="replayUser">{userRep}</p>
 
-        <input
-          type="submit"
-          hidden
-          onKeyPress={(event) => {
-            event.key === "Enter" && sendMessage();
-          }}
-        />
-        <button type="submit">
-          <img src={img1} alt="" className="images" />
-        </button>
-      </form>
+                <p className="replayText">{repBody}</p>
+              </div>
+            </div>
+            <img src={exit} className="exit" onClick={close} />
+          </div>
+          <form className="chat-footer" onSubmit={sendMessage} id="for">
+            <button onClick={openPicker} type="button">
+              {!showPicker ? (
+                <img src={exit} alt="" className="images" />
+              ) : (
+                <img src={img2} alt="" className="images" />
+              )}
+            </button>
+            <button>
+              <img src={img3} alt="" className="images" />
+            </button>
+            <input
+              type="text"
+              required="required"
+              name="message"
+              placeholder="Type your message"
+              id="inp"
+              onChange={handelChange}
+            />
+
+            <input
+              type="submit"
+              hidden
+              onKeyPress={(event) => {
+                event.key === "Enter" && sendMessage();
+              }}
+            />
+            <button type="submit">
+              <img src={input !== "" ? img1 : mic} alt="" className="images" />
+            </button>
+          </form>
+        </div>
+      )}
     </div>
   );
   async function sendMessage(e) {
@@ -113,6 +125,7 @@ export default function Fotter({
 
       setrep(true);
       setShowPicker(true);
+      setInput(null);
       /*  divRef.current.scroll({
         top: divRef.current.scrollHeight,
         behavior: "smooth",

@@ -9,7 +9,7 @@ import Picker from "emoji-picker-react";
 import Notification from "./components/message/toast";
 import ScrollToBottom from "react-scroll-to-bottom";
 
-function Chat({ socket, username }) {
+function Chat({ socket, username, role }) {
   // const divRef = useRef();
   const userId = localStorage.getItem("userId");
 
@@ -88,6 +88,7 @@ function Chat({ socket, username }) {
         showPicker={showPicker}
         chosenEmoji={chosenEmoji}
         setChosenEmoji={setChosenEmoji}
+        role={role}
       />
     </div>
   );
