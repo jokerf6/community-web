@@ -122,6 +122,7 @@ export default function LoginForm() {
       localStorage.setItem("Access Token", json.data.accessToken);
       localStorage.setItem("number", json.data.userExist.number);
       localStorage.setItem("userId", json.data.userExist.id);
+      localStorage.setItem("role", json.data.userExist.role);
 
       setError("");
 

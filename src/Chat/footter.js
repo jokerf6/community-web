@@ -3,11 +3,9 @@ import img1 from "./right-arrow (1) 1.png";
 import img2 from "./smiling-face 1.png";
 import img3 from "./upload 1.png";
 import exit from "./exit.png";
-import Picker from "emoji-picker-react";
-
+import mic from "./mic.png";
 import "./Chat.css";
 import checkPageStatus from "../utils/functions";
-import OnlineMessage from "./components/message/onlineMessage";
 export default function Fotter({
   socket,
   username,
@@ -20,13 +18,17 @@ export default function Fotter({
   showPicker,
   chosenEmoji,
   setChosenEmoji,
+  role,
 }) {
   const userId = localStorage.getItem("userId");
-  const [Input, setInput] = useState(null);
-  const [send, setSend] = useState(false);
 
   function close() {
     setrep(true);
+  }
+  const [input, setInput] = useState("");
+  function handelChange(e) {
+    console.log(e.target.value);
+    setInput(e.target.value);
   }
   function openPicker(e) {
     showPicker ? setShowPicker(false) : setShowPicker(true);
@@ -65,11 +67,12 @@ export default function Fotter({
 
   return (
     <div className="fotterBox" id="fotterBox">
-      <div className={!Rep ? "chat-footer3 chat-body2" : "chat-footer2 chat-body"}>
+      <div className={!Rep ? "chat-footer3" : "chat-footer2"}>
         <div className="chat-footer-child">
           <div className="boxLine">
             <hr
-              className="line"
+              className="
+      line"
             />
           </div>
           <div className="replayInfo">
@@ -88,14 +91,9 @@ export default function Fotter({
             <img src={img2} alt="" className="images" />
           )}
         </button>
-
-        <form onSubmit={handleUpload} className = 'upload'>
-            <label htmlFor="filePicker">
-            <img src={img3} alt="" style={{ width: '70%' }}/>
-            </label>
-          <input type="file" id="filePicker" onChange={handleFile} style={{ padding: '0%', visibility: "hidden", width: '0%' }}/>
-        </form>
-        {/* <img src={file}/> */}
+        <button>
+          <img src={img3} alt="" className="images" />
+        </button>
         <input
           type="text"
           required="required"
@@ -104,17 +102,19 @@ export default function Fotter({
           id="inp"
         />
 
-        <input
-          type="submit"
-          hidden
-          onKeyPress={(event) => {
-            event.key === "Enter" && sendMessage();
-          }}
-        />
-        <button type="submit">
-          <img src={img1} alt="" className="images" />
-        </button>
-      </form>
+            <input
+              type="submit"
+              hidden
+              onKeyPress={(event) => {
+                event.key === "Enter" && sendMessage();
+              }}
+            />
+            <button type="submit">
+              <img src={input !== "" ? img1 : mic} alt="" className="images" />
+            </button>
+          </form>
+        </div>
+      )}
     </div>
   );
   async function sendMessage(e) {
@@ -145,6 +145,7 @@ export default function Fotter({
 
       setrep(true);
       setShowPicker(true);
+      setInput(null);
       /*  divRef.current.scroll({
         top: divRef.current.scrollHeight,
         behavior: "smooth",
