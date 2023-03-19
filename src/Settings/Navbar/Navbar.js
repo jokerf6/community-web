@@ -1,41 +1,66 @@
-import React from 'react';
+
+import React, { useState } from "react";
 import {
     CDBSidebar,
     CDBSidebarContent,
     CDBSidebarMenu,
     CDBSidebarMenuItem,
 } from 'cdbreact';
-import { NavLink } from 'react-router-dom';
 import './Navbar.css';
-import users from "./group 1.png";
-import setting from "./settings (1) 1.png";
-import note from "./documents 1.png";
+import classNames from "classnames";
+import Participants from "../Participants/Participants";
+import Media from "../Media/Media";
+import Community from "../Community/Community";
 
 
-const Sidebar = () => {
+
+const Sidebar = ({cls}) => {
+    const [isActive1, setIsActive1] = useState(true);
+    const [isActive2, setIsActive2] = useState(false);
+    const [isActive3, setIsActive3] = useState(false);
+    const handleClick1 = event => {
+        setIsActive1(true);
+        setIsActive2(false);
+        setIsActive3(false);
+    }
+    const handleClick2 = event => {
+        setIsActive1(false);
+        setIsActive2(true);
+        setIsActive3(false);
+    }
+    const handleClick3 = event => {
+        setIsActive1(false);
+        setIsActive2(false);
+        setIsActive3(true);
+    }
     return (
-        <div className='allnav'>
-            <CDBSidebar textColor="#7d7d7d" backgroundColor="white">
-                <CDBSidebarContent className="sidebar-content">
-                    <CDBSidebarMenu>
-                        <NavLink exact to="/" activeClassName="activeClicked">
-                            <CDBSidebarMenuItem icon='users'>
+        <div className="content">
+            <div className='allnav'>
+                <CDBSidebar textColor="#7d7d7d" backgroundColor="white">
+                    <CDBSidebarContent className="sidebar-content">
+                        <CDBSidebarMenu>
+                            <CDBSidebarMenuItem icon='users' className={isActive1? 'colored'  : ''} onClick = {handleClick1}>
                                 Participants
                             </CDBSidebarMenuItem>
-                        </NavLink>
-                        <NavLink exact to="/settings" activeClassName="activeClicked">
-                            <CDBSidebarMenuItem icon='book'>
+                            <CDBSidebarMenuItem icon='book' className={isActive2?  'colored'  : ''} onClick = {handleClick2}>
                                 Media
                             </CDBSidebarMenuItem>
-                        </NavLink>
-                        <NavLink exact to="/" activeClassName="activeClicked">
-                            <CDBSidebarMenuItem icon='cog'>
+                            <CDBSidebarMenuItem icon='cog' className={isActive3?  'colored' : ''} onClick = {handleClick3}>
                                 Community Settings
                             </CDBSidebarMenuItem>
-                        </NavLink>
-                    </CDBSidebarMenu>
-                </CDBSidebarContent>
-            </CDBSidebar>
+                        </CDBSidebarMenu>
+                    </CDBSidebarContent>
+                </CDBSidebar>
+            </div>
+            {isActive1 && (
+                <Participants />
+            )}
+            {isActive2 && (
+                <Media />
+            )}
+            {isActive3 && (
+                <Community />
+            )}
         </div>
     );
 };

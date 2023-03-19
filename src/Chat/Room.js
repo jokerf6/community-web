@@ -10,7 +10,8 @@ const cookies = new Cookies();
 const username = localStorage.getItem("number");
 const userId = localStorage.getItem("userId");
 const URL = username ? ROOM : undefined;
-const socket = io.connect("https://community-o49h.onrender.com");
+
+const socket = io.connect(URL);
 
 function Room() {
   return (

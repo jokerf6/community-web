@@ -1,0 +1,68 @@
+.modal{
+    text-align: center;
+}
+.modal-img{
+    width: 10%;
+}
+.paragraph {
+    color: #7d7d7d;
+    font-size: medium;
+}
+
+.input{
+    background-color: #f0f1f3;
+    border: none;
+    width: 100%;
+    padding: 2% 3%;
+    margin-top: 5%;
+    margin-bottom: 10%;
+}
+
+.cancel {
+    width: 45%;
+    background-color: white;
+    color: #7cc1f9;
+    padding: 2%;
+    margin-right: 5%;
+    border: none;
+    font-size: large;
+}
+
+.choose {
+    width: 45%;
+    padding: 2%;
+    background-color: #7cc1f9;
+    color: white;
+    border: none;
+    font-size: large;
+}
+
+.body{
+    padding: 10%;
+}
+
+.calendar{
+    width: 100%;
+    border: none;
+    background-color: white;
+    border: none;
+}
+.calendar button{
+    background-color: white;
+}
+
+.end-number{
+    color: #7cc1f9;
+    margin-bottom:15% ;
+}
+
+
+.done {
+    width: 100%;
+    background-color: #7cc1f9;
+    color: white;
+    border: none;
+    font-size: large;
+    padding: 5%;
+    border-radius: 15px;
+}

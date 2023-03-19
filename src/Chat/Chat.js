@@ -7,7 +7,6 @@ import OnlineMessage from "./components/message/onlineMessage";
 import Fotter from "./footter";
 import Picker from "emoji-picker-react";
 import Notification from "./components/message/toast";
-import ScrollToBottom from "react-scroll-to-bottom";
 
 function Chat({ socket, username }) {
   // const divRef = useRef();
@@ -47,6 +46,7 @@ function Chat({ socket, username }) {
     console.log(event.emoji);
     setChosenEmoji(event.emoji);
   };
+
   return (
     <div className="chat-window">
       <div className="chat-header">

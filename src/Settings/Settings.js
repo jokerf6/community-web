@@ -1,18 +1,15 @@
 import React from 'react'
 import Sidebar from './Navbar/Navbar'
-import Header from './Header/Header'
-import Participants from './Participants/Participants'
-import './settings.css'
+import Header from './Header/Header';
+import './settings.css';
+import './Navbar/Navbar.css';
 
 
 export default function Settings() {
     return (
         <div className='settings'>
             <Header />
-            <div className='content'>
-                <Sidebar />
-                <Participants />
-            </div>
+            <Sidebar />
         </div>
     )   
 }

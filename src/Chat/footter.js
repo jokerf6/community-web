@@ -7,6 +7,7 @@ import Picker from "emoji-picker-react";
 
 import "./Chat.css";
 import checkPageStatus from "../utils/functions";
+import OnlineMessage from "./components/message/onlineMessage";
 export default function Fotter({
   socket,
   username,
@@ -35,14 +36,40 @@ export default function Fotter({
     document.getElementById("inp").value += chosenEmoji;
     setChosenEmoji("");
   }
+
+
+  // const [file, setFlie] = useState();
+  const [file, setFile] = useState();
+    function handleFile(event) {
+        // setFlie(event.target.files[0]);
+        console.log(event.target.files[0]);
+        setFile(URL.createObjectURL(event.target.files[0]));
+    }
+    function handleUpload() {
+        const formData = new FormData();
+        formData.append('file', file)
+        fetch(
+            'url',
+            {
+                method: 'POST',
+                body: formData
+            }.then((respone) => respone.json()).then(
+                (result) => {
+                    console.log('success', result)
+                }
+            ).catch(error => {
+                console.error('error:', error)
+            })
+        )
+    }
+
   return (
     <div className="fotterBox" id="fotterBox">
-      <div className={!Rep ? "chat-footer3" : "chat-footer2"}>
+      <div className={!Rep ? "chat-footer3 chat-body2" : "chat-footer2 chat-body"}>
         <div className="chat-footer-child">
           <div className="boxLine">
             <hr
-              className="
-      line"
+              className="line"
             />
           </div>
           <div className="replayInfo">
@@ -61,9 +88,14 @@ export default function Fotter({
             <img src={img2} alt="" className="images" />
           )}
         </button>
-        <button>
-          <img src={img3} alt="" className="images" />
-        </button>
+
+        <form onSubmit={handleUpload} className = 'upload'>
+            <label htmlFor="filePicker">
+            <img src={img3} alt="" style={{ width: '70%' }}/>
+            </label>
+          <input type="file" id="filePicker" onChange={handleFile} style={{ padding: '0%', visibility: "hidden", width: '0%' }}/>
+        </form>
+        {/* <img src={file}/> */}
         <input
           type="text"
           required="required"
