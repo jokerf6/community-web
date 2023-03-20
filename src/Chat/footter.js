@@ -127,9 +127,9 @@ export default function Fotter({
           <div className="buttons">
             <button onClick={openPicker} type="button">
               {!showPicker ? (
-                <img src={exit} alt="" className="images" />
+                <img src={exit} alt="" className="ico" />
               ) : (
-                <img src={img2} alt="" className="images" />
+                <img src={img2} alt="" className="ico" />
               )}
             </button>
             <form onSubmit={handleUpload} className="uploadIcon">
