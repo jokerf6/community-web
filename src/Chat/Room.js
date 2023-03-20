@@ -9,7 +9,7 @@ const username = localStorage.getItem("number");
 const userId = localStorage.getItem("userId");
 const role = localStorage.getItem("role");
 const URL = username ? ROOM : undefined;
-const socket = io.connect(URL);
+const socket = io.connect("http://127.0.0.1:3001");
 
 function Room() {
   return (

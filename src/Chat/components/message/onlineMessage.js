@@ -111,7 +111,7 @@ export default function OnlineMessage({
                         {username !== messageContent.author ? (
                           <br />
                         ) : undefined}
-                        {messageContent.type === "audio" ? (
+                        {messageContent.type === "VOICE" ? (
                           <audio
                             className={
                               username === messageContent.author

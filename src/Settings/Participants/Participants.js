@@ -3,16 +3,13 @@ import './Participants.css'
 import { BiSearch } from "react-icons/bi";
 import { FaUser } from "react-icons/fa";
 import { IoStarSharp, IoStarOutline } from "react-icons/io5";
-
-
-
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import { useState } from 'react';
+import Save from './Modals/Save';
+import End from './Modals/End'
 
 export default function Participants() {
+    const [modalShow, setModalShow] = React.useState(false);
+    const [modalShow2, setModalShow2] = React.useState(false);
 
-    const [value, onChange] = useState(new Date());
     return (
         <div className='participant'>
             <div className='search-bar'>
@@ -23,9 +20,15 @@ export default function Participants() {
                     />
                 </div>
                 <div className='btn-div'>
-                    <button className='search-btn'>
+                    <button className='search-btn'
+                        onClick={() => setModalShow(true)}
+                    >
                         Add user
                     </button>
+                    <Save
+                        show={modalShow}
+                        onHide={() => setModalShow(false)}
+                    />
                 </div>
             </div>
             <div className='users'>
@@ -33,7 +36,13 @@ export default function Participants() {
                     <FaUser className='user-avatar'/>
                     <h5 className='number'>01147837993</h5>
                     <IoStarSharp className='full-star'/>
-                    <button className='end-session'>End session</button>
+                    <button className='end-session'
+                        onClick={() => setModalShow2(true)}
+                    >End session</button>
+                    <End
+                        show={modalShow2}
+                        onHide={() => setModalShow2(false)}
+                    />
                 </div>
                 <div className='user'>
                     <FaUser className='user-avatar' />
@@ -59,10 +68,7 @@ export default function Participants() {
                     </div>
                     <button className='extend'>Extend</button>
                 </div>
-                
             </div>
         </div>
-        
-        // {/* <Calendar onChange={onChange} value={value} /> */}
     )
 }
