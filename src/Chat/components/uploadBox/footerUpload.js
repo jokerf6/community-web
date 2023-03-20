@@ -14,6 +14,7 @@ function FooterUpload({
   repBody,
   socket,
   notUploadedFile,
+  setShow,
 }) {
   const [chosenEmoji, setChosenEmoji] = useState("");
   const [showPicker, setShowPicker] = useState(true);
@@ -83,7 +84,7 @@ function FooterUpload({
     console.log("yessssssssssssssss");
 
     e.preventDefault();
-
+    setShow(false);
     const formData = new FormData();
 
     formData.append("file", notUploadedFile);

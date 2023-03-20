@@ -40,6 +40,7 @@ function UploadBox({
             repBody={repBody}
             socket={socket}
             notUploadedFile={notUploadedFile}
+            setShow={setShow}
           />
         </Modal.Footer>
       </Modal>

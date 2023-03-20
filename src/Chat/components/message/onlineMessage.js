@@ -50,9 +50,8 @@ export default function OnlineMessage({
   }
   function replay(e) {
     console.log("ssdsdsdsds");
-    console.log(e);
-    setReplayId(e);
-    /* console.log(e.target.id);
+    console.log(e.target.id);
+    setReplayId(e.target.id);
     const x =
       document.getElementById("list." + e.target.id).childNodes > 1
         ? document.getElementById("auth." + e.target.id).innerHTML
@@ -63,7 +62,6 @@ export default function OnlineMessage({
 
     setrepBody(document.getElementById("body." + e.target.id).innerHTML);
     setrep(false);
-  */
   }
   return (
     <div className="chat-body">
@@ -145,7 +143,11 @@ export default function OnlineMessage({
                   {open ? (
                     <ul className="menu">
                       <li className="menu-item" id={messageContent.messageId}>
-                        <button onClick={replay} type="button">
+                        <button
+                          onClick={replay}
+                          type="button"
+                          id={messageContent.messageId}
+                        >
                           Replay
                         </button>
                       </li>
