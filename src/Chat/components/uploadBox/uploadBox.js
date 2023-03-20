@@ -14,6 +14,7 @@ function UploadBox({
   show,
   setShow,
   IMG,
+  notUploadedFile,
 }) {
   const handleClose = () => setShow(false);
 
@@ -27,14 +28,7 @@ function UploadBox({
       >
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
-          <img
-            src={IMG}
-            style={{
-              width: "auto",
-              hight: "auto",
-              objectFit: "fill",
-            }}
-          />
+          <img src={IMG} />
         </Modal.Body>
         <Modal.Footer>
           <FooterUpload
@@ -45,6 +39,7 @@ function UploadBox({
             replayId={replayId}
             repBody={repBody}
             socket={socket}
+            notUploadedFile={notUploadedFile}
           />
         </Modal.Footer>
       </Modal>

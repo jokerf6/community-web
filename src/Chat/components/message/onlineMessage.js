@@ -85,51 +85,52 @@ export default function OnlineMessage({
                 //    onMouseLeave={hide}
               >
                 <div>
-                  <div
-                    onMouseEnter={show}
-                    onMouseLeave={hide}
-                    className="message-content"
-                    id={"messageBox." + messageContent.messageId}
-                  >
-                    {messageContent.replay ? (
-                      <div className="replayMess">
-                        <p>{messageContent.repBody}</p>
-                      </div>
-                    ) : undefined}
+                  {messageContent.type === "VOICE" ? (
+                    <audio
+                      className={
+                        username === messageContent.author ? "audio2" : "audio1"
+                      }
+                      src={messageContent.message}
+                      controls
+                      autoPlay
+                    />
+                  ) : (
+                    <div
+                      onMouseEnter={show}
+                      onMouseLeave={hide}
+                      className="message-content"
+                      id={"messageBox." + messageContent.messageId}
+                    >
+                      {messageContent.replay ? (
+                        <div className="replayMess">
+                          <p>{messageContent.repBody}</p>
+                        </div>
+                      ) : undefined}
 
-                    <div className="handel">
-                      <p id={"list." + messageContent.messageId}>
-                        {username !== messageContent.author ? (
-                          <span
-                            className="auth"
-                            id={"auth." + messageContent.messageId}
-                          >
-                            {messageContent.author}
-                          </span>
-                        ) : undefined}
+                      <div className="handel">
+                        <p id={"list." + messageContent.messageId}>
+                          {username !== messageContent.author ? (
+                            <span
+                              className="auth"
+                              id={"auth." + messageContent.messageId}
+                            >
+                              {messageContent.author}
+                            </span>
+                          ) : undefined}
 
-                        {username !== messageContent.author ? (
-                          <br />
-                        ) : undefined}
-                        {messageContent.type === "VOICE" ? (
-                          <audio
-                            className={
-                              username === messageContent.author
-                                ? "audio2"
-                                : "audio1"
-                            }
-                            src={messageContent.message}
-                            controls
-                            autoPlay
-                          />
-                        ) : (
+                          {username !== messageContent.author ? (
+                            <br />
+                          ) : undefined}
+                          {messageContent.type === "MEDIA" ? (
+                            <img src={messageContent["mediaUrl"]} />
+                          ) : undefined}
                           <span id={"body." + messageContent.messageId}>
                             {messageContent.message}
                           </span>
-                        )}
-                      </p>
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  )}
                   <div className="message-meta">
                     <p id="time">{messageContent.time}</p>
                   </div>

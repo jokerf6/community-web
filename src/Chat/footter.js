@@ -54,9 +54,12 @@ export default function Fotter({
     setChosenEmoji("");
   }
   const [file, setFile] = useState();
+  const [file2, setFile2] = useState();
+
   function handleFile(event) {
     // setFlie(event.target.files[0]);
     console.log(event.target.files[0]);
+    setFile2(event.target.files[0]);
     setShow(true);
     var reader = new FileReader();
 
@@ -100,6 +103,7 @@ export default function Fotter({
         show={show}
         setShow={setShow}
         IMG={file}
+        notUploadedFile={file2}
       />
 
       <div className={!Rep ? "chat-footer3" : "chat-footer2"}>
