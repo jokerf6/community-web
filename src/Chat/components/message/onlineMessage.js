@@ -4,6 +4,7 @@ import "../../Chat.css";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import checkPageStatus from "../../../utils/functions";
+import DOWN from "../../down1.png";
 
 export default function OnlineMessage({
   messageList,
@@ -21,7 +22,11 @@ export default function OnlineMessage({
   const [Unread, setUnread] = useState(0);
 
   const [valid, setValid] = useState("");
+  const [open, setOpen] = React.useState(false);
 
+  const handleOpen = () => {
+    setOpen(!open);
+  };
   useEffect(() => {
     socket.on("unreadRes", (data) => {
       if (data["resId"] === userId && data["unReadNumber"] > 0) {
@@ -44,8 +49,10 @@ export default function OnlineMessage({
     setValid("");
   }
   function replay(e) {
-    setReplayId(e.target.id);
-    console.log(e.target.id);
+    console.log("ssdsdsdsds");
+    console.log(e);
+    setReplayId(e);
+    /* console.log(e.target.id);
     const x =
       document.getElementById("list." + e.target.id).childNodes > 1
         ? document.getElementById("auth." + e.target.id).innerHTML
@@ -56,6 +63,7 @@ export default function OnlineMessage({
 
     setrepBody(document.getElementById("body." + e.target.id).innerHTML);
     setrep(false);
+  */
   }
   return (
     <div className="chat-body">
@@ -103,45 +111,48 @@ export default function OnlineMessage({
                         {username !== messageContent.author ? (
                           <br />
                         ) : undefined}
-
-                        <span id={"body." + messageContent.messageId}>
-                          {messageContent.message}
-                        </span>
+                        {messageContent.type === "audio" ? (
+                          <audio
+                            className={
+                              username === messageContent.author
+                                ? "audio2"
+                                : "audio1"
+                            }
+                            src={messageContent.message}
+                            controls
+                            autoPlay
+                          />
+                        ) : (
+                          <span id={"body." + messageContent.messageId}>
+                            {messageContent.message}
+                          </span>
+                        )}
                       </p>
-
-                      <div
-                        className="neww"
-                        id={"drop." + messageContent.messageId}
-                      >
-                        {" "}
-                        <DropdownButton
-                          title=""
-                          size="sm"
-                          variant="transperancy"
-                          align="end"
-                          hidden={
-                            messageContent.messageId === valid ? false : true
-                          }
-                        >
-                          <Dropdown.Item
-                            id={messageContent.messageId}
-                            onClick={replay}
-                          >
-                            Replay
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            id={messageContent.messageId}
-                            href="#/action-3"
-                          >
-                            Edit
-                          </Dropdown.Item>
-                        </DropdownButton>
-                      </div>
                     </div>
                   </div>
                   <div className="message-meta">
                     <p id="time">{messageContent.time}</p>
                   </div>
+                </div>
+                <div
+                  className="dropdown"
+                  id={"drop." + messageContent.messageId}
+                >
+                  <button onClick={handleOpen}>
+                    <img src={DOWN} />
+                  </button>
+                  {open ? (
+                    <ul className="menu">
+                      <li className="menu-item" id={messageContent.messageId}>
+                        <button onClick={replay} type="button">
+                          Replay
+                        </button>
+                      </li>
+                      <li className="menu-item">
+                        <button>Delete</button>
+                      </li>
+                    </ul>
+                  ) : null}
                 </div>
               </div>
             </div>

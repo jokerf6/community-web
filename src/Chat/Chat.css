@@ -210,7 +210,53 @@ body {
   padding-right: 20px;
   margin-top: 0;
 }
+.dropdown {
+  background-color: transparent;
+}
+.dropdown button {
+  background-color: transparent;
+  border: none;
+}
+.menu {
+  position: absolute;
+  right: 15px;
+  list-style-type: none;
+  margin: 5px 0;
+  padding: 0;
+  box-shadow: 0 2px 5px #bebebe;
+  z-index: 100;
+  width: 150px;
+}
+
+.menu > li {
+  margin: 0;
+
+  background-color: white;
+}
+
+.menu > li:hover {
+  background-color: rgb(235, 235, 235);
+}
+
+.menu > li > button {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+
+  background: none;
+  color: #7cc1f9;
+  border: none;
+  padding: 5px;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
 .neww {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: end;
 }
 hr {
   flex: 1;
@@ -353,6 +399,56 @@ hr {
   width: 100%;
   position: relative;
 }
+.rec {
+  margin-left: 7.5%;
+  margin-right: 2.5%;
+}
+.sendIcon {
+  width: 20px;
+}
+.audioReco {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+.remove {
+  width: 22px;
+  cursor: pointer;
+}
+.removeBOx {
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 10px;
+  align-items: center;
+  transition: all 0.2s ease-in;
+  margin-left: 7.5%;
+  margin-right: 2.5%;
+  box-shadow: 0 2px 5px #bebebe;
+}
+.audio1::-webkit-media-controls-panel {
+  background-color: #ebe8e8;
+}
+
+.audio2::-webkit-media-controls-panel {
+  background-color: #7cc1f9;
+}
+
+.buttons {
+  width: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10%;
+}
+audio::-webkit-media-controls-enclosure {
+  border-radius: 5px;
+}
+
 .images {
   width: 70%;
 }
@@ -361,7 +457,7 @@ hr {
 }
 .chat-window .chat-footer input {
   height: 100%;
-  width: 92%;
+  width: 100%;
   flex: 85%;
   border: 0;
   padding: 12px 0.7em;
@@ -390,6 +486,8 @@ hr {
   border: none;
   background: transparent;
   color: lightgray;
+  padding: 0;
+  margin: 0;
 }
 
 .chat-header button {

@@ -1,0 +1,12 @@
+h1,
+p {
+  font-family: Lato;
+}
+
+.audio-recorder-svg-color {
+  filter: invert(70%) sepia(10%) saturate(2061%) hue-rotate(178deg)
+    brightness(98%) contrast(114%);
+}
+.audioRecord {
+  background-color: white;
+}
