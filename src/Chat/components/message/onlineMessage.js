@@ -89,7 +89,7 @@ export default function OnlineMessage({
   
   return (
     <div className="chat-body">
-      <ScrollToBottom className="message-container">
+      <ScrollToBottom className="message-container" scrollViewClassName="class-scroll">
         {messageList.map((messageContent) => {
           return (
             <div>

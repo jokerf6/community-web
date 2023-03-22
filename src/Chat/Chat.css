@@ -321,9 +321,6 @@ hr {
   padding-top: 5%;
   position: relative;
 }
-.react-scroll-to-bottom--css-zfhcr-1n7m0yu::-webkit-scrollbar {
-  display: none !important;
-}
 .chat-window .chat-body .message2 .message-content {
   width: fit-content;
   height: auto;
@@ -550,19 +547,6 @@ audio::-webkit-media-controls-enclosure {
   opacity: 0 !important;
 }
 
-
-.react-scroll-to-bottom--css-dnxxk-1n7m0yu::-webkit-scrollbar{
-  display: none;
-}
-
-
-
-.rhap_container *:focuse{
-  box-shadow: none ;
-  background-color: #5db1f5;
-}
-
-
 .rhap_container{
   background-color: #5db1f5 !important;
   box-shadow: none !important;
@@ -603,3 +587,6 @@ audio::-webkit-media-controls-enclosure {
   }
 }
 
+.class-scroll::-webkit-scrollbar {
+  display: none !important;
+}
