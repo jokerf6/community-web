@@ -76,3 +76,13 @@ p {
 ::-webkit-scrollbar-thumb:hover {
   background: #7cc1f9;
 }
+rhap_progress-indicator {
+  background-color: white;
+}
+rhap_progress-filled {
+  background-color: white;
+}
+rhap_controls-section svg {
+  filter: invert(70%) sepia(10%) saturate(2061%) hue-rotate(178deg)
+    brightness(98%) contrast(114%);
+}

@@ -5,12 +5,13 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import checkPageStatus from "../../../utils/functions";
 import DOWN from "../../down1.png";
+
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import DownloadLink from "react-download-link";
 import useDownloader from "react-use-downloader";
 import { BsDownload } from "react-icons/bs";
-import checkDir from "../../../utils/checkLanguage";
+
 export default function OnlineMessage({
   messageList,
   username,
@@ -25,14 +26,18 @@ export default function OnlineMessage({
 }) {
   const userId = localStorage.getItem("userId");
   const [firstUnreadMessage, setFirstUnreadMessage] = useState("");
-
-  const [Unread, setUnread] = useState(0);
   const [drop, setDrop] = useState("");
+  const [Unread, setUnread] = useState(0);
+
   const [valid, setValid] = useState("");
   const [open, setOpen] = React.useState(false);
 
   function handleOpen(e) {
     console.log(e.target.id.split(".")[1]);
+
+    console.log(
+      document.getElementById("menu.3fd9cb97-0090-4dd5-a498-50169ee439ed")
+    );
     if (drop !== "" && drop !== e.target.id.split(".")[1]) {
       document.getElementById("menu." + drop).hidden = true;
     }
@@ -41,10 +46,8 @@ export default function OnlineMessage({
     setOpen(!open);
     setDrop(e.target.id.split(".")[1]);
   }
-
   useEffect(() => {
     socket.on("unreadRes", (data) => {
-      console.log(data);
       if (data["resId"] === userId && data["unReadNumber"] > 0) {
         setUnread(data["unReadNumber"]);
         checkPageStatus(data, localStorage.getItem("userName"));
@@ -92,7 +95,6 @@ export default function OnlineMessage({
 
       setrepBody(document.getElementById("body." + e.target.id).innerHTML);
       setrep(false);
-      setRepType("");
     } else {
       setReplayId(e.target.id);
       setuserRep(
@@ -105,17 +107,25 @@ export default function OnlineMessage({
       );
     }
   }
-
-  let Ex = "";
   function getExtension(filename) {
-    return filename.split(".").pop();
+    if (filename) {
+      return filename.split(".").pop();
+    }
+  }
+  function SplitFunction(filename) {
+    if (filename) {
+      return filename.split("uploads/").pop().split("-")[0];
+    }
   }
 
   const { download } = useDownloader();
 
   return (
     <div className={!Rep ? "chat-body chat-window2" : "chat-body"}>
-      <ScrollToBottom className="message-container">
+      <ScrollToBottom
+        className="message-container"
+        scrollViewClassName="class-scroll"
+      >
         {messageList.map((messageContent) => {
           return (
             <div>
@@ -129,16 +139,33 @@ export default function OnlineMessage({
               <div
                 className="message"
                 id={username === messageContent.author ? "you" : "other"}
+                //    onMouseEnter={show}
+                //    onMouseLeave={hide}
               >
                 <div id={messageContent.type}>
                   {messageContent.type === "VOICE" ? (
-                    <audio
-                      className={
-                        username === messageContent.author ? "audio2" : "audio1"
-                      }
-                      src={messageContent.message}
-                      controls
+                    <AudioPlayer
                       autoPlay
+                      src={messageContent.message}
+                      showJumpControls={false}
+                      customAdditionalControls={[]}
+                      customVolumeControls={[]}
+                      layout="horizontal-reverse"
+                    />
+                  ) : messageContent["mediaUrl"] &&
+                    (getExtension(messageContent["mediaUrl"]).toLowerCase() ===
+                      "mp3" ||
+                      getExtension(messageContent["mediaUrl"]).toLowerCase() ===
+                        "mp4" ||
+                      getExtension(messageContent["mediaUrl"]).toLowerCase() ===
+                        "wav") ? (
+                    <AudioPlayer
+                      autoPlay
+                      src={messageContent["mediaUrl"]}
+                      showJumpControls={false}
+                      customAdditionalControls={[]}
+                      customVolumeControls={[]}
+                      layout="horizontal-reverse"
                     />
                   ) : (
                     <div
@@ -154,14 +181,7 @@ export default function OnlineMessage({
                       ) : undefined}
 
                       <div className="handel">
-                        <p
-                          id={"list." + messageContent.messageId}
-                          className={
-                            checkDir(messageContent["message"])
-                              ? "dir"
-                              : undefined
-                          }
-                        >
+                        <p id={"list." + messageContent.messageId}>
                           {username !== messageContent.author ? (
                             <span
                               className="auth"
@@ -174,6 +194,7 @@ export default function OnlineMessage({
                           {username !== messageContent.author ? (
                             <br />
                           ) : undefined}
+
                           {messageContent.type === "MEDIA" ? (
                             <div className="">
                               {getExtension(
@@ -189,24 +210,7 @@ export default function OnlineMessage({
                                   <img src={messageContent["mediaUrl"]} />
                                 </div>
                               ) : undefined}
-                              {getExtension(
-                                messageContent["mediaUrl"]
-                              ).toLowerCase() === "mp3" ||
-                              getExtension(
-                                messageContent["mediaUrl"]
-                              ).toLowerCase() === "mp4" ||
-                              getExtension(
-                                messageContent["mediaUrl"]
-                              ).toLowerCase() === "wav" ? (
-                                <AudioPlayer
-                                  autoPlay
-                                  src={messageContent["mediaUrl"]}
-                                  showJumpControls={false}
-                                  customAdditionalControls={[]}
-                                  customVolumeControls={[]}
-                                  layout="horizontal-reverse"
-                                />
-                              ) : undefined}
+
                               {getExtension(
                                 messageContent["mediaUrl"]
                               ).toLowerCase() === "pdf" ||
@@ -215,15 +219,21 @@ export default function OnlineMessage({
                               ).toLowerCase() === "docx" ||
                               getExtension(
                                 messageContent["mediaUrl"]
-                              ).toLowerCase() === "ppt" ? (
+                              ).toLowerCase() === "docx" ||
+                              getExtension(
+                                messageContent["mediaUrl"]
+                              ).toLowerCase() === "pptx" ? (
                                 <button
                                   onClick={() =>
-                                    download(messageContent["mediaUrl"])
+                                    download(
+                                      messageContent["mediaUrl"],
+                                      SplitFunction(messageContent["mediaUrl"])
+                                    )
                                   }
                                   className="download-btn"
                                 >
                                   <BsDownload />
-                                  Download
+                                  {SplitFunction(messageContent["mediaUrl"])}
                                 </button>
                               ) : undefined}
                             </div>
@@ -254,7 +264,6 @@ export default function OnlineMessage({
                       id={"im." + messageContent.messageId}
                     />
                   </button>
-
                   <ul
                     className="menu"
                     hidden={true}

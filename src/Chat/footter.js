@@ -181,7 +181,12 @@ export default function Fotter({
         {mic ? (
           <div className="audioReco">
             <audio src={Url} controls />
-            <div className="removeBOx">
+            <div
+              className="removeBOx"
+              onClick={() => {
+                setMic(false);
+              }}
+            >
               <img src={REMOVE} alt="" className="remove" />
             </div>
           </div>
@@ -234,6 +239,7 @@ export default function Fotter({
               <button
                 type="button"
                 onClick={() => {
+                  console.log("dsdsdsdsdsdsdsdsdsd");
                   //    setMic2(false);
                   setMic(false);
                   upload(Url);

@@ -212,6 +212,11 @@ body {
   color: gray;
   overflow: hidden;
 }
+
+.replayText img {
+  margin-left: 10px;
+}
+
 .exit {
   cursor: pointer;
   margin-right: 5%;
@@ -458,7 +463,7 @@ hr {
   padding: 10px;
   align-items: center;
   transition: all 0.2s ease-in;
-  margin-left: 7.5%;
+  margin-left: 2.5%;
   margin-right: 2.5%;
   box-shadow: 0 2px 5px #bebebe;
 }
@@ -479,7 +484,12 @@ hr {
   margin-left: 2%;
   margin-right: 0;
 }
+audio {
+  margin-top: 10px;
+  margin-bottom: 10px;
 
+  height: 50px;
+}
 audio::-webkit-media-controls-enclosure {
   border-radius: 5px;
 }
@@ -555,28 +565,50 @@ audio::-webkit-media-controls-enclosure {
 
 .rhap_container *:focuse {
   box-shadow: none;
+  color: white !important;
+
   background-color: #5db1f5;
 }
-
+.rhap_current-time {
+  color: white !important;
+}
 .rhap_container {
   background-color: #5db1f5 !important;
   box-shadow: none !important;
   height: 54px !important;
   width: 300px !important;
+  color: white !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-direction: row !important;
+  width: 100%;
+}
+.rhap_total-time {
+  color: white !important;
+}
+.rhap_progress-container {
+  margin-right: 15px !important;
+}
+.rhap_controls-section {
+  margin-left: -25px !important;
 }
 
 .rhap_progress-filled {
-  background-color: black !important;
+  background-color: #ffffff !important;
 }
 .rhap_progress-indicator {
-  background-color: black !important;
+  background-color: rgb(255, 255, 255) !important;
+  margin-right: 1% !important;
 }
 .rhap_volume-button,
 .rhap_main-controls-button,
 .rhap_repeat-button {
-  color: black !important;
+  color: rgb(255, 255, 255) !important;
 }
-
+.rhap_progress-section {
+  margin-left: -30px !important;
+}
 .download-btn {
   background-color: #5db1f5;
   border: none;
