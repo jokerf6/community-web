@@ -63,7 +63,7 @@ body {
   justify-content: center;
 }
 .dir {
-  direction: rtl;
+  text-align: end;
 }
 .chat-window {
   width: 98%;
@@ -87,7 +87,7 @@ body {
   width: 100%;
 }
 
-.chat-window .chat-body {
+.chat-body {
   height: 80%;
   background: #fff;
   position: relative;
@@ -493,6 +493,9 @@ audio::-webkit-media-controls-enclosure {
 .logout {
   width: 50%;
 }
+.imageBody {
+  width: 400px;
+}
 .chat-window .chat-footer input {
   height: 100%;
   width: 100%;
@@ -544,4 +547,7 @@ audio::-webkit-media-controls-enclosure {
 
 .hide {
   opacity: 0 !important;
+}
+.chat-window2 {
+  height: 65%;
 }

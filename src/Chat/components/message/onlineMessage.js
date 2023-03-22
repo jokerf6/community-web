@@ -5,7 +5,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import checkPageStatus from "../../../utils/functions";
 import DOWN from "../../down1.png";
-
+import checkDir from "../../../utils/checkLanguage";
 export default function OnlineMessage({
   messageList,
   username,
@@ -15,20 +15,31 @@ export default function OnlineMessage({
   setuserRep,
   setrepBody,
   setReplayId,
+  setRepType,
+  Rep,
 }) {
   const userId = localStorage.getItem("userId");
   const [firstUnreadMessage, setFirstUnreadMessage] = useState("");
 
   const [Unread, setUnread] = useState(0);
-
+  const [drop, setDrop] = useState("");
   const [valid, setValid] = useState("");
   const [open, setOpen] = React.useState(false);
 
-  const handleOpen = () => {
+  function handleOpen(e) {
+    console.log(e.target.id.split(".")[1]);
+    if (drop !== "" && drop !== e.target.id.split(".")[1]) {
+      document.getElementById("menu." + drop).hidden = true;
+    }
+    document.getElementById("menu." + e.target.id.split(".")[1]).hidden =
+      !document.getElementById("menu." + e.target.id.split(".")[1]).hidden;
     setOpen(!open);
-  };
+    setDrop(e.target.id.split(".")[1]);
+  }
+
   useEffect(() => {
     socket.on("unreadRes", (data) => {
+      console.log(data);
       if (data["resId"] === userId && data["unReadNumber"] > 0) {
         setUnread(data["unReadNumber"]);
         checkPageStatus(data, localStorage.getItem("userName"));
@@ -48,23 +59,48 @@ export default function OnlineMessage({
   function hide() {
     setValid("");
   }
+  window.addEventListener("click", function (e) {
+    if (
+      !e.target.id ||
+      (e.target.id.split["."][0] !== "im" &&
+        e.target.id.split["."][0] !== "drop" &&
+        e.target.id.split["."][0] !== "op")
+    ) {
+      document.getElementById("menu." + drop).hidden = true;
+    }
+  });
   function replay(e) {
-    console.log("ssdsdsdsds");
-    console.log(e.target.id);
-    setReplayId(e.target.id);
-    const x =
-      document.getElementById("list." + e.target.id).childNodes > 1
-        ? document.getElementById("auth." + e.target.id).innerHTML
-        : "You";
-    console.log(x);
-    setuserRep(x);
-    console.log(document.getElementById("body." + e.target.id).innerHTML);
+    if (
+      e.target.parentNode.parentNode.parentNode.parentNode.children[0].id ===
+      "TEXT"
+    ) {
+      console.log("ssdsdsdsds");
+      console.log(e.target.id.split(".")[1]);
+      setReplayId(e.target.id);
+      const x =
+        document.getElementById("list." + e.target.id).childNodes > 1
+          ? document.getElementById("auth." + e.target.id).innerHTML
+          : "You";
+      console.log(x);
+      setuserRep(x);
+      console.log(document.getElementById("body." + e.target.id).innerHTML);
 
-    setrepBody(document.getElementById("body." + e.target.id).innerHTML);
-    setrep(false);
+      setrepBody(document.getElementById("body." + e.target.id).innerHTML);
+      setrep(false);
+    } else {
+      setReplayId(e.target.id);
+      setuserRep(
+        e.target.parentNode.parentNode.parentNode.parentNode.children[0].id
+      );
+      setrepBody("");
+      setrep(false);
+      setRepType(
+        e.target.parentNode.parentNode.parentNode.parentNode.children[0].id
+      );
+    }
   }
   return (
-    <div className="chat-body">
+    <div className={!Rep ? "chat-body chat-window2" : "chat-body"}>
       <ScrollToBottom className="message-container">
         {messageList.map((messageContent) => {
           return (
@@ -79,10 +115,8 @@ export default function OnlineMessage({
               <div
                 className="message"
                 id={username === messageContent.author ? "you" : "other"}
-                //    onMouseEnter={show}
-                //    onMouseLeave={hide}
               >
-                <div>
+                <div id={messageContent.type}>
                   {messageContent.type === "VOICE" ? (
                     <audio
                       className={
@@ -106,7 +140,14 @@ export default function OnlineMessage({
                       ) : undefined}
 
                       <div className="handel">
-                        <p id={"list." + messageContent.messageId}>
+                        <p
+                          id={"list." + messageContent.messageId}
+                          className={
+                            checkDir(messageContent["message"])
+                              ? "dir"
+                              : undefined
+                          }
+                        >
                           {username !== messageContent.author ? (
                             <span
                               className="auth"
@@ -120,7 +161,10 @@ export default function OnlineMessage({
                             <br />
                           ) : undefined}
                           {messageContent.type === "MEDIA" ? (
-                            <img src={messageContent["mediaUrl"]} />
+                            <img
+                              src={messageContent["mediaUrl"]}
+                              className="imageBody"
+                            />
                           ) : undefined}
                           <span id={"body." + messageContent.messageId}>
                             {messageContent.message}
@@ -136,26 +180,37 @@ export default function OnlineMessage({
                 <div
                   className="dropdown"
                   id={"drop." + messageContent.messageId}
+                  onClick={handleOpen}
                 >
-                  <button onClick={handleOpen}>
-                    <img src={DOWN} />
+                  <button
+                    onClick={handleOpen}
+                    id={"op." + messageContent.messageId}
+                  >
+                    <img
+                      src={DOWN}
+                      onClick={handleOpen}
+                      id={"im." + messageContent.messageId}
+                    />
                   </button>
-                  {open ? (
-                    <ul className="menu">
-                      <li className="menu-item" id={messageContent.messageId}>
-                        <button
-                          onClick={replay}
-                          type="button"
-                          id={messageContent.messageId}
-                        >
-                          Replay
-                        </button>
-                      </li>
-                      <li className="menu-item">
-                        <button>Delete</button>
-                      </li>
-                    </ul>
-                  ) : null}
+
+                  <ul
+                    className="menu"
+                    hidden={true}
+                    id={"menu." + messageContent.messageId}
+                  >
+                    <li className="menu-item" id={messageContent.messageId}>
+                      <button
+                        onClick={replay}
+                        type="button"
+                        id={messageContent.messageId}
+                      >
+                        Replay
+                      </button>
+                    </li>
+                    <li className="menu-item">
+                      <button>Delete</button>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>

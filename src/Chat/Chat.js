@@ -20,6 +20,7 @@ function Chat({ socket, username, role }) {
   const [replayId, setReplayId] = useState("");
   const [chosenEmoji, setChosenEmoji] = useState("");
   const [showPicker, setShowPicker] = useState(true);
+  const [repType, setRepType] = useState("");
 
   const navigate = useNavigate();
   const handleGoToSetting = () => {
@@ -66,6 +67,8 @@ function Chat({ socket, username, role }) {
         setuserRep={setuserRep}
         setrepBody={setrepBody}
         setReplayId={setReplayId}
+        setRepType={setRepType}
+        Rep={rep}
       />
       <div className="emo" hidden={showPicker}>
         <Picker
@@ -88,6 +91,7 @@ function Chat({ socket, username, role }) {
         showPicker={showPicker}
         chosenEmoji={chosenEmoji}
         setChosenEmoji={setChosenEmoji}
+        repType={repType}
         role={role}
       />
     </div>

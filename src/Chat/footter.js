@@ -4,6 +4,8 @@ import img2 from "./smiling-face 1.png";
 import img3 from "./upload 1.png";
 import exit from "./exit.png";
 import axios from "axios";
+import MIC from "./mic.png";
+import CAMERA from "./CAMERA.png";
 import { AudioRecorder, useAudioRecorder } from "react-audio-voice-recorder";
 import "./Chat.css";
 import checkPageStatus from "../utils/functions";
@@ -22,6 +24,7 @@ export default function Fotter({
   showPicker,
   chosenEmoji,
   setChosenEmoji,
+  repType,
   role,
 }) {
   const [input, setInput] = useState("");
@@ -58,7 +61,10 @@ export default function Fotter({
 
   function handleFile(event) {
     // setFlie(event.target.files[0]);
-    console.log(event.target.files[0]);
+    console.log(
+      "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
+    );
+    //   console.log(event.target.files[0]);
     setFile2(event.target.files[0]);
     setShow(true);
     var reader = new FileReader();
@@ -71,8 +77,10 @@ export default function Fotter({
     };
 
     reader.readAsDataURL(event.target.files[0]);
+    const el = document.getElementById("filePicker");
+    el.parentNode.reset();
   }
-  function handleUpload() {
+  function handleUpload(e) {
     const formData = new FormData();
     formData.append("file", file);
     fetch(
@@ -117,7 +125,25 @@ export default function Fotter({
           <div className="replayInfo">
             <p className="replayUser">{userRep}</p>
 
-            <p className="replayText">{repBody}</p>
+            <p className="replayText">
+              {repType === "VOICE" ? (
+                <img
+                  src={MIC}
+                  style={{
+                    width: "15px",
+                  }}
+                />
+              ) : undefined}
+              {repType === "MEDIA" ? (
+                <img
+                  src={CAMERA}
+                  style={{
+                    width: "15px",
+                  }}
+                />
+              ) : undefined}
+              {repBody}
+            </p>
           </div>
         </div>
         <img src={exit} className="exit" onClick={close} />
