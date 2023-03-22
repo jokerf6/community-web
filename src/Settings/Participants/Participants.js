@@ -6,6 +6,7 @@ import { IoStarSharp, IoStarOutline } from "react-icons/io5";
 import Save from './Modals/Save';
 import End from './Modals/End'
 
+
 export default function Participants() {
     const [modalShow, setModalShow] = React.useState(false);
     const [modalShow2, setModalShow2] = React.useState(false);
@@ -31,21 +32,35 @@ export default function Participants() {
                     />
                 </div>
             </div>
+
+
+
+
+
+
+
             <div className='users'>
                 <div className='user'>
-                    <FaUser className='user-avatar'/>
-                    <h5 className='number'>01147837993</h5>
-                    <IoStarSharp className='full-star'/>
-                    <button className='end-session'
-                        onClick={() => setModalShow2(true)}
-                    >End session</button>
+                    
+                    <div className='user-info'>
+                        <FaUser className='user-avatar'/>
+                        <h5 className='number'>01147837993</h5>
+                    </div>
+                    
+                    <IoStarSharp className='full-star' />
+                    <div className='end'>
+                        <button className='end-session'
+                            onClick={() => setModalShow2(true)}
+                        >End session</button>
+                    </div>
+                    
                     <End
                         show={modalShow2}
                         onHide={() => setModalShow2(false)}
                     />
                 </div>
                 <div className='user'>
-                    <FaUser className='user-avatar' />
+                    <FaUser className='user-avatar'/>
                     <div className='number'>
                         <h5 >01147837993</h5>
                         <p>
@@ -58,7 +73,7 @@ export default function Participants() {
                     <button className='end-session'>End session</button>
                 </div>
                 <div className='user'>
-                    <FaUser className='user-avatar' />
+                    <FaUser className='user-avatar'/>
                     <div className='number'>
                         <h5 className='red-extent'>01147837993</h5>
                         <p className='red-extent'>

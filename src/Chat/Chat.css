@@ -321,7 +321,9 @@ hr {
   padding-top: 5%;
   position: relative;
 }
-
+.react-scroll-to-bottom--css-zfhcr-1n7m0yu::-webkit-scrollbar {
+  display: none !important;
+}
 .chat-window .chat-body .message2 .message-content {
   width: fit-content;
   height: auto;
@@ -480,6 +482,8 @@ hr {
   margin-left: 2%;
   margin-right: 0;
 }
+
+
 audio::-webkit-media-controls-enclosure {
   border-radius: 5px;
 }
@@ -545,3 +549,57 @@ audio::-webkit-media-controls-enclosure {
 .hide {
   opacity: 0 !important;
 }
+
+
+.react-scroll-to-bottom--css-dnxxk-1n7m0yu::-webkit-scrollbar{
+  display: none;
+}
+
+
+
+.rhap_container *:focuse{
+  box-shadow: none ;
+  background-color: #5db1f5;
+}
+
+
+.rhap_container{
+  background-color: #5db1f5 !important;
+  box-shadow: none !important;
+  height: 54px !important;
+  width: 300px !important;
+}
+
+.rhap_progress-filled{
+  background-color: black !important;
+  
+}
+.rhap_progress-indicator{
+  background-color: black !important;
+}
+.rhap_volume-button, .rhap_main-controls-button, .rhap_repeat-button{
+  color: black !important;
+}
+
+
+.download-btn{
+  background-color: #5db1f5;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.img-size{
+  width: 300px;
+}
+
+
+
+@media (max-width: 780px) {
+  .buttons{
+    width: 20%;
+  }
+}
+

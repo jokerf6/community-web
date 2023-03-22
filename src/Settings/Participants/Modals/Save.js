@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import img from './add-user 1.png'
-import './Modal.css'
+// import './Modal.css'
 import CalendarModal from './Calendar';
 
 export default function Save(props) {
