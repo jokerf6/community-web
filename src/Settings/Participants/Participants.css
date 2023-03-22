@@ -55,7 +55,11 @@
     margin: 20px 0;
     width: 100%;
 }
-
+.user-info{
+    display: flex;
+    align-items: center;
+    width: 70%;
+}
 .user-avatar{
     font-size: 50px;
     color: white;
@@ -66,7 +70,7 @@
 
 .number{
     width: 66%;
-    margin: 0 2%;
+    margin: 0 3%;
 }
 
 .full-star{
@@ -81,8 +85,13 @@
     border-radius: 5px;
     background-color: white;
     padding: 5px;
-    width: 10%;
+    width: 60%;
 }
+
+.end{
+    width: 20%;
+}
+
 .extend{
     color:#7cc1f9;
     border-color:#7cc1f9;
@@ -98,4 +107,33 @@
 }
 .red-extent{
     color: red;
+}
+
+
+
+
+@media (max-width: 870px) {
+    .btn-div{
+        width: 40%;
+    }
+}
+
+
+@media (max-width: 440px) {
+    .btn-div {
+        width: 60%;
+    }
+}
+
+
+@media (max-width: 720px) {
+    .end-session, .extend, .full-star, .sta{
+        display: none;
+    }
+}
+
+@media (max-width: 1250px) {
+    .end-session{
+        width: 80%;
+    }
 }

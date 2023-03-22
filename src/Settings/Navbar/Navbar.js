@@ -7,7 +7,6 @@ import {
     CDBSidebarMenuItem,
 } from 'cdbreact';
 import './Navbar.css';
-import classNames from "classnames";
 import Participants from "../Participants/Participants";
 import Media from "../Media/Media";
 import Community from "../Community/Community";

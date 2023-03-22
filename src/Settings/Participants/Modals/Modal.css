@@ -47,9 +47,7 @@
     background-color: white;
     border: none;
 }
-.calendar button{
-    background-color: white;
-}
+
 
 .end-number{
     color: #7cc1f9;
@@ -65,4 +63,11 @@
     font-size: large;
     padding: 5%;
     border-radius: 15px;
+}
+.calendar button{
+    background-color: white;
+}
+
+.react-calendar__tile {
+    background-color: red;
 }

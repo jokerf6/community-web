@@ -5,6 +5,11 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import checkPageStatus from "../../../utils/functions";
 import DOWN from "../../down1.png";
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
+import DownloadLink from "react-download-link";
+import useDownloader from "react-use-downloader";
+import { BsDownload } from "react-icons/bs";
 import checkDir from "../../../utils/checkLanguage";
 export default function OnlineMessage({
   messageList,
@@ -99,6 +104,14 @@ export default function OnlineMessage({
       );
     }
   }
+
+  let Ex = "";
+  function getExtension(filename) {
+    return filename.split(".").pop();
+  }
+
+  const { download } = useDownloader();
+
   return (
     <div className={!Rep ? "chat-body chat-window2" : "chat-body"}>
       <ScrollToBottom className="message-container">
@@ -161,10 +174,58 @@ export default function OnlineMessage({
                             <br />
                           ) : undefined}
                           {messageContent.type === "MEDIA" ? (
-                            <img
-                              src={messageContent["mediaUrl"]}
-                              className="imageBody"
-                            />
+                            <div className="">
+                              {getExtension(
+                                messageContent["mediaUrl"]
+                              ).toLowerCase() === "png" ||
+                              getExtension(
+                                messageContent["mediaUrl"]
+                              ).toLowerCase() === "jpg" ||
+                              getExtension(
+                                messageContent["mediaUrl"]
+                              ).toLowerCase() === "jpeg" ? (
+                                <div className="img-size">
+                                  <img src={messageContent["mediaUrl"]} />
+                                </div>
+                              ) : undefined}
+                              {getExtension(
+                                messageContent["mediaUrl"]
+                              ).toLowerCase() === "mp3" ||
+                              getExtension(
+                                messageContent["mediaUrl"]
+                              ).toLowerCase() === "mp4" ||
+                              getExtension(
+                                messageContent["mediaUrl"]
+                              ).toLowerCase() === "wav" ? (
+                                <AudioPlayer
+                                  autoPlay
+                                  src={messageContent["mediaUrl"]}
+                                  showJumpControls={false}
+                                  customAdditionalControls={[]}
+                                  customVolumeControls={[]}
+                                  layout="horizontal-reverse"
+                                />
+                              ) : undefined}
+                              {getExtension(
+                                messageContent["mediaUrl"]
+                              ).toLowerCase() === "pdf" ||
+                              getExtension(
+                                messageContent["mediaUrl"]
+                              ).toLowerCase() === "docx" ||
+                              getExtension(
+                                messageContent["mediaUrl"]
+                              ).toLowerCase() === "ppt" ? (
+                                <button
+                                  onClick={() =>
+                                    download(messageContent["mediaUrl"])
+                                  }
+                                  className="download-btn"
+                                >
+                                  <BsDownload />
+                                  Download
+                                </button>
+                              ) : undefined}
+                            </div>
                           ) : undefined}
                           <span id={"body." + messageContent.messageId}>
                             {messageContent.message}

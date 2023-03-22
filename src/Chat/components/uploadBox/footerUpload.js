@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import "../../Chat.css";
 import img3 from "../../upload 1.png";
 import exit from "../../exit.png";
 import img2 from "../../smiling-face 1.png";
 import SEND from "../../send.png";
 import axios from "axios";
+import 'react-h5-audio-player/lib/styles.css';
+
 function FooterUpload({
   userId,
   userRep,
@@ -31,19 +33,24 @@ function FooterUpload({
     document.getElementById("inp").value += chosenEmoji;
     setChosenEmoji("");
   }
+
+
+
   const [file, setFile] = useState();
+  
   function handleFile(event) {
     // setFlie(event.target.files[0]);
     console.log(event.target.files[0]);
     setFile(URL.createObjectURL(event.target.files[0]));
     var reader = new FileReader();
-
     reader.onload = function (e) {
       document.getElementById("#blah").attr("src", e.target.result);
     };
-
     reader.readAsDataURL(input.files[0]);
   }
+
+
+
 
   return (
     <form className="chat-footer" onSubmit={sendMessage} id="for">
