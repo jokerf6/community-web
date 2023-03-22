@@ -1,11 +1,12 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../../Chat.css";
 import img3 from "../../upload 1.png";
 import exit from "../../exit.png";
 import img2 from "../../smiling-face 1.png";
 import SEND from "../../send.png";
 import axios from "axios";
-import 'react-h5-audio-player/lib/styles.css';
+import "react-h5-audio-player/lib/styles.css";
+import Picker from "emoji-picker-react";
 
 function FooterUpload({
   userId,
@@ -18,26 +19,24 @@ function FooterUpload({
   notUploadedFile,
   setShow,
 }) {
-  const [chosenEmoji, setChosenEmoji] = useState("");
+  const [chosenEmoji2, setChosenEmoji2] = useState("");
   const [showPicker, setShowPicker] = useState(true);
   const [input, setInput] = useState("");
 
   const onEmojiClick = (event, emojiObject) => {
     console.log(event.emoji);
-    setChosenEmoji(event.emoji);
+    setChosenEmoji2(event.emoji);
   };
   function openPicker(e) {
     showPicker ? setShowPicker(false) : setShowPicker(true);
   }
-  if (chosenEmoji !== "") {
-    document.getElementById("inp").value += chosenEmoji;
-    setChosenEmoji("");
+  if (chosenEmoji2 !== "") {
+    document.getElementById("inp2").value += chosenEmoji2;
+    setChosenEmoji2("");
   }
 
-
-
   const [file, setFile] = useState();
-  
+
   function handleFile(event) {
     // setFlie(event.target.files[0]);
     console.log(event.target.files[0]);
@@ -49,11 +48,17 @@ function FooterUpload({
     reader.readAsDataURL(input.files[0]);
   }
 
-
-
-
   return (
     <form className="chat-footer" onSubmit={sendMessage} id="for">
+      <div className="emo" hidden={showPicker}>
+        <Picker
+          onEmojiClick={onEmojiClick}
+          width={450}
+          height={350}
+          disableAutoFocus={true}
+          native
+        />
+      </div>
       <div className="buttons">
         <button onClick={openPicker} type="button">
           {!showPicker ? (
@@ -69,7 +74,7 @@ function FooterUpload({
           type="text"
           name="message"
           placeholder="Type your message"
-          id="inp"
+          id="inp2"
         />
 
         <input

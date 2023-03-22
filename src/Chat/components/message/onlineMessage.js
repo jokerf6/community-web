@@ -92,6 +92,7 @@ export default function OnlineMessage({
 
       setrepBody(document.getElementById("body." + e.target.id).innerHTML);
       setrep(false);
+      setRepType("");
     } else {
       setReplayId(e.target.id);
       setuserRep(

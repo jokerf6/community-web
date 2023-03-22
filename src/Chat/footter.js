@@ -42,6 +42,7 @@ export default function Fotter({
   const userId = localStorage.getItem("userId");
   function close() {
     setrep(true);
+    repType = "";
   }
 
   function handelChange(e) {
