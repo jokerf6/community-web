@@ -212,6 +212,11 @@ body {
   color: gray;
   overflow: hidden;
 }
+
+.replayText img{
+  margin-left: 10px;
+}
+
 .exit {
   cursor: pointer;
   margin-right: 5%;

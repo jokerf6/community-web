@@ -5,12 +5,16 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import checkPageStatus from "../../../utils/functions";
 import DOWN from "../../down1.png";
-import AudioPlayer from "react-h5-audio-player";
-import "react-h5-audio-player/lib/styles.css";
+
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 import DownloadLink from "react-download-link";
-import useDownloader from "react-use-downloader";
+import useDownloader from 'react-use-downloader';
 import { BsDownload } from "react-icons/bs";
-import checkDir from "../../../utils/checkLanguage";
+
+
+
+
 export default function OnlineMessage({
   messageList,
   username,
@@ -20,31 +24,22 @@ export default function OnlineMessage({
   setuserRep,
   setrepBody,
   setReplayId,
-  setRepType,
-  Rep,
 }) {
   const userId = localStorage.getItem("userId");
   const [firstUnreadMessage, setFirstUnreadMessage] = useState("");
 
   const [Unread, setUnread] = useState(0);
-  const [drop, setDrop] = useState("");
+
   const [valid, setValid] = useState("");
   const [open, setOpen] = React.useState(false);
 
-  function handleOpen(e) {
-    console.log(e.target.id.split(".")[1]);
-    if (drop !== "" && drop !== e.target.id.split(".")[1]) {
-      document.getElementById("menu." + drop).hidden = true;
-    }
-    document.getElementById("menu." + e.target.id.split(".")[1]).hidden =
-      !document.getElementById("menu." + e.target.id.split(".")[1]).hidden;
-    setOpen(!open);
-    setDrop(e.target.id.split(".")[1]);
-  }
 
+
+  const handleOpen = () => {
+    setOpen(!open);
+  };
   useEffect(() => {
     socket.on("unreadRes", (data) => {
-      console.log(data);
       if (data["resId"] === userId && data["unReadNumber"] > 0) {
         setUnread(data["unReadNumber"]);
         checkPageStatus(data, localStorage.getItem("userName"));
@@ -64,57 +59,34 @@ export default function OnlineMessage({
   function hide() {
     setValid("");
   }
-  window.addEventListener("click", function (e) {
-    if (
-      !e.target.id ||
-      (e.target.id.split["."][0] !== "im" &&
-        e.target.id.split["."][0] !== "drop" &&
-        e.target.id.split["."][0] !== "op")
-    ) {
-      document.getElementById("menu." + drop).hidden = true;
-    }
-  });
   function replay(e) {
-    if (
-      e.target.parentNode.parentNode.parentNode.parentNode.children[0].id ===
-      "TEXT"
-    ) {
-      console.log("ssdsdsdsds");
-      console.log(e.target.id.split(".")[1]);
-      setReplayId(e.target.id);
-      const x =
-        document.getElementById("list." + e.target.id).childNodes > 1
-          ? document.getElementById("auth." + e.target.id).innerHTML
-          : "You";
-      console.log(x);
-      setuserRep(x);
-      console.log(document.getElementById("body." + e.target.id).innerHTML);
+    console.log("ssdsdsdsds");
+    console.log(e.target.id);
+    setReplayId(e.target.id);
+    const x =
+      document.getElementById("list." + e.target.id).childNodes > 1
+        ? document.getElementById("auth." + e.target.id).innerHTML
+        : "You";
+    console.log(x);
+    setuserRep(x);
+    console.log(document.getElementById("body." + e.target.id).innerHTML);
 
-      setrepBody(document.getElementById("body." + e.target.id).innerHTML);
-      setrep(false);
-    } else {
-      setReplayId(e.target.id);
-      setuserRep(
-        e.target.parentNode.parentNode.parentNode.parentNode.children[0].id
-      );
-      setrepBody("");
-      setrep(false);
-      setRepType(
-        e.target.parentNode.parentNode.parentNode.parentNode.children[0].id
-      );
-    }
+    setrepBody(document.getElementById("body." + e.target.id).innerHTML);
+    setrep(false);
   }
 
-  let Ex = "";
+
   function getExtension(filename) {
-    return filename.split(".").pop();
+    return filename.split('.').pop()
   }
-
-  const { download } = useDownloader();
+  function SplitFunction(filename) {
+    return filename.split('uploads/').pop()
+  }
+  const {  download } = useDownloader();
 
   return (
-    <div className={!Rep ? "chat-body chat-window2" : "chat-body"}>
-      <ScrollToBottom className="message-container">
+    <div className="chat-body">
+      <ScrollToBottom className="message-container" scrollViewClassName="class-scroll">
         {messageList.map((messageContent) => {
           return (
             <div>
@@ -128,8 +100,10 @@ export default function OnlineMessage({
               <div
                 className="message"
                 id={username === messageContent.author ? "you" : "other"}
+                //    onMouseEnter={show}
+                //    onMouseLeave={hide}
               >
-                <div id={messageContent.type}>
+                <div>
                   {messageContent.type === "VOICE" ? (
                     <audio
                       className={
@@ -153,14 +127,7 @@ export default function OnlineMessage({
                       ) : undefined}
 
                       <div className="handel">
-                        <p
-                          id={"list." + messageContent.messageId}
-                          className={
-                            checkDir(messageContent["message"])
-                              ? "dir"
-                              : undefined
-                          }
-                        >
+                        <p id={"list." + messageContent.messageId}>
                           {username !== messageContent.author ? (
                             <span
                               className="auth"
@@ -172,60 +139,72 @@ export default function OnlineMessage({
 
                           {username !== messageContent.author ? (
                             <br />
-                          ) : undefined}
-                          {messageContent.type === "MEDIA" ? (
-                            <div className="">
-                              {getExtension(
-                                messageContent["mediaUrl"]
-                              ).toLowerCase() === "png" ||
-                              getExtension(
-                                messageContent["mediaUrl"]
-                              ).toLowerCase() === "jpg" ||
-                              getExtension(
-                                messageContent["mediaUrl"]
-                              ).toLowerCase() === "jpeg" ? (
-                                <div className="img-size">
-                                  <img src={messageContent["mediaUrl"]} />
-                                </div>
-                              ) : undefined}
-                              {getExtension(
-                                messageContent["mediaUrl"]
-                              ).toLowerCase() === "mp3" ||
-                              getExtension(
-                                messageContent["mediaUrl"]
-                              ).toLowerCase() === "mp4" ||
-                              getExtension(
-                                messageContent["mediaUrl"]
-                              ).toLowerCase() === "wav" ? (
-                                <AudioPlayer
-                                  autoPlay
-                                  src={messageContent["mediaUrl"]}
-                                  showJumpControls={false}
-                                  customAdditionalControls={[]}
-                                  customVolumeControls={[]}
-                                  layout="horizontal-reverse"
-                                />
-                              ) : undefined}
-                              {getExtension(
-                                messageContent["mediaUrl"]
-                              ).toLowerCase() === "pdf" ||
-                              getExtension(
-                                messageContent["mediaUrl"]
-                              ).toLowerCase() === "docx" ||
-                              getExtension(
-                                messageContent["mediaUrl"]
-                              ).toLowerCase() === "ppt" ? (
-                                <button
-                                  onClick={() =>
-                                    download(messageContent["mediaUrl"])
-                                  }
-                                  className="download-btn"
-                                >
-                                  <BsDownload />
-                                  Download
-                                </button>
-                              ) : undefined}
-                            </div>
+                            ) : undefined}
+                            
+
+
+                            
+
+
+
+
+
+
+
+
+
+
+                            
+                            {messageContent.type === "MEDIA" ? (
+                              <div className="">
+                                { getExtension(messageContent["mediaUrl"]).toLowerCase() === "png" || 
+                                  getExtension(messageContent["mediaUrl"]).toLowerCase() === "jpg" || 
+                                  getExtension(messageContent["mediaUrl"]).toLowerCase() === "jpeg" ? (
+                                    <div className="img-size">
+                                      <img src={messageContent["mediaUrl"]} />
+                                    </div>
+                                  ):
+                                  undefined
+                                }
+                                { getExtension(messageContent["mediaUrl"]).toLowerCase() === "mp3" ||
+                                  getExtension(messageContent["mediaUrl"]).toLowerCase() === "mp4" ||
+                                  getExtension(messageContent["mediaUrl"]).toLowerCase() === "wav" ?(
+                                      <AudioPlayer
+                                        autoPlay
+                                        src={messageContent["mediaUrl"]}
+                                        showJumpControls = {false}
+                                        customAdditionalControls={[]}
+                                        customVolumeControls={[]}
+                                        layout="horizontal-reverse"
+                                      />
+                                    ) :
+                                    undefined
+                                }
+                                { getExtension(messageContent["mediaUrl"]).toLowerCase() === "pdf" ||
+                                  getExtension(messageContent["mediaUrl"]).toLowerCase() === "docx" ||
+                                  getExtension(messageContent["mediaUrl"]).toLowerCase() === "docx" ||
+                                  getExtension(messageContent["mediaUrl"]).toLowerCase() === "pptx" ? (
+                                    <button onClick={() => download(messageContent["mediaUrl"], SplitFunction(messageContent["mediaUrl"]))} className='download-btn'>
+                                      <BsDownload />
+                                          { SplitFunction (messageContent["mediaUrl"])}
+                                    </button>
+                                    ) :
+                                    undefined
+                                }
+                              </div>
+                              
+
+
+
+
+
+
+
+
+
+
+
+
                           ) : undefined}
                           <span id={"body." + messageContent.messageId}>
                             {messageContent.message}
@@ -241,37 +220,26 @@ export default function OnlineMessage({
                 <div
                   className="dropdown"
                   id={"drop." + messageContent.messageId}
-                  onClick={handleOpen}
                 >
-                  <button
-                    onClick={handleOpen}
-                    id={"op." + messageContent.messageId}
-                  >
-                    <img
-                      src={DOWN}
-                      onClick={handleOpen}
-                      id={"im." + messageContent.messageId}
-                    />
+                  <button onClick={handleOpen}>
+                    <img src={DOWN} />
                   </button>
-
-                  <ul
-                    className="menu"
-                    hidden={true}
-                    id={"menu." + messageContent.messageId}
-                  >
-                    <li className="menu-item" id={messageContent.messageId}>
-                      <button
-                        onClick={replay}
-                        type="button"
-                        id={messageContent.messageId}
-                      >
-                        Replay
-                      </button>
-                    </li>
-                    <li className="menu-item">
-                      <button>Delete</button>
-                    </li>
-                  </ul>
+                  {open ? (
+                    <ul className="menu">
+                      <li className="menu-item" id={messageContent.messageId}>
+                        <button
+                          onClick={replay}
+                          type="button"
+                          id={messageContent.messageId}
+                        >
+                          Replay
+                        </button>
+                      </li>
+                      <li className="menu-item">
+                        <button>Delete</button>
+                      </li>
+                    </ul>
+                  ) : null}
                 </div>
               </div>
             </div>
