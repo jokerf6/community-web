@@ -321,9 +321,6 @@ hr {
   padding-top: 5%;
   position: relative;
 }
-.react-scroll-to-bottom--css-zfhcr-1n7m0yu::-webkit-scrollbar {
-  display: none !important;
-}
 .chat-window .chat-body .message2 .message-content {
   width: fit-content;
   height: auto;
@@ -551,6 +548,7 @@ audio::-webkit-media-controls-enclosure {
 .hide {
   opacity: 0 !important;
 }
+
 .chat-window2 {
   height: 65%;
 }
