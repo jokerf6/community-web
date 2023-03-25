@@ -18,7 +18,11 @@ export default function Congrats(props) {
                     </h4>
                     <p className={Styles.paragraph}>Ask the admin to give you your code</p>
                     <img src={img} className={Styles.congImage} alt="" />
-                    <button className={Styles.done} onClick={props.onHide}>Done</button>
+                    <button className={Styles.done} onClick={() => { 
+                            props.onHide();
+                            window.location.reload();
+                        }}
+                    >Done</button>
                 </div>
             </div>
         </Modal>

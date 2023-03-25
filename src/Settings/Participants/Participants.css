@@ -48,13 +48,6 @@
     margin: 2% 0;
 }
 
-.user{
-    color: #9c9a9a;
-    display: flex;
-    align-items: center;
-    margin: 20px 0;
-    width: 100%;
-}
 .user-info{
     display: flex;
     align-items: center;
@@ -69,14 +62,24 @@
 }
 
 .number{
-    width: 66%;
+    width: 75%;
     margin: 0 3%;
+    color: #9c9a9a; 
+}
+.no-mergin{
+    margin: 0;
 }
 
+.number-content{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
 .full-star{
     color:#7cc1f9;
     font-size: 35px;
-    width: 10%;
+    width: 100%;
+    text-align: right;
 }
 
 .end-session{
@@ -85,11 +88,7 @@
     border-radius: 5px;
     background-color: white;
     padding: 5px;
-    width: 60%;
-}
-
-.end{
-    width: 20%;
+    width: 100%;
 }
 
 .extend{
@@ -98,42 +97,52 @@
     border-radius: 5px;
     background-color: white;
     padding: 5px;
-    width: 10%;
+    width: 100%;
+}
+
+.end{
+    width: 20%;
+}
+
+.number-content-red{
+    color: red;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
 }
 
 .date{
     font-size: 13px;
-    padding-right: 20px;
+    margin: 0 3%;
 }
 .red-extent{
     color: red;
 }
 
-
-
-
-@media (max-width: 870px) {
-    .btn-div{
-        width: 40%;
-    }
+.star-div{
+    text-align: right;
+    width: 10%;
 }
 
 
-@media (max-width: 440px) {
+@media (max-width: 1100px) {
+    .search-input{
+        width: 70%;
+    }
     .btn-div {
+        width: 30%;
+    }
+    .end-session{
+        margin-top: 5px;
+    }
+}
+
+@media (max-width: 860px) {
+    .search-input {
         width: 60%;
     }
-}
-
-
-@media (max-width: 720px) {
-    .end-session, .extend, .full-star, .sta{
-        display: none;
+    .btn-div {
+        width: 40%;
     }
-}
-
-@media (max-width: 1250px) {
-    .end-session{
-        width: 80%;
-    }
+    
 }
