@@ -129,10 +129,8 @@ body {
 .chat-window .chat-body .message-container {
   width: 100%;
   height: 100%;
-}
-
-.chat-window .chat-body .message-container::-webkit-scrollbar {
-  display: none;
+  overflow: scroll;
+  overflow-x: none;
 }
 
 .handel {
@@ -474,7 +472,17 @@ hr {
 .audio2::-webkit-media-controls-panel {
   background-color: #7cc1f9;
 }
-
+.im3 {
+  width: 20px;
+}
+.imBox {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 1px;
+}
 .buttons {
   width: 10%;
   display: flex;
@@ -562,15 +570,25 @@ audio::-webkit-media-controls-enclosure {
 .chat-window2 {
   height: 65%;
 }
-
+#other .rhap_container *:focuse {
+  background-color: #ebe8e8;
+}
 .rhap_container *:focuse {
   box-shadow: none;
   color: white !important;
 
   background-color: #5db1f5;
 }
+
+#other .rhap_container *:focuse {
+  background-color: #ebe8e8 !important;
+}
 .rhap_current-time {
   color: white !important;
+}
+.aud p {
+  margin-bottom: 0;
+  font-size: small;
 }
 .rhap_container {
   background-color: #5db1f5 !important;
@@ -583,6 +601,9 @@ audio::-webkit-media-controls-enclosure {
   justify-content: center !important;
   flex-direction: row !important;
   width: 100%;
+}
+#other .rhap_container {
+  background-color: #ebe8e8 !important;
 }
 .rhap_total-time {
   color: white !important;
@@ -625,4 +646,13 @@ audio::-webkit-media-controls-enclosure {
   .buttons {
     width: 20%;
   }
+}
+#other .handel span {
+  color: #4d4d4d;
+}
+#other .replayMess {
+  background-color: #d9d9d9;
+}
+.replayMess {
+  min-width: 100%;
 }

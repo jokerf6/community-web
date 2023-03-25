@@ -55,7 +55,14 @@ export default function Change(props) {
                 <p className={Styles.paragraph}>
                   Ask the admin to give you your code
                 </p>
-                <img src={Img2} className={Styles.congImage} alt="" />
+                <img
+                  src={Img2}
+                  className={Styles.congImage}
+                  alt=""
+                  style={{
+                    width: "40%",
+                  }}
+                />
                 <button
                   className={Styles.done}
                   onClick={successClick}
@@ -68,7 +75,14 @@ export default function Change(props) {
           ) : (
             <div className={Styles.modal2}>
               <div className={Styles.first}>
-                <img src={img} className={Styles.image} alt="" />
+                <img
+                  src={img}
+                  className={Styles.image}
+                  alt=""
+                  style={{
+                    width: "40%",
+                  }}
+                />
                 <h4 className={Styles.title}>Reset Password</h4>
                 <p className={Styles.paragraph}>
                   Ask the admin to give you your code
@@ -185,7 +199,13 @@ export default function Change(props) {
                       >
                         Change
                         {loading ? (
-                          <img src={Img} className={sharedStyles.load} />
+                          <img
+                            src={Img}
+                            className={sharedStyles.load}
+                            style={{
+                              width: "40%",
+                            }}
+                          />
                         ) : (
                           ""
                         )}

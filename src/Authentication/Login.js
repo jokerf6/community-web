@@ -4,6 +4,7 @@ import LoginForm from "./LoginForm/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Styles from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 export default function Login() {
   console.log("D");
@@ -12,7 +13,7 @@ export default function Login() {
 
   useEffect(() => {
     if (localStorage.getItem("logging")) {
-      navigate("/room");
+      return <Navigate to="/login" />;
     }
   });
   return (

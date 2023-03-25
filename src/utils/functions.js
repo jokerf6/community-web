@@ -1,4 +1,5 @@
 import img from "../Chat/logo.png";
+
 function sendNotification(message, user) {
   console.log("gooooooooooooooooooooooooooooooooooooooooooooooooooooo");
   const notification = new Notification("New message from Community", {
