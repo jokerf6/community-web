@@ -9,11 +9,14 @@ import Picker from "emoji-picker-react";
 import Notification from "./components/message/toast";
 import { CHAT_LINK, LOGOUT_LINK } from "../constants";
 import LOAD from "./load.gif";
-import { Navigate, Outlet } from "react-router-dom";
 
-function Chat({ socket, username, role }) {
+function Chat({ socket }) {
   // const divRef = useRef();
+  const username = localStorage.getItem("number");
   const userId = localStorage.getItem("userId");
+  const role = localStorage.getItem("role");
+  console.log("pppppppppppppppppppppppppppppppppppppppppppppppppppppppp");
+  console.log(role);
 
   const [messageList, setMessageList] = useState([]);
   const [newMessageList, setNewMessageList] = useState([]);

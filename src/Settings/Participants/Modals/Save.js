@@ -7,7 +7,14 @@ import "react-calendar/dist/Calendar.css";
 import Congrats from "../../../Authentication/LoginForm/Modals/CongratsModal/Congrats";
 import { Toast } from "react-bootstrap";
 
-function CalendarModal({ setAllUsers, show, number, setShow, allUsers }) {
+function CalendarModal({
+  setAllUsers,
+  show,
+  number,
+  setShow,
+  setShow2,
+  allUsers,
+}) {
   const [modalShow, setModalShow] = useState(false);
   const [value, onChange] = useState(new Date());
   const [date, setDate] = useState(new Date());
@@ -40,6 +47,7 @@ function CalendarModal({ setAllUsers, show, number, setShow, allUsers }) {
             setError(data.message);
           } else {
             setModalShow(true);
+
             setAllUsers((list) => [...list, data["data"]]);
           }
         });
@@ -72,6 +80,8 @@ function CalendarModal({ setAllUsers, show, number, setShow, allUsers }) {
           className="done"
           onClick={() => {
             postUser();
+            setShow(true);
+            setShow2(false);
           }}
         >
           Add
@@ -120,6 +130,7 @@ export default function Save({ setAllUsers, show, setShow, allUsers }) {
             show={modalShow}
             number={number}
             setShow={setModalShow}
+            setShow2={setShow}
             allUsers={allUsers}
           />
         )}

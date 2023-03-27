@@ -1,10 +1,8 @@
 import React from "react";
 import Hello from "./title/Hello";
-import Input from "./Input/Input";
 import Buttons from "./Buttons/Buttons";
 import Styles from "./Form.module.css";
 import sharedStyles from "../../General/loading/loading.module.css";
-import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { ErrorMessage, Formik } from "formik";
 import Reset from "./Modals/ResetModal/Reset";
@@ -13,10 +11,9 @@ import Img from "../../General/loading/images/loading.gif";
 export default function LoginForm() {
   const [modalShow, setModalShow] = React.useState(false);
   const [loading, changeLoading] = React.useState(false);
-  const [cookies, setCookie] = useCookies(["access_token", "username"]);
   const [error, setError] = React.useState("");
   const navigate = useNavigate();
-  
+
   return (
     <div className={Styles.form}>
       <Hello />
@@ -112,20 +109,20 @@ export default function LoginForm() {
     await signinUser(requestJson);
   }
 
-  function onGetSignInResponse(json) {
+  async function onGetSignInResponse(json) {
     let status = json.type;
     console.log(json);
-    if (status == "Success") {
-      localStorage.setItem("logging", true);
-      localStorage.setItem("Access Token", json.data.accessToken);
-      localStorage.setItem("number", json.data.userExist.number);
-      localStorage.setItem("userId", json.data.userExist.id);
-      localStorage.setItem("role", json.data.userExist.role);
+    if (status === "Success") {
+      await localStorage.setItem("logging", true);
+      await localStorage.setItem("Access Token", json.data.accessToken);
+      await localStorage.setItem("number", json.data.userExist.number);
+      await localStorage.setItem("userId", json.data.userExist.id);
+      await localStorage.setItem("role", json.data.userExist.role);
 
       setError("");
 
       navigate("/room");
-    } else if (status != "Success") {
+    } else if (status !== "Success") {
       setError("invalid username or password");
       console.log(error);
     }

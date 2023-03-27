@@ -23,8 +23,8 @@ export default function Participants() {
   useEffect(() => {
     getAllUsers();
   }, []);
-  function changeRole(id) {
-    fetch(CHANGEROLE_LINK + "/" + id + "/changeRole", {
+  async function changeRole(id) {
+    await fetch(CHANGEROLE_LINK + "/" + id + "/changeRole", {
       method: "GET",
       headers: myHeaders,
     })
@@ -33,8 +33,8 @@ export default function Participants() {
         console.log(err);
       });
   }
-  function getAllUsers() {
-    fetch(ALLUSER_LINK, {
+  async function getAllUsers() {
+    await fetch(ALLUSER_LINK, {
       method: "GET",
       headers: myHeaders,
     })
@@ -85,7 +85,7 @@ export default function Participants() {
         {filteredData
           .filter((user) => user.role === "ADMIN")
           .map((user) => (
-            <Row style={{ display: "flex", alignItems: "center" }}>
+            <Row>
               <Col
                 lg={10}
                 style={{
@@ -110,7 +110,7 @@ export default function Participants() {
                   />
                 </div>
               </Col>
-              <Col lg={2}>
+              <Col>
                 <button
                   className="end-session"
                   onClick={() => {
