@@ -91,7 +91,7 @@ function CalendarModal({ setAllUsers, show, number, setShow, allUsers, onHide, O
 }
 
 
-export default function Save({ setAllUsers, show, setShow, allUsers }) {
+export default function Save({ setAllUsers, show, setShow, allUsers , onHide}) {
     
 
     const [modalShow, setModalShow] = React.useState(false);
@@ -131,7 +131,7 @@ export default function Save({ setAllUsers, show, setShow, allUsers }) {
                 <CalendarModal
                     setAllUsers={setAllUsers}
                     show={modalShow}
-                    onHide={() => setModalShow(false)}
+                    onHide={onHide}
                     number={number}
                     OnHideCalendar = {()=> setModalShow(false)} 
                         // number={number}

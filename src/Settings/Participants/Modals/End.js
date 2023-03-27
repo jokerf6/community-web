@@ -28,7 +28,7 @@ export default function End({ show, number, onHide, id }) {
     }
     return (
         <Modal
-            show = {show}    
+            show = {show}
             size="md"
             aria-labelledby="contained-modal-title-vcenter"
             centered

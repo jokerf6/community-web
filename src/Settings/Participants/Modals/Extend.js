@@ -52,7 +52,7 @@ export default function Extend({show, onHide, id}) {
                 <button className='done'
                     onClick={()=> {
                         // ExtendUser();
-                        onHide(true);
+                        onHide();
                     }}
                 >Add</button>
             </Modal.Body>
