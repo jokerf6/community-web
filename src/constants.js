@@ -13,3 +13,7 @@ export const ROOM = `http://127.0.0.1:3001`;
 
 /**********Chat***********/
 export const CHAT_LINK = `${SERVER}/chat`;
+
+/**********SETTINGS***********/
+export const ALLUSER_LINK = `${SERVER}/user/all`;
+export const CHANGEROLE_LINK = `${SERVER}/user`;

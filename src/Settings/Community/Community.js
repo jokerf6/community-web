@@ -1,77 +1,93 @@
-import React, {useEffect, useState} from 'react'
-import './Community.css'
-
-import axios from 'axios'
-
-
+import React, { useEffect, useState } from "react";
+import "./Community.css";
 
 export default function Community() {
-    // const [data, setData] = useState([])
+  const URL = "http://127.0.0.1:4001/changeDefaultPassword";
+  const [userPassword, setUser] = useState("");
+  const [rootPassword, setRoot] = useState("");
+  const myHeaders = new Headers({
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
+  });
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const result = await fetch('http://127.0.0.1:4001/changeDefaultPassword') 
-    //         const jsonResult = await result.json()
-    //         setData(jsonResult)
-    //     }
+  useEffect(() => {
+    getUser();
+  }, []);
 
-    //     // fetchData();
-    // }, [])
-    
-    // const submitPassword = async () => {
-    //     const myData = {
-    //         "type": "Success",
-    //         "message": "Get passord Successfully",
-    //         "data": {
-    //             "userPassord": "string",
-    //             "rootPassord": "string"
-    //         }
-    //     }
-    //     const result = await fetch('http://127.0.0.1:4001/changeDefaultPassword',
-    //         method: 'GEt',
-    //         headers: {
-                
-    //         }
-    //     ) 
-    // }
-    // const access_token = JSON.parse(sessionStorage.getItem('data'));
-    const access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkODhlMjNmNC1iMGM4LTRhYmYtOTJkOC02NmQ2MTVmYzNjOTMiLCJpZCI6IjJlZTg1OGM4LWRjZWItNDQ5NS1iNWExLTBmNGIwNmFiZDJjOSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY3OTM0NjU3MywiZXhwIjoxNjg3OTg2NTczfQ.dLMSa8nZsJLsokK8mVKR-qIXIrZ21aIL79tRRT4jv10';
-    const [password, serPassword] = useState([])
-    useEffect(() => {
-        axios.get('http://127.0.0.1:4001/changeDefaultPassword', {
-            headers: {
-                'Authorization': `token ${access_token}`
-            }
-        })
-            .then(res => {
-            serPassword(res.data)
-            console.Console(res)
-            })
-            .catch(err => {
-                console.log(err)
-            })
+  function getUser() {
+    fetch(URL, {
+      method: "GET",
+      headers: myHeaders,
     })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("____________________________________________");
+        console.log(data);
+        setUser(data.data.userPassord);
+        setRoot(data.data.rootPassord);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
-    return (
-        <div className='community'>
-            <div>
-                <p>Admin default password</p>
-                <div className='bar'>
-                    <input type='text'
-                        value={password.userPassword}
-                    ></input>
-                    <button className='save-btn'> Save</button>
-                </div>
-            </div>
-            <div>
-                <p>User default password</p>
-                <div className='bar'>
-                    <input type='text'
-                        value = {password.rootPassword}
-                    ></input>
-                    <button className='save-btn'> Save</button>
-                </div>
-            </div>
+  function updateUser() {
+    const item = {
+      userPassword: userPassword,
+      rootPassword: rootPassword,
+    };
+    console.log(item);
+    fetch(URL, {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(item),
+    })
+      .then((res) => {
+        res.json().then((data) => {
+          console.log(data);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  return (
+    <div className="community">
+      <div>
+        <p>Admin default password</p>
+        <div className="bar">
+          <input
+            id="inp1"
+            type="text"
+            value={userPassword}
+            onChange={(e) => {
+              setUser(e.target.value);
+            }}
+          ></input>
+          <button className="save-btn" onClick={updateUser}>
+            {" "}
+            Save
+          </button>
         </div>
-    )
+      </div>
+      <div>
+        <p>User default password</p>
+        <div className="bar">
+          <input
+            id="inp2"
+            type="text"
+            value={rootPassword}
+            onChange={(e) => {
+              setRoot(e.target.value);
+            }}
+          ></input>
+          <button className="save-btn" onClick={updateUser}>
+            {" "}
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }

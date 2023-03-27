@@ -12,9 +12,7 @@
     display: none;
 }
 
-img{
+.setting-image{
     width: 100%;
-}
-.img{
-    width: 20%;
+    height: 250px;
 }

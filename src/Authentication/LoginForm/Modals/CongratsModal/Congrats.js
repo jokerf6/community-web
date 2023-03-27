@@ -25,9 +25,14 @@ export default function Congrats(props) {
               width: "40%",
             }}
           />
-          <button className={Styles.done} onClick={props.onHide}>
+          <button
+            className={Styles.done}
+            onClick={() => {
+              props.onHide();
+            }}
+          >
             Done
-          </button>
+          </button>{" "}
         </div>
       </div>
     </Modal>

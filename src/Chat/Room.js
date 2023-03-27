@@ -7,7 +7,8 @@ import "./Chat.css";
 const username = localStorage.getItem("number");
 const userId = localStorage.getItem("userId");
 const role = localStorage.getItem("role");
-const socket = io("http://localhost:8080");
+const socket = io.connect("http://127.0.0.1:8080");
+
 function Room() {
   useEffect(() => {
     socket.on("connect", () => {

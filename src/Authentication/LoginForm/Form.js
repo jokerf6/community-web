@@ -6,7 +6,6 @@ import Styles from "./Form.module.css";
 import sharedStyles from "../../General/loading/loading.module.css";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-
 import { ErrorMessage, Formik } from "formik";
 import Reset from "./Modals/ResetModal/Reset";
 import { SIGNIN_LINK } from "../../constants";
@@ -16,9 +15,8 @@ export default function LoginForm() {
   const [loading, changeLoading] = React.useState(false);
   const [cookies, setCookie] = useCookies(["access_token", "username"]);
   const [error, setError] = React.useState("");
-
   const navigate = useNavigate();
-
+  
   return (
     <div className={Styles.form}>
       <Hello />

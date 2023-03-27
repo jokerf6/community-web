@@ -1,11 +1,14 @@
-.settings{
-    padding: 3% 5% 0;
+.settings {
+  padding: 3% 5% 0;
+  position: relative;
+  height: 100vh;
 }
 
-.title{
-    color: #7cc1f9;
+.title {
+  color: #7cc1f9;
 }
 
-.content{
-    display: flex;
+.content {
+  display: flex;
+  height: 100%;
 }

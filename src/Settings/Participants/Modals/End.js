@@ -1,29 +1,55 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Modal from 'react-bootstrap/Modal';
 import './Modal.css'
 
-export default function Save(props) {
+export default function End({ show, number, onHide, id }) {
+
+    const myHeaders = new Headers({
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
+    });
+    function EndSession() {
+        fetch(`http://127.0.0.1:4001/user/${id}/endSession`, {
+            method: "GET",
+            headers: myHeaders,
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data.data)
+        })
+        .catch(err => {
+            console.log(err)
+        });
+    }
+    useEffect(() => {
+        EndSession();
+    }, [])
     return (
         <Modal
-            {...props}
+            show = {show}    
             size="md"
             aria-labelledby="contained-modal-title-vcenter"
             centered
             className='modal'
         >
-            <Modal.Body className='body'>
-                <h4>
-                    Are You Sure ?
-                </h4>
-                <p className='paragraph'>
+        <Modal.Body className='body-modal'>
+            <h4>
+                Are You Sure ?
+            </h4>
+            <p className='paragraph'>
                     You want to end session for this user
-                </p>
-                <p className='end-number'>
-                    01147837993
-                </p>
-                <button onClick={props.onHide} className='cancel'>No</button>
-                <button onClick={props.onHide} className='choose'>Yes</button>
-            </Modal.Body>
+            </p>
+            <p className='end-number'>
+                {number}
+            </p>
+            <button onClick={onHide} className='cancel'>No</button>
+                <button onClick={() => {
+                        onHide();
+                        EndSession();
+                        window.location.reload();
+                    }
+                } className='choose'>Yes</button>
+        </Modal.Body>
         </Modal>
     );
 }
