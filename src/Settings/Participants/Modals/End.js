@@ -3,27 +3,29 @@ import Modal from 'react-bootstrap/Modal';
 import './Modal.css'
 
 export default function End({ show, number, onHide, id }) {
-
+    console.log('tiu7y', id); 
     const myHeaders = new Headers({
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
     });
-    function EndSession() {
-        fetch(`http://127.0.0.1:4001/user/${id}/endSession`, {
-            method: "GET",
-            headers: myHeaders,
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data.data)
-        })
-        .catch(err => {
-            console.log(err)
-        });
-    }
     useEffect(() => {
         EndSession();
     }, [])
+    function EndSession() {
+        if (id) {
+            fetch(`http://127.0.0.1:4001/user/${id}/endSession`, {
+                method: "GET",
+                headers: myHeaders,
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                });
+        }
+    }
     return (
         <Modal
             show = {show}    
@@ -46,7 +48,6 @@ export default function End({ show, number, onHide, id }) {
                 <button onClick={() => {
                         onHide();
                         EndSession();
-                        window.location.reload();
                     }
                 } className='choose'>Yes</button>
         </Modal.Body>

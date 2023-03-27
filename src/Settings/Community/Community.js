@@ -33,10 +33,10 @@ export default function Community() {
     function updateUser() {
         const item = {
             userPassword: userPassword,
-            rootPassword: rootPassword
+            rootPassword: rootPassword,
         }
         console.log(item);
-        fetch(URL, {
+        fetch(URL, {    
             method: "PATCH",
             headers: myHeaders,
             body: JSON.stringify(item),

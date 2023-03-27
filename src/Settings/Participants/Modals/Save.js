@@ -8,8 +8,8 @@ import Congrats from '../../../Authentication/LoginForm/Modals/CongratsModal/Con
 
 
 
-function CalendarModal(props) {
-    const [modalShow, setModalShow] = useState(false);
+function CalendarModal({ show, OnHideCalendar, number, onHide }) {
+    const [modalCongratsShow, setModalCongratsShow] = useState(false);
     const [value, onChange] = useState(new Date());
     const [date, setDate] = useState(new Date());
     console.log(date);
@@ -21,7 +21,7 @@ function CalendarModal(props) {
     });
     function postUser() {
         const item = {
-            number: props.number,
+            number: number,
             extendDate: date,
         }
         console.log(item);
@@ -43,7 +43,7 @@ function CalendarModal(props) {
 
     return ( 
         <Modal
-            {...props}
+            show={show}
             size="md"
             aria-labelledby="contained-modal-title-vcenter"
             centered
@@ -54,16 +54,16 @@ function CalendarModal(props) {
                 </div>
                 <button className='done'
                     onClick={()=> {
-                            setModalShow(true);
+                            setModalCongratsShow(true);
                             postUser();
-                            window.location.reload();
+                            OnHideCalendar();
+                            onHide();
                         }
                     }
-                    
                 >Add</button>
                 <Congrats
-                    show={modalShow}
-                    onHide={() => setModalShow(false)}
+                    show={modalCongratsShow}
+                    onHide={() => setModalCongratsShow(false)}
                 />
             </Modal.Body>
         </Modal>
@@ -71,15 +71,14 @@ function CalendarModal(props) {
 }
 
 
-export default function Save(props) {
-    
+export default function Save({show, onHide}) {
 
-    const [modalShow, setModalShow] = React.useState(false);
+    const [modalShow, setModalShow] = useState(false);
     const [number, setNumber] = useState('')
 
     return (
         <Modal
-            {...props}
+            show={show}
             size="md"
             aria-labelledby="contained-modal-title-vcenter"
             centered
@@ -98,23 +97,23 @@ export default function Save(props) {
                     placeholder="Type User Number"
                     className='input'
                     value={number}
-                    onChange={(e)=>{setNumber(e.target.value)}}
+                    onChange={(e) => { setNumber(e.target.value) }}
                 />
-                <button onClick={props.onHide} className = 'cancel'>Cancel</button>
-                <button onClick={()=> setModalShow(true)}
+                <button onClick={onHide} className = 'cancel'>Cancel</button>
+                <button onClick={() => {
+                        // onHide();
+                        setModalShow(true);
+                    }}
                     className = 'choose'
                 >Choose Time</button>
                 {modalShow &&
                     <CalendarModal
-                    show={modalShow}
-                    onHide={() => setModalShow(false)}
-                    number={number}
+                        show={modalShow}
+                        OnHideCalendar = {()=> setModalShow(false)} 
+                        number={number}
+                        onHide={onHide}
                     />
                 }
-                {/* <CalendarModal
-                    show={modalShow}
-                    onHide={() => setModalShow(false)}
-                /> */}
             </Modal.Body>
         </Modal>
     );

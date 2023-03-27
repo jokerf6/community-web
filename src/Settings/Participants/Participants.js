@@ -6,12 +6,14 @@ import { IoStarSharp, IoStarOutline } from "react-icons/io5";
 import Save from './Modals/Save';
 import End from './Modals/End';
 import { Col, Row } from 'react-bootstrap';
+import Extend from './Modals/Extend';
 
 
 export default function Participants() {
 
     const [modalShow, setModalShow] = useState(false);
     const [modalShow2, setModalShow2] = useState(false);
+    const [modalExtend, setModalExtend] = useState(false);
     const [id, setId] = useState('');
     const [number, setNumber] = useState('');
     const [inputText, setInputText] = useState("");
@@ -34,7 +36,6 @@ export default function Participants() {
         .then((response) => response.json())
         .then((data) => {
             setAllUsers(data.data.users)
-            console.log(data.data)
         })
         .catch(err => {
             console.log(err)
@@ -55,8 +56,6 @@ export default function Participants() {
             return el.number.toLowerCase().includes(inputText)
         }
     })
-
-
 
     return (
         
@@ -163,9 +162,25 @@ export default function Participants() {
                                 </p>
                             </div>
                         </Col>
+                            
+
+
+
                         <Col lg={2}>
-                            <button className='extend'>Extend</button>
+                            <button
+                                className='extend'
+                                onClick={()=>{
+                                    setModalExtend(true);
+                                    setId(user.id);
+                                }}
+                            >Extend</button>
+                            <Extend
+                                show={modalExtend}
+                                onHide={() => setModalExtend(false)}
+                                id = {id}
+                            />
                         </Col>
+                            
                     </Row>
                 )}
             </div>
