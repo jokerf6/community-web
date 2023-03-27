@@ -5,7 +5,8 @@ import { FaUser } from "react-icons/fa";
 import { IoStarSharp, IoStarOutline } from "react-icons/io5";
 import Save from './Modals/Save';
 import End from './Modals/End';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, Toast } from "react-bootstrap";
+import { ALLUSER_LINK, CHANGEROLE_LINK } from "../../constants";
 import Extend from './Modals/Extend';
 
 
@@ -17,31 +18,40 @@ export default function Participants() {
     const [id, setId] = useState('');
     const [number, setNumber] = useState('');
     const [inputText, setInputText] = useState("");
+    const [allUsers, setAllUsers] = useState([]);
+
     const URL = 'http://127.0.0.1:4001/user/all';
-    const [allUsers, setAllUsers] = useState([])
     const myHeaders = new Headers({
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
     });
 
     useEffect(() => {
-        getAllUsers();
-    }, [])
-
-    function getAllUsers() {
-        fetch(URL, {
-            method: "GET",
-            headers: myHeaders,
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            setAllUsers(data.data.users)
-        })
-        .catch(err => {
-            console.log(err)
-        });
-    }
-
+    getAllUsers();
+  }, []);
+  function changeRole(id) {
+    fetch(CHANGEROLE_LINK + "/" + id + "/changeRole", {
+      method: "GET",
+      headers: myHeaders,
+    })
+      .then((response) => response.json())
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  function getAllUsers() {
+    fetch(ALLUSER_LINK, {
+      method: "GET",
+      headers: myHeaders,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setAllUsers(data.data.users);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
     let inputHandler = (e) => {
         var lowerCase = e.target.value.toLowerCase();
         setInputText(lowerCase);
@@ -77,6 +87,9 @@ export default function Participants() {
                     <Save
                         show={modalShow}
                         onHide={() => setModalShow(false)}
+                        setAllUsers={setAllUsers}
+                        setShow={setModalShow}
+                        allUsers={allUsers}
                     />
                 </div>
             </div>
@@ -87,9 +100,19 @@ export default function Participants() {
                         <Row  style={{display: 'flex', alignItems: 'center'}}>
                             <Col lg={10} style={{display: 'flex', alignItems: 'center', height: '85px'}}>
                                 <FaUser className='user-avatar' />
-                                <h5 className='number'>{user.number}</h5>
-                                <div className='star-div'>
-                                    <IoStarSharp className='full-star' />
+                                <h5 className="number">{user.number}</h5>
+                                <div className="star-div">
+                                  <IoStarSharp
+                                    className="full-star"
+                                    onClick={() => {
+                                      const data = filteredData;
+                                      const index = data.indexOf(user);
+                                      data[index]["role"] = "USER";
+
+                                      setAllUsers(data);
+                                      changeRole(user.id);
+                                    }}
+                                  />
                                 </div>
                             </Col>
                             <Col lg={2}>
@@ -162,10 +185,6 @@ export default function Participants() {
                                 </p>
                             </div>
                         </Col>
-                            
-
-
-
                         <Col lg={2}>
                             <button
                                 className='extend'
@@ -180,7 +199,6 @@ export default function Participants() {
                                 id = {id}
                             />
                         </Col>
-                            
                     </Row>
                 )}
             </div>

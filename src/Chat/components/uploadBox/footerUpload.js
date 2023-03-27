@@ -18,6 +18,8 @@ function FooterUpload({
   socket,
   notUploadedFile,
   setShow,
+  numberOfMessages,
+  setNumerOfMessages,
 }) {
   const [chosenEmoji2, setChosenEmoji2] = useState("");
   const [showPicker, setShowPicker] = useState(true);
@@ -132,6 +134,7 @@ function FooterUpload({
     };
 
     await socket.emit("send_message", messageData);
+    setNumerOfMessages(numberOfMessages + 1);
 
     console.log("==========================================================");
     showPicker(true);

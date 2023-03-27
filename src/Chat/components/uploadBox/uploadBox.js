@@ -20,6 +20,8 @@ function UploadBox({
   setShow,
   IMG,
   notUploadedFile,
+  numberOfMessages,
+  setNumerOfMessages,
 }) {
   const handleClose = () => setShow(false);
 
@@ -32,39 +34,43 @@ function UploadBox({
       <Modal
         show={show}
         onHide={handleClose}
+        className="up"
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
       >
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
-          {/* {(getExtension(IMG).toLowerCase() === "png" || 
-          getExtension(IMG).toLowerCase() === "jpg") ? (
+          {notUploadedFile &&
+          (getExtension(notUploadedFile.name).toLowerCase() === "png" ||
+            getExtension(notUploadedFile.name).toLowerCase() === "svg" ||
+            getExtension(notUploadedFile.name).toLowerCase() === "gif" ||
+            getExtension(notUploadedFile.name).toLowerCase() === "jpg") ? (
             <img src={IMG} />
-          ):
-          undefined
-      }
-      { getExtension(IMG).toLowerCase() === "mp3" ||
-        getExtension(IMG).toLowerCase() === "mp4" ||
-        getExtension(IMG).toLowerCase() === "wav" ?(
-          <AudioPlayer
-            autoPlay
-            src={IMG}
-            onPlay={e => console.log("onPlay")}
-          />
-          ) :
-          undefined
-      }
-      { getExtension(IMG).toLowerCase() === "pdf" ||
-        getExtension(IMG).toLowerCase() === "docx" ||
-        getExtension(IMG).toLowerCase() === "ppt" ? (
-          <button onClick={() => download(IMG)} className='download-btn'>
+          ) : undefined}
+          {notUploadedFile &&
+          (getExtension(notUploadedFile.name).toLowerCase() === "mp3" ||
+            getExtension(notUploadedFile.name).toLowerCase() === "wav") ? (
+            <AudioPlayer
+              autoPlay
+              src={IMG}
+              showJumpControls={false}
+              customAdditionalControls={[]}
+              customVolumeControls={[]}
+              layout="horizontal-reverse"
+            />
+          ) : undefined}
+          {notUploadedFile &&
+          getExtension(notUploadedFile.name).toLowerCase() === "mp4" ? (
+            <video autoPlay src={IMG} controls />
+          ) : undefined}
+          {notUploadedFile &&
+          (getExtension(notUploadedFile.name).toLowerCase() === "pdf" ||
+            getExtension(notUploadedFile.name).toLowerCase() === "docx" ||
+            getExtension(notUploadedFile.name).toLowerCase() === "ppt") ? (
+            <button onClick={() => download(IMG)} className="download-btn">
               Download
-          </button>
-          ) :
-          undefined
-          } */}
-
-          <img src={IMG} />
+            </button>
+          ) : undefined}
         </Modal.Body>
         <Modal.Footer>
           <FooterUpload
@@ -77,6 +83,8 @@ function UploadBox({
             socket={socket}
             notUploadedFile={notUploadedFile}
             setShow={setShow}
+            numberOfMessages={numberOfMessages}
+            setNumerOfMessages={setNumerOfMessages}
           />
         </Modal.Footer>
       </Modal>

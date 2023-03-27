@@ -8,7 +8,6 @@ import MIC from "./mic.png";
 import CAMERA from "./CAMERA.png";
 import { AudioRecorder, useAudioRecorder } from "react-audio-voice-recorder";
 import "./Chat.css";
-import checkPageStatus from "../utils/functions";
 import SEND from "./send.png";
 import REMOVE from "./remove.png";
 import UploadBox from "./components/uploadBox/uploadBox";
@@ -26,10 +25,11 @@ export default function Fotter({
   setChosenEmoji,
   repType,
   role,
+  numberOfMessages,
+  setNumerOfMessages,
 }) {
   const [input, setInput] = useState("");
   const [mic, setMic] = useState(false);
-  const [mic2, setMic2] = useState(false);
   const [show, setShow] = useState(false);
 
   const [Url, setUrl] = useState("");
@@ -46,7 +46,6 @@ export default function Fotter({
   }
 
   function handelChange(e) {
-    console.log(e.target.value);
     setInput(e.target.value);
   }
   function openPicker(e) {
@@ -62,17 +61,12 @@ export default function Fotter({
 
   function handleFile(event) {
     // setFlie(event.target.files[0]);
-    console.log(
-      "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
-    );
     //   console.log(event.target.files[0]);
     setFile2(event.target.files[0]);
     setShow(true);
     var reader = new FileReader();
 
     reader.onload = function (e) {
-      console.log("sssssssssssssssssssssssss");
-      console.log(e.target.result);
       setFile(e.target.result);
       // document.getElementById("#blah").attr("src", e.target.result);
     };
@@ -99,163 +93,191 @@ export default function Fotter({
         })
     );
   }
+
   return (
-    <div className="fotterBox" id="fotterBox">
-      <UploadBox
-        userId={userId}
-        userRep={userRep}
-        username={username}
-        Rep={Rep}
-        replayId={replayId}
-        repBody={repBody}
-        socket={socket}
-        show={show}
-        setShow={setShow}
-        IMG={file}
-        notUploadedFile={file2}
-      />
+    <>
+      {role === "ADMIN" ? (
+        <div className="fotterBox" id="fotterBox">
+          <UploadBox
+            userId={userId}
+            userRep={userRep}
+            username={username}
+            Rep={Rep}
+            replayId={replayId}
+            repBody={repBody}
+            socket={socket}
+            show={show}
+            setShow={setShow}
+            IMG={file}
+            notUploadedFile={file2}
+            numberOfMessages={numberOfMessages}
+            setNumerOfMessages={setNumerOfMessages}
+          />
 
-      <div className={!Rep ? "chat-footer3" : "chat-footer2"}>
-        <div className="chat-footer-child">
-          <div className="boxLine">
-            <hr
-              className="
+          <div className={!Rep ? "chat-footer3" : "chat-footer2"}>
+            <div className="chat-footer-child">
+              <div className="boxLine">
+                <hr
+                  className="
       line"
-            />
-          </div>
-          <div className="replayInfo">
-            <p className="replayUser">{userRep}</p>
+                />
+              </div>
+              <div className="replayInfo">
+                <p className="replayUser">{userRep}</p>
 
-            <p className="replayText">
-              {repType === "VOICE" ? (
-                <img
-                  src={MIC}
-                  style={{
-                    width: "15px",
-                  }}
-                />
-              ) : undefined}
-              {repType === "MEDIA" ? (
-                <img
-                  src={CAMERA}
-                  style={{
-                    width: "15px",
-                  }}
-                />
-              ) : undefined}
-              {repBody}
-            </p>
+                <p className="replayText">
+                  {repType === "VOICE" ? (
+                    <img
+                      src={MIC}
+                      style={{
+                        width: "15px",
+                      }}
+                    />
+                  ) : undefined}
+                  {repType === "MEDIA" ? (
+                    <img
+                      src={CAMERA}
+                      style={{
+                        width: "15px",
+                      }}
+                    />
+                  ) : undefined}
+                  {repBody}
+                </p>
+              </div>
+            </div>
+            <img src={exit} className="exit" onClick={close} />
           </div>
-        </div>
-        <img src={exit} className="exit" onClick={close} />
-      </div>
-      <form className="chat-footer" onSubmit={sendMessage} id="for">
-        {mic ? undefined : (
-          <div className="buttons">
-            <button onClick={openPicker} type="button">
-              {!showPicker ? (
-                <img src={exit} alt="" className="ico" />
-              ) : (
-                <img src={img2} alt="" className="ico" />
-              )}
-            </button>
-            <form onSubmit={handleUpload} className="uploadIcon">
-              <label
-                htmlFor="filePicker"
-                style={{
-                  cursor: "pointer",
+          <form className="chat-footer" onSubmit={sendMessage} id="for">
+            {mic ? undefined : (
+              <div className="buttons">
+                <button onClick={openPicker} type="button">
+                  {!showPicker ? (
+                    <img src={exit} alt="" className="ico" />
+                  ) : (
+                    <img src={img2} alt="" className="ico" />
+                  )}
+                </button>
+                <form onSubmit={handleUpload} className="uploadIcon">
+                  <label
+                    htmlFor="filePicker"
+                    style={{
+                      cursor: "pointer",
+                    }}
+                  >
+                    <img src={img3} alt="" style={{ width: "28px" }} />
+                  </label>
+                  <input
+                    type="file"
+                    id="filePicker"
+                    style={{ visibility: "hidden" }}
+                    onChange={handleFile}
+                  />
+                </form>
+              </div>
+            )}
+
+            {mic ? (
+              <div className="audioReco">
+                <audio src={Url} controls />
+                <div
+                  className="removeBOx"
+                  onClick={() => {
+                    setMic(false);
+                  }}
+                >
+                  <img src={REMOVE} alt="" className="remove" />
+                </div>
+              </div>
+            ) : (
+              <div style={{ width: "100%" }}>
+                <input
+                  type="text"
+                  required="required"
+                  name="message"
+                  placeholder="Type your message"
+                  id="inp"
+                  onChange={handelChange}
+                />
+
+                <input
+                  type="submit"
+                  hidden
+                  onKeyPress={(event) => {
+                    event.key === "Enter" && sendMessage();
+                  }}
+                />
+              </div>
+            )}
+            {input === "" && !mic ? (
+              <div
+                className="rec"
+                onClick={() => {
+                  setUrl("");
                 }}
               >
-                <img src={img3} alt="" style={{ width: "28px" }} />
-              </label>
-              <input
-                type="file"
-                id="filePicker"
-                style={{ visibility: "hidden" }}
-                onChange={handleFile}
-              />
-            </form>
-          </div>
-        )}
-
-        {mic ? (
-          <div className="audioReco">
-            <audio src={Url} controls />
-            <div
-              className="removeBOx"
-              onClick={() => {
-                setMic(false);
-              }}
-            >
-              <img src={REMOVE} alt="" className="remove" />
-            </div>
-          </div>
-        ) : (
-          <div style={{ width: "100%" }}>
-            <input
-              type="text"
-              required="required"
-              name="message"
-              placeholder="Type your message"
-              id="inp"
-              onChange={handelChange}
-            />
-
-            <input
-              type="submit"
-              hidden
-              onKeyPress={(event) => {
-                event.key === "Enter" && sendMessage();
-              }}
-            />
-          </div>
-        )}
-        {input === "" && !mic ? (
-          <div
-            className="rec"
-            onClick={() => {
-              setUrl("");
+                <AudioRecorder
+                  onRecordingComplete={(blob) => {
+                    if (!mic && Url === "") {
+                      addAudioElement(blob);
+                      setMic(true);
+                    }
+                  }}
+                  recorderControls={recorderControls}
+                  classes={{
+                    AudioRecorderStartSaveClass: "audio-recorder-svg-color",
+                    AudioRecorderPauseResumeClass: "audio-recorder-svg-color",
+                    AudioRecorderDiscardClass: "audio-recorder-svg-color",
+                    AudioRecorderClass: "audioRecord",
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="removeBOx">
+                {mic ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      console.log("dsdsdsdsdsdsdsdsdsd");
+                      //    setMic2(false);
+                      setMic(false);
+                      upload(Url);
+                    }}
+                  >
+                    <img src={SEND} alt="" className="sendIcon" />
+                  </button>
+                ) : (
+                  <button type="submit">
+                    <img src={SEND} alt="" className="sendIcon" />
+                  </button>
+                )}
+              </div>
+            )}
+          </form>
+        </div>
+      ) : (
+        <div
+          style={{
+            backgroundColor: "#7cc1f9",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <p
+            style={{
+              color: "white",
+              padding: "15px 0",
+              margin: "0",
+              fontWeight: "bold",
             }}
           >
-            <AudioRecorder
-              onRecordingComplete={(blob) => {
-                if (!mic && Url === "") {
-                  addAudioElement(blob);
-                  setMic(true);
-                }
-              }}
-              recorderControls={recorderControls}
-              classes={{
-                AudioRecorderStartSaveClass: "audio-recorder-svg-color",
-                AudioRecorderPauseResumeClass: "audio-recorder-svg-color",
-                AudioRecorderDiscardClass: "audio-recorder-svg-color",
-                AudioRecorderClass: "audioRecord",
-              }}
-            />
-          </div>
-        ) : (
-          <div className="removeBOx">
-            {mic ? (
-              <button
-                type="button"
-                onClick={() => {
-                  console.log("dsdsdsdsdsdsdsdsdsd");
-                  //    setMic2(false);
-                  setMic(false);
-                  upload(Url);
-                }}
-              >
-                <img src={SEND} alt="" className="sendIcon" />
-              </button>
-            ) : (
-              <button type="submit">
-                <img src={SEND} alt="" className="sendIcon" />
-              </button>
-            )}
-          </div>
-        )}
-      </form>
-    </div>
+            Only admins can send messages
+          </p>
+        </div>
+      )}
+    </>
   );
 
   async function sendMessage(e) {
@@ -272,6 +294,7 @@ export default function Fotter({
         author: username,
         message: currentMessage,
         type: "TEXT",
+        repType: repType,
         mediaUrl: null,
         time:
           new Date(Date.now()).getHours() +
@@ -289,6 +312,7 @@ export default function Fotter({
       setrep(true);
       setShowPicker(true);
       setInput("");
+      setNumerOfMessages(numberOfMessages + 1);
       /*  divRef.current.scroll({
         top: divRef.current.scrollHeight,
         behavior: "smooth",
@@ -333,6 +357,8 @@ export default function Fotter({
         message: currentMessage,
         type: "VOICE",
         mediaUrl: null,
+        repType: repType,
+
         time:
           new Date(Date.now()).getHours() +
           ":" +
@@ -347,9 +373,9 @@ export default function Fotter({
 
       setrep(true);
       await socket.emit("send_message", messageData);
+      setNumerOfMessages(numberOfMessages + 1);
 
       console.log("==========================================================");
-      console.log(mic);
     }
     //  async function sendMessage() {
 

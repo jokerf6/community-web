@@ -37,7 +37,14 @@ export default function Default() {
       >
         <div className={Styles.modal2}>
           <div className={Styles.first}>
-            <img src={img} className={Styles.image} alt="" />
+            <img
+              src={img}
+              className={Styles.image}
+              alt=""
+              style={{
+                width: "40%",
+              }}
+            />
             <h4 className={Styles.title}>Default Password</h4>
             <p className={Styles.paragraph}>Get your default password</p>
           </div>

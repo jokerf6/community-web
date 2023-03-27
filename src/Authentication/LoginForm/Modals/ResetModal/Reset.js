@@ -16,7 +16,14 @@ export default function Reset(props) {
     >
       <div className={Styles.modal2}>
         <div className={Styles.first}>
-          <img src={img} className={Styles.image} alt="" />
+          <img
+            src={img}
+            className={Styles.image}
+            alt=""
+            style={{
+              width: "10%",
+            }}
+          />
           <h4 className={Styles.title}>Reset Password</h4>
           <p className={Styles.paragraph}>
             Ask the admin to give you your code

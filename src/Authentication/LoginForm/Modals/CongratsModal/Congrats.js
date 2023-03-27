@@ -1,7 +1,7 @@
-import React from 'react';
-import Modal from 'react-bootstrap/Modal';
-import Styles from '../ResetModal/Reset.module.css'
-import img from './112766-celebrate.gif'
+import React from "react";
+import Modal from "react-bootstrap/Modal";
+import Styles from "../ResetModal/Reset.module.css";
+import img from "./112766-celebrate.gif";
 
 export default function Congrats(props) {
     return (
@@ -17,12 +17,11 @@ export default function Congrats(props) {
                         Reset Password
                     </h4>
                     <p className={Styles.paragraph}>Ask the admin to give you your code</p>
-                    <img src={img} className={Styles.congImage} alt="" />
-                    <button className={Styles.done} onClick={() => {
+                    <img src={img} className={Styles.congImage} alt="" style={{width:'40%'}} />
+                    <button className={Styles.done} onClick={() => { 
                             props.onHide();
-                            // window.location.reload();
                         }}
-                    >Done</button>
+                    >Done</button>{" "}
                 </div>
             </div>
         </Modal>

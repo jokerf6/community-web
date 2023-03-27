@@ -1,5 +1,5 @@
-import React, {useEffect, useState, useRef} from 'react'
-import './Community.css'
+import React, { useEffect, useState } from "react";
+import "./Community.css";
 
 export default function Community() {
 
@@ -33,10 +33,10 @@ export default function Community() {
     function updateUser() {
         const item = {
             userPassword: userPassword,
-            rootPassword: rootPassword,
+            rootPassword: rootPassword
         }
         console.log(item);
-        fetch(URL, {    
+        fetch(URL, {
             method: "PATCH",
             headers: myHeaders,
             body: JSON.stringify(item),
@@ -52,30 +52,42 @@ export default function Community() {
         });
     }
 
-    return (
-        <div className='community'>
-            <div>
-                <p>Admin default password</p>
-                <div className='bar'>
-                    <input
-                        type='text'
-                        value={userPassword}
-                        onChange={(e)=>{setUser(e.target.value)}}
-                    ></input>
-                    <button className='save-btn' onClick={updateUser}> Save</button>
-                </div>
-            </div>
-            <div>
-                <p>User default password</p>
-                <div className='bar'>
-                    <input
-                        type='text'
-                        value={rootPassword}
-                        onChange={(e)=>{setRoot(e.target.value)}}
-                    ></input>
-                    <button className='save-btn' onClick={updateUser}> Save</button>
-                </div>  
-            </div>
+  return (
+    <div className="community">
+      <div>
+        <p>Admin default password</p>
+        <div className="bar">
+          <input
+            id="inp1"
+            type="text"
+            value={userPassword}
+            onChange={(e) => {
+              setUser(e.target.value);
+            }}
+          ></input>
+          <button className="save-btn" onClick={updateUser}>
+            {" "}
+            Save
+          </button>
         </div>
-    )
+      </div>
+      <div>
+        <p>User default password</p>
+        <div className="bar">
+          <input
+            id="inp2"
+            type="text"
+            value={rootPassword}
+            onChange={(e) => {
+              setRoot(e.target.value);
+            }}
+          ></input>
+          <button className="save-btn" onClick={updateUser}>
+            {" "}
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
