@@ -7,14 +7,18 @@ import Save from "./Modals/Save";
 import End from "./Modals/End";
 import { Col, Row, Toast } from "react-bootstrap";
 import { ALLUSER_LINK, CHANGEROLE_LINK } from "../../constants";
+import Extend from "./Modals/Extend";
+
 export default function Participants() {
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
+  const [modalExtend, setModalExtend] = useState(false);
   const [id, setId] = useState("");
   const [number, setNumber] = useState("");
   const [inputText, setInputText] = useState("");
   const [allUsers, setAllUsers] = useState([]);
 
+  const URL = "http://127.0.0.1:4001/user/all";
   const myHeaders = new Headers({
     "Content-Type": "application/json",
     Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
@@ -46,7 +50,6 @@ export default function Participants() {
         console.log(err);
       });
   }
-
   let inputHandler = (e) => {
     var lowerCase = e.target.value.toLowerCase();
     setInputText(lowerCase);
@@ -63,6 +66,23 @@ export default function Participants() {
 
   return (
     <div className="participant">
+      {modalShow2 ? (
+        <End
+          allUsers={allUsers}
+          setAllUsers={setAllUsers}
+          show={modalShow2}
+          number={number}
+          id={id}
+          onHide={() => setModalShow2(false)}
+        />
+      ) : undefined}
+      {modalExtend ? (
+        <Extend
+          show={modalExtend}
+          onHide={() => setModalExtend(false)}
+          id={id}
+        />
+      ) : undefined}
       <div className="search-bar">
         <div className="search-input">
           <BiSearch className="search-img" />
@@ -73,8 +93,9 @@ export default function Participants() {
             Add user
           </button>
           <Save
-            setAllUsers={setAllUsers}
             show={modalShow}
+            onHide={() => setModalShow(false)}
+            setAllUsers={setAllUsers}
             setShow={setModalShow}
             allUsers={allUsers}
           />
@@ -83,9 +104,9 @@ export default function Participants() {
 
       <div className="users">
         {filteredData
-          .filter((user) => user.role === "ADMIN")
+          .filter((user) => user.role === "ADMIN" && user.active)
           .map((user) => (
-            <Row>
+            <Row style={{ display: "flex", alignItems: "center" }}>
               <Col
                 lg={10}
                 style={{
@@ -110,7 +131,7 @@ export default function Participants() {
                   />
                 </div>
               </Col>
-              <Col>
+              <Col lg={2}>
                 <button
                   className="end-session"
                   onClick={() => {
@@ -121,12 +142,6 @@ export default function Participants() {
                 >
                   End session
                 </button>
-                <End
-                  number={number}
-                  id={id}
-                  show={modalShow2}
-                  onHide={() => setModalShow2(false)}
-                />
               </Col>
             </Row>
           ))}
@@ -165,7 +180,15 @@ export default function Participants() {
                 </div>
               </Col>
               <Col lg={2}>
-                <button className="extend">Extend</button>
+                <button
+                  className="extend"
+                  onClick={() => {
+                    setModalExtend(true);
+                    setId(user.id);
+                  }}
+                >
+                  Extend
+                </button>{" "}
               </Col>
               <Col lg={2}>
                 <button
@@ -178,12 +201,6 @@ export default function Participants() {
                 >
                   End session
                 </button>
-                <End
-                  show={modalShow2}
-                  onHide={() => setModalShow2(false)}
-                  number={number}
-                  id={id}
-                />
               </Col>
             </Row>
           ))}
@@ -215,7 +232,15 @@ export default function Participants() {
                 </div>
               </Col>
               <Col lg={2}>
-                <button className="extend">Extend</button>
+                <button
+                  className="extend"
+                  onClick={() => {
+                    setModalExtend(true);
+                    setId(user.id);
+                  }}
+                >
+                  Extend
+                </button>
               </Col>
             </Row>
           ))}

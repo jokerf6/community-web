@@ -1,15 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import ScrollToBottom from "react-scroll-to-bottom";
 import "../../Chat.css";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import checkPageStatus from "../../../utils/functions";
 import DOWN from "../../down1.png";
 import CAMERA from "../../CAMERA.png";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import MIC from "./mic.png";
-import useDownloader from "react-use-downloader";
 import { BsDownload } from "react-icons/bs";
 import { CHAT_LINK } from "../../../constants";
 import { useNavigate } from "react-router-dom";
@@ -67,9 +62,12 @@ export default function OnlineMessage({
     socket.on(
       "unreadRes",
       (data) => {
+        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        if (data["resId"] === userId) {
+          console.log(data);
+        }
         if (data["resId"] === userId && data["unReadNumber"] > 0) {
           setUnread(data["unReadNumber"]);
-          console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
           if (!("Notification" in window)) {
             alert("This browser does not support system notifications!");
           } else if (Notification.permission === "granted") {
@@ -171,9 +169,20 @@ export default function OnlineMessage({
       return filename.split("uploads/").pop().split("-")[0];
     }
   }
-
-  const { download } = useDownloader();
-
+  async function download(id, name) {
+    await fetch(`http://127.0.0.1:4001/api/v1/downloads/uploads/${id}`).then(
+      (response) => {
+        response.blob().then((blob) => {
+          let url = window.URL.createObjectURL(blob);
+          let a = document.createElement("a");
+          a.href = url;
+          a.download = name;
+          a.click();
+        });
+        //window.location.href = response.url;
+      }
+    );
+  }
   return (
     <>
       {messageList.map((messageContent) => {
@@ -226,7 +235,7 @@ export default function OnlineMessage({
                 ) : messageContent["mediaUrl"] &&
                   getExtension(messageContent["mediaUrl"]).toLowerCase() ===
                     "mp4" ? (
-                  <div>
+                  <div className="cr">
                     {role === "USER" ? (
                       <p>{messageContent.author}</p>
                     ) : undefined}
@@ -246,6 +255,7 @@ export default function OnlineMessage({
                         ) : (
                           <div className="imBox">
                             <img
+                              alt="mic"
                               src={
                                 messageContent.repType === "MEDIA"
                                   ? CAMERA
@@ -314,9 +324,11 @@ export default function OnlineMessage({
                               messageContent["mediaUrl"]
                             ).toLowerCase() === "pptx" ? (
                               <button
-                                onClick={() =>
+                                onClick={(e) =>
                                   download(
-                                    messageContent["mediaUrl"],
+                                    messageContent["mediaUrl"].split(
+                                      "uploads/"
+                                    )[1],
                                     SplitFunction(messageContent["mediaUrl"])
                                   )
                                 }

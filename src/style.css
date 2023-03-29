@@ -67,10 +67,14 @@ p {
   width: 100% !important;
   max-height: 300px !important;
 }
+video {
+  width: 64% !important;
+}
 .up .modal-body video {
   width: 100% !important;
   max-height: 300px !important;
 }
+
 ::-webkit-scrollbar {
   background: #7cc1f9;
   width: 5px;
@@ -107,4 +111,7 @@ p {
   background-color: #7cc1f9;
   color: #ffffff;
   font-weight: bold;
+}
+.Reset_first__QUECv {
+  padding: 10%;
 }

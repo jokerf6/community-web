@@ -2,30 +2,53 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import "./Modal.css";
 
-export default function End({ show, number, onHide, id }) {
-  console.log("tiu7y", id);
+export default function End({
+  allUsers,
+  setAllUsers,
+  show,
+  number,
+  onHide,
+  id,
+}) {
   const myHeaders = new Headers({
     "Content-Type": "application/json",
     Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
   });
-  useEffect(() => {
-    EndSession();
-  }, []);
-  function EndSession() {
-    if (id) {
-      fetch(`http://127.0.0.1:4001/user/${id}/endSession`, {
-        method: "GET",
-        headers: myHeaders,
+  async function EndSession() {
+    await fetch(`http://127.0.0.1:4001/user/${id}/endSession`, {
+      method: "GET",
+      headers: myHeaders,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
       })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+      .catch((err) => {
+        console.log(err);
+      });
+    const filter = allUsers.filter((x) => {
+      return x["id"] === id;
+    });
+    const data = allUsers;
+    const index = data.indexOf(filter[0]);
+    console.log(data[index]);
+    const date = new Date();
+    var now_utc = Date.UTC(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate(),
+      date.getUTCHours(),
+      date.getUTCMinutes(),
+      date.getUTCSeconds()
+    );
+    const convertedDate = new Date(now_utc);
+    data[index]["active"] = false;
+    data[index]["extend"] = convertedDate.toISOString();
+    setAllUsers([...data]);
   }
+  useEffect(() => {
+    // EndSession();
+  }, []);
   return (
     <Modal
       show={show}

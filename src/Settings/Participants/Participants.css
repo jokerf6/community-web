@@ -3,10 +3,10 @@
   width: 100%;
 }
 
-.search-bar {
-  display: flex;
-  align-items: center;
-  height: 10%;
+.search-bar{
+    display: flex;
+    align-items: center;
+    height: 70px;
 }
 
 .search-input {

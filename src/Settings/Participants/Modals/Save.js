@@ -11,7 +11,7 @@ function CalendarModal({
   setAllUsers,
   show,
   number,
-  setShow,
+  setShow1,
   setShow2,
   allUsers,
 }) {
@@ -47,7 +47,6 @@ function CalendarModal({
             setError(data.message);
           } else {
             setModalShow(true);
-
             setAllUsers((list) => [...list, data["data"]]);
           }
         });
@@ -58,87 +57,108 @@ function CalendarModal({
   }
 
   return (
-    <Modal
-      show={show}
-      size="md"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-      onHide={() => setShow(false)}
-    >
-      <Toast onClose={() => setToast(false)} show={toast} delay={3000} autohide>
-        <Toast.Header>
-          <strong className="me-auto">Error</strong>
-          <small className="text-muted">just now</small>
-        </Toast.Header>
-        <Toast.Body>{error}</Toast.Body>
-      </Toast>
-      <Modal.Body>
-        <div className="calendar-container">
-          <Calendar onChange={setDate} value={date} />
-        </div>
-        <button
-          className="done"
-          onClick={() => {
-            postUser();
-            setShow(true);
-            setShow2(false);
+    <div className="def">
+      {modalShow ? (
+        <Congrats
+          show={modalShow}
+          onHide={() => {
+            setModalShow(false);
+            setShow1(false);
           }}
+        />
+      ) : (
+        <Modal
+          show={show}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          onHide={() => setShow1(false)}
         >
-          Add
-        </button>
-        <Congrats show={modalShow} onHide={() => setModalShow(false)} />
-      </Modal.Body>
-    </Modal>
+          <Toast
+            onClose={() => setToast(false)}
+            show={toast}
+            delay={3000}
+            autohide
+          >
+            <Toast.Header>
+              <strong className="me-auto">Error</strong>
+              <small className="text-muted">just now</small>
+            </Toast.Header>
+            <Toast.Body>{error}</Toast.Body>
+          </Toast>
+          <Modal.Body>
+            <div className="calendar-container">
+              <Calendar onChange={setDate} value={date} />
+            </div>
+            <button
+              className="done"
+              onClick={() => {
+                postUser();
+              }}
+            >
+              Add
+            </button>
+          </Modal.Body>
+        </Modal>
+      )}
+    </div>
   );
 }
-
-export default function Save({ setAllUsers, show, setShow, allUsers }) {
+export default function Save({ setAllUsers, show, setShow, allUsers, onHide }) {
+  console.log("/////////////////////////////////////////////////////////");
   const [modalShow, setModalShow] = React.useState(false);
-
   const [number, setNumber] = useState("");
 
   return (
-    <Modal
-      show={show}
-      size="md"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-      className="modal"
-    >
-      <Modal.Body className="body-modal">
-        <img src={img} alt="" style={{ width: "10%" }} />
-        <h4>Add New User</h4>
-        <p className="paragraph">Add new user to your community</p>
-        <input
-          type="text"
-          placeholder="Type User Number"
-          className="input"
-          value={number}
-          onChange={(e) => {
-            setNumber(e.target.value);
-          }}
+    <>
+      {modalShow && (
+        <CalendarModal
+          setAllUsers={setAllUsers}
+          show={modalShow}
+          number={number}
+          setShow1={setModalShow}
+          allUsers={allUsers}
         />
-        <button onClick={() => setShow(false)} className="cancel">
-          Cancel
-        </button>
-        <button onClick={() => setModalShow(true)} className="choose">
-          Choose Time
-        </button>
-        {modalShow && (
-          <CalendarModal
-            setAllUsers={setAllUsers}
-            show={modalShow}
-            number={number}
-            setShow={setModalShow}
-            setShow2={setShow}
-            allUsers={allUsers}
+      )}
+      <Modal
+        show={show}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        className="modal"
+      >
+        <Modal.Body className="body-modal">
+          <img src={img} alt="" style={{ width: "10%" }} />
+          <h4>Add New User</h4>
+          <p className="paragraph">Add new user to your community</p>
+          <input
+            type="text"
+            placeholder="Type User Number"
+            className="input"
+            value={number}
+            onChange={(e) => {
+              setNumber(e.target.value);
+            }}
           />
-        )}
-        {/* <CalendarModal
+          <button onClick={() => setShow(false)} className="cancel">
+            Cancel
+          </button>
+          <button
+            onClick={() => {
+              setModalShow(true);
+              setShow(false);
+            }}
+            className="choose"
+          >
+            Choose Time
+          </button>
+
+          {/* <CalendarModal
                     show={modalShow}
                     onHide={() => setModalShow(false)}
                 /> */}
-      </Modal.Body>
-    </Modal>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 }
