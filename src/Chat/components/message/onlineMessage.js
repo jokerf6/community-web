@@ -9,6 +9,7 @@ import { BsDownload } from "react-icons/bs";
 import { CHAT_LINK } from "../../../constants";
 import { useNavigate } from "react-router-dom";
 import IMG from "../../logo.png";
+import ScrollToBottom from "react-scroll-to-bottom";
 export default function OnlineMessage({
   messageList,
   username,
@@ -53,9 +54,9 @@ export default function OnlineMessage({
     setDrop(e.target.id.split(".")[1]);
   }
   useEffect(() => {
-    if (elementRef.current) {
+    /* if (elementRef.current) {
       elementRef.current.scrollIntoView({ behavior: "smooth" });
-    }
+    }*/
     socket.on("message_delete", (data) => {
       setDeleted((list) => [...list, data]);
     });
@@ -128,7 +129,9 @@ export default function OnlineMessage({
         e.target.id.split["."][0] !== "drop" &&
         e.target.id.split["."][0] !== "op")
     ) {
-      document.getElementById("menu." + drop).hidden = true;
+      if (document.getElementById("menu." + drop)) {
+        document.getElementById("menu." + drop).hidden = true;
+      }
     }
   });
 
@@ -184,7 +187,7 @@ export default function OnlineMessage({
     );
   }
   return (
-    <>
+    <ScrollToBottom>
       {messageList.map((messageContent) => {
         return (
           <div>
@@ -195,13 +198,18 @@ export default function OnlineMessage({
                 <hr />
               </div>
             ) : undefined}
+
             <div
               className="message"
+              ref={Unread === 0 ? elementRef : undefined}
               id={username === messageContent.author ? "you" : "other"}
               //    onMouseEnter={show}
               //    onMouseLeave={hide}
             >
-              <div id={messageContent.type}>
+              <div
+                id={messageContent.type}
+                className={messageContent.type === "MEDIA" ? "medd" : "med1"}
+              >
                 {messageContent.type === "VOICE" ? (
                   <div className="aud">
                     {role === "USER" ? (
@@ -273,10 +281,7 @@ export default function OnlineMessage({
                       </div>
                     ) : undefined}
 
-                    <div
-                      className="handel"
-                      ref={Unread === 0 ? elementRef : undefined}
-                    >
+                    <div className="handel">
                       <p id={"list." + messageContent.messageId}>
                         {username !== messageContent.author &&
                         messageContent.type !== "DELETED" &&
@@ -296,7 +301,11 @@ export default function OnlineMessage({
                         {messageContent.type === "MEDIA" &&
                         messageContent.type !== "DELETED" &&
                         !deleted.includes(messageContent.messageId) ? (
-                          <div className="">
+                          <div
+                            style={{
+                              width: "100%",
+                            }}
+                          >
                             {getExtension(
                               messageContent["mediaUrl"]
                             ).toLowerCase() === "png" ||
@@ -307,7 +316,10 @@ export default function OnlineMessage({
                               messageContent["mediaUrl"]
                             ).toLowerCase() === "jpeg" ? (
                               <div className="img-size">
-                                <img src={messageContent["mediaUrl"]} />
+                                <img
+                                  style={{ width: "100%" }}
+                                  src={messageContent["mediaUrl"]}
+                                />
                               </div>
                             ) : undefined}
 
@@ -403,7 +415,7 @@ export default function OnlineMessage({
           </div>
         );
       })}
-    </>
+    </ScrollToBottom>
   );
   async function getAllMessages() {
     console.log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvv");

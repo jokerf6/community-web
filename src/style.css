@@ -68,7 +68,7 @@ p {
   max-height: 300px !important;
 }
 video {
-  width: 64% !important;
+  width: 100% !important;
 }
 .up .modal-body video {
   width: 100% !important;

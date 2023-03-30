@@ -10,7 +10,9 @@ body {
   flex-direction: column;
   text-align: center;
 }
-
+.medd {
+  width: 30%;
+}
 .joinChatContainer h3 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
@@ -260,6 +262,9 @@ body {
   width: 150px;
 }
 
+#other .menu {
+  right: -129px;
+}
 .menu > li {
   margin: 0;
 
@@ -648,7 +653,7 @@ audio::-webkit-media-controls-enclosure {
   justify-content: end;
 }
 .img-size {
-  width: 69%;
+  width: 100%;
 }
 
 @media (max-width: 780px) {

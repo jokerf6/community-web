@@ -59,6 +59,9 @@
   padding: 3%;
   margin: 3% 0;
   border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .save {
   width: 100%;

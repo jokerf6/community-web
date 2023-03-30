@@ -201,9 +201,8 @@ export default function Change(props) {
                         {loading ? (
                           <img
                             src={Img}
-                            className={sharedStyles.load}
                             style={{
-                              width: "40%",
+                              width: "10%",
                             }}
                           />
                         ) : (

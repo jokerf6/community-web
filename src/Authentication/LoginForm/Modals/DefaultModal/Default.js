@@ -80,28 +80,28 @@ export default function Default() {
   /*********************************************************************************** */
   async function handleFormSubmit(e) {
     e.preventDefault(); // to prevent page from refreshing after click on submit button
-    if (!success) {
-      console.log(e.target.phone.value);
-      let numberValue = e.target.phone.value;
+    console.log(e.target.phone.value);
+    console.log(e.target.phone.value);
+    let numberValue = e.target.phone.value;
 
-      const person = {
-        number: numberValue,
-      };
+    const person = {
+      number: numberValue,
+    };
 
-      let requestJson = JSON.stringify(person);
-      console.log("zzzzzz" + requestJson);
-      await getDefault(requestJson);
-    }
+    let requestJson = JSON.stringify(person);
+    console.log("zzzzzz" + requestJson);
+    await getDefault(requestJson);
   }
 
   function getDefaultResponse(json) {
     console.log(json);
     let status = json.type;
-    if (status == "Success") {
+    console.log(status);
+    if (status === "Success") {
       setSuccess(true);
       setDef(json.data.password);
       setErr("");
-    } else if (status == "Forbidden") {
+    } else if (status === "Forbidden") {
       setErr(json.message);
     } else {
       setErr(json.message);
@@ -109,6 +109,7 @@ export default function Default() {
     // console.log(cookies.get("username")); // Pacman
   }
   async function getDefault(requestJson) {
+    console.log("Dddddddddddddddddddd");
     setloading(true);
     await fetch(DEFAULT_LINK, {
       method: "POST",
