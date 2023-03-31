@@ -6,8 +6,7 @@ import "./Chat.css";
 
 const userId = localStorage.getItem("userId");
 
-const socket = io.connect("http://127.0.0.1:8080");
-
+const socket = io.connect("https://jobber.prefectjob.com:3000");
 function Room() {
   useEffect(() => {
     socket.on("connect", () => {
