@@ -10,6 +10,7 @@ import Notification from "./components/message/toast";
 import { CHAT_LINK, LOGOUT_LINK } from "../constants";
 import LOAD from "./load.gif";
 import { Navigate, Outlet } from "react-router-dom";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 function Chat({ socket, username, role }) {
   // const divRef = useRef();
@@ -95,11 +96,11 @@ function Chat({ socket, username, role }) {
             </button>
           </div>
           <div className={!rep ? "chat-body chat-window2" : "chat-body"}>
-            <div
+            <ScrollToBottom
               id="scroll"
               className="message-container"
-              scrollViewClassName="class-scroll"
-              onScroll={scroll}
+              // scrollViewClassName="class-scroll"
+              // onScroll={scroll}
             >
               <OnlineMessage
                 messageList={messageList}
@@ -123,7 +124,7 @@ function Chat({ socket, username, role }) {
                 top={top}
                 setTop={setTop}
               />
-            </div>
+            </ScrollToBottom>
           </div>
           <div className="emo" hidden={showPicker}>
             <Picker
@@ -186,7 +187,6 @@ function Chat({ socket, username, role }) {
   }
   async function getAllMessages() {
     console.log("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
-
     const myHeaders = new Headers({
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("Access Token")}`,

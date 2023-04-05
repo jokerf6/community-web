@@ -175,7 +175,7 @@ export default function OnlineMessage({
   const { download } = useDownloader();
 
   return (
-    <>
+    <ScrollToBottom>
       {messageList.map((messageContent) => {
         return (
           <div>
@@ -251,7 +251,8 @@ export default function OnlineMessage({
                                   ? CAMERA
                                   : MIC
                               }
-                              className="im3"
+                                  className="im3"
+                                  alt = ''
                             />
                             <span>
                               {messageContent.repType === "MEDIA"
@@ -297,7 +298,7 @@ export default function OnlineMessage({
                               messageContent["mediaUrl"]
                             ).toLowerCase() === "jpeg" ? (
                               <div className="img-size">
-                                <img src={messageContent["mediaUrl"]} />
+                                <img src={messageContent["mediaUrl"]} alt =''/>
                               </div>
                             ) : undefined}
 
@@ -356,6 +357,7 @@ export default function OnlineMessage({
                       src={DOWN}
                       onClick={handleOpen}
                       id={"im." + messageContent.messageId}
+                      alt=''
                     />
                   </button>
                   <ul
@@ -391,7 +393,7 @@ export default function OnlineMessage({
           </div>
         );
       })}
-    </>
+    </ScrollToBottom>
   );
   async function getAllMessages() {
     console.log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
@@ -429,7 +431,6 @@ export default function OnlineMessage({
           console.log(json.data["AllMessage"]);
           setNumerOfMessages(json.data["numberOfMessages"]);
           document.getElementById("scroll").scrollTo(0, 0);
-
           setLoad(false);
         }
       });

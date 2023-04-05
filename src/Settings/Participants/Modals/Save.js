@@ -11,7 +11,6 @@ import { Toast } from "react-bootstrap";
 
 function CalendarModal({ setAllUsers, show, number, setShow, allUsers, onHide, OnHideCalendar }) {
     const [modalShow, setModalShow] = useState(false);
-    const [value, onChange] = useState(new Date());
     const [date, setDate] = useState(new Date());
     const [toast, setToast] = useState(false);
     const [error, setError] = useState("");
@@ -44,6 +43,7 @@ function CalendarModal({ setAllUsers, show, number, setShow, allUsers, onHide, O
         } else {
             setModalShow(true);
             setAllUsers((list) => [...list, data["data"]]);
+            console.log(data)
         }
         });
     })

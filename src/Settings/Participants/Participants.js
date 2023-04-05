@@ -68,7 +68,6 @@ export default function Participants() {
     })
 
     return (
-        
         <div className='participant'>
             <div className='search-bar'>
                 <div className='search-input'>
@@ -102,17 +101,16 @@ export default function Participants() {
                                 <FaUser className='user-avatar' />
                                 <h5 className="number">{user.number}</h5>
                                 <div className="star-div">
-                                  <IoStarSharp
-                                    className="full-star"
-                                    onClick={() => {
-                                      const data = filteredData;
-                                      const index = data.indexOf(user);
-                                      data[index]["role"] = "USER";
-
-                                      setAllUsers(data);
-                                      changeRole(user.id);
+                                    <IoStarSharp
+                                        className="full-star"
+                                        onClick={() => {
+                                        const data = filteredData;
+                                        const index = data.indexOf(user);
+                                        data[index]["role"] = "USER";
+                                        setAllUsers(data);
+                                        changeRole(user.id);
                                     }}
-                                  />
+                                    />
                                 </div>
                             </Col>
                             <Col lg={2}>
@@ -147,11 +145,32 @@ export default function Participants() {
                                 </p>
                             </div>
                             <div className='star-div'>
-                                <IoStarOutline className='full-star'/>
+                                <IoStarOutline
+                                    className='full-star'
+                                    onClick={() => {
+                                    const data = filteredData;
+                                    const index = data.indexOf(user);
+                                    data[index]["role"] = "ADMIN";
+                                    setAllUsers(data);
+                                    changeRole(user.id);
+                                }}
+                                />
                             </div>
                         </Col>
                         <Col lg={2}>
-                            <button className='extend'>Extend</button>
+                            <button
+                                className='extend'
+                                onClick={()=>{
+                                    setModalExtend(true);
+                                    setId(user.id);
+                                }}
+                            >Extend</button>
+                            <Extend
+                                show={modalExtend}
+                                onHide={() => setModalExtend(false)}
+                                setAllUsers={setAllUsers}    
+                                id = {id}
+                            />
                         </Col>
                         <Col lg={2}>
                             <button className='end-session'
@@ -164,6 +183,8 @@ export default function Participants() {
                             >End session</button>
                             <End
                                 show={modalShow2}
+                                setAllUsers={setAllUsers}  
+                                allUsers={allUsers}   
                                 onHide={() => setModalShow2(false)}
                                 number={number}
                                 id = {id}
@@ -189,14 +210,15 @@ export default function Participants() {
                             <button
                                 className='extend'
                                 onClick={()=>{
-                                    setModalExtend(true);
-                                    setId(user.id);
+                                setModalExtend(true);
+                                setId(user.id);
                                 }}
                             >Extend</button>
                             <Extend
                                 show={modalExtend}
                                 onHide={() => setModalExtend(false)}
-                                id = {id}
+                                id={id}
+                                allUsers = {allUsers}    
                             />
                         </Col>
                     </Row>
