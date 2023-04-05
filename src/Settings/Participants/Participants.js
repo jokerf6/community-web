@@ -1,36 +1,34 @@
-import React, {useState, useEffect} from 'react'
-import './Participants.css'
+import React, { useState, useEffect } from "react";
+import "./Participants.css";
 import { BiSearch } from "react-icons/bi";
 import { FaUser } from "react-icons/fa";
 import { IoStarSharp, IoStarOutline } from "react-icons/io5";
-import Save from './Modals/Save';
-import End from './Modals/End';
+import Save from "./Modals/Save";
+import End from "./Modals/End";
 import { Col, Row, Toast } from "react-bootstrap";
 import { ALLUSER_LINK, CHANGEROLE_LINK } from "../../constants";
-import Extend from './Modals/Extend';
-
+import Extend from "./Modals/Extend";
 
 export default function Participants() {
+  const [modalShow, setModalShow] = useState(false);
+  const [modalShow2, setModalShow2] = useState(false);
+  const [modalExtend, setModalExtend] = useState(false);
+  const [id, setId] = useState("");
+  const [number, setNumber] = useState("");
+  const [inputText, setInputText] = useState("");
+  const [allUsers, setAllUsers] = useState([]);
 
-    const [modalShow, setModalShow] = useState(false);
-    const [modalShow2, setModalShow2] = useState(false);
-    const [modalExtend, setModalExtend] = useState(false);
-    const [id, setId] = useState('');
-    const [number, setNumber] = useState('');
-    const [inputText, setInputText] = useState("");
-    const [allUsers, setAllUsers] = useState([]);
+  const URL = "http://127.0.0.1:4001/user/all";
+  const myHeaders = new Headers({
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
+  });
 
-    const URL = 'http://127.0.0.1:4001/user/all';
-    const myHeaders = new Headers({
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
-    });
-
-    useEffect(() => {
+  useEffect(() => {
     getAllUsers();
   }, []);
-  function changeRole(id) {
-    fetch(CHANGEROLE_LINK + "/" + id + "/changeRole", {
+  async function changeRole(id) {
+    await fetch(CHANGEROLE_LINK + "/" + id + "/changeRole", {
       method: "GET",
       headers: myHeaders,
     })
@@ -39,8 +37,8 @@ export default function Participants() {
         console.log(err);
       });
   }
-  function getAllUsers() {
-    fetch(ALLUSER_LINK, {
+  async function getAllUsers() {
+    await fetch(ALLUSER_LINK, {
       method: "GET",
       headers: myHeaders,
     })
@@ -52,22 +50,22 @@ export default function Participants() {
         console.log(err);
       });
   }
-    let inputHandler = (e) => {
-        var lowerCase = e.target.value.toLowerCase();
-        setInputText(lowerCase);
-        console.log(lowerCase);
-    };
+  let inputHandler = (e) => {
+    var lowerCase = e.target.value.toLowerCase();
+    setInputText(lowerCase);
+    console.log(lowerCase);
+  };
 
-    const filteredData = allUsers.filter((el) => {
-        if (inputText === '') {
-            return el;
-        }
-        else {
-            return el.number.toLowerCase().includes(inputText)
-        }
-    })
+  const filteredData = allUsers.filter((el) => {
+    if (inputText === "") {
+      return el;
+    } else {
+      return el.number.toLowerCase().includes(inputText);
+    }
+  });
 
     return (
+        
         <div className='participant'>
             <div className='search-bar'>
                 <div className='search-input'>
@@ -101,16 +99,17 @@ export default function Participants() {
                                 <FaUser className='user-avatar' />
                                 <h5 className="number">{user.number}</h5>
                                 <div className="star-div">
-                                    <IoStarSharp
-                                        className="full-star"
-                                        onClick={() => {
-                                        const data = filteredData;
-                                        const index = data.indexOf(user);
-                                        data[index]["role"] = "USER";
-                                        setAllUsers(data);
-                                        changeRole(user.id);
+                                  <IoStarSharp
+                                    className="full-star"
+                                    onClick={() => {
+                                      const data = filteredData;
+                                      const index = data.indexOf(user);
+                                      data[index]["role"] = "USER";
+
+                                      setAllUsers(data);
+                                      changeRole(user.id);
                                     }}
-                                    />
+                                  />
                                 </div>
                             </Col>
                             <Col lg={2}>
@@ -145,32 +144,11 @@ export default function Participants() {
                                 </p>
                             </div>
                             <div className='star-div'>
-                                <IoStarOutline
-                                    className='full-star'
-                                    onClick={() => {
-                                    const data = filteredData;
-                                    const index = data.indexOf(user);
-                                    data[index]["role"] = "ADMIN";
-                                    setAllUsers(data);
-                                    changeRole(user.id);
-                                }}
-                                />
+                                <IoStarOutline className='full-star'/>
                             </div>
                         </Col>
                         <Col lg={2}>
-                            <button
-                                className='extend'
-                                onClick={()=>{
-                                    setModalExtend(true);
-                                    setId(user.id);
-                                }}
-                            >Extend</button>
-                            <Extend
-                                show={modalExtend}
-                                onHide={() => setModalExtend(false)}
-                                setAllUsers={setAllUsers}    
-                                id = {id}
-                            />
+                            <button className='extend'>Extend</button>
                         </Col>
                         <Col lg={2}>
                             <button className='end-session'
@@ -183,8 +161,6 @@ export default function Participants() {
                             >End session</button>
                             <End
                                 show={modalShow2}
-                                setAllUsers={setAllUsers}  
-                                allUsers={allUsers}   
                                 onHide={() => setModalShow2(false)}
                                 number={number}
                                 id = {id}
@@ -210,15 +186,14 @@ export default function Participants() {
                             <button
                                 className='extend'
                                 onClick={()=>{
-                                setModalExtend(true);
-                                setId(user.id);
+                                    setModalExtend(true);
+                                    setId(user.id);
                                 }}
                             >Extend</button>
                             <Extend
                                 show={modalExtend}
                                 onHide={() => setModalExtend(false)}
-                                id={id}
-                                allUsers = {allUsers}    
+                                id = {id}
                             />
                         </Col>
                     </Row>
@@ -227,4 +202,3 @@ export default function Participants() {
         </div>
     )
 }
-    

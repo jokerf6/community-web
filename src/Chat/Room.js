@@ -4,11 +4,9 @@ import Chat from "./Chat";
 
 import "./Chat.css";
 
-const username = localStorage.getItem("number");
 const userId = localStorage.getItem("userId");
-const role = localStorage.getItem("role");
-const socket = io.connect("http://127.0.0.1:8080");
 
+const socket = io.connect("https://jobber.prefectjob.com:3000");
 function Room() {
   useEffect(() => {
     socket.on("connect", () => {
@@ -23,10 +21,11 @@ function Room() {
       socket.emit("userOffline", userId); // replace with actual user ID
     };
   }, []);
-  console.log(window.closed);
+  console.log("hjkhjkhjkhjk");
+  console.log(localStorage.getItem("role"));
   return (
     <div className="chatContainer">
-      <Chat socket={socket} username={username} role={role} />
+      <Chat socket={socket} />
     </div>
   );
 }

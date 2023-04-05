@@ -1,6 +1,6 @@
 /**********Server***********/
 //export const SERVER = "https://community-production.up.railway.app";
-export const SERVER = "http://127.0.0.1:4001";
+export const SERVER = "https://jobber.prefectjob.com";
 
 /**********Authentication***********/
 export const SIGNIN_LINK = `${SERVER}/auth/signin`;
@@ -9,7 +9,7 @@ export const DEFAULT_LINK = `${SERVER}/auth/defaultPassword`;
 export const LOGOUT_LINK = `${SERVER}/auth/logout`;
 
 /**********Room***********/
-export const ROOM = `http://127.0.0.1:3001`;
+export const ROOM = `https://jobber.prefectjob.com`;
 
 /**********Chat***********/
 export const CHAT_LINK = `${SERVER}/chat`;
