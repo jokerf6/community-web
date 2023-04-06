@@ -3,10 +3,10 @@
   width: 100%;
 }
 
-.search-bar{
-    display: flex;
-    align-items: center;
-    height: 70px;
+.search-bar {
+  display: flex;
+  align-items: center;
+  height: 70px;
 }
 
 .search-input {
@@ -137,7 +137,14 @@
     margin-top: 5px;
   }
 }
-
+.noData {
+  font-family: Lato;
+  text-align: center;
+  height: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 @media (max-width: 860px) {
   .search-input {
     width: 60%;

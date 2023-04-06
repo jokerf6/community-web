@@ -1,27 +1,22 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./Chat.css";
-import img4 from "./logout 1.png";
-import img5 from "./settings 1.png";
+import img4 from "./images/logout 1.png";
+import img5 from "./images/settings 1.png";
 import { useNavigate } from "react-router-dom";
 import OnlineMessage from "./components/message/onlineMessage";
 import Fotter from "./footter";
 import Picker from "emoji-picker-react";
 import Notification from "./components/message/toast";
 import { CHAT_LINK, LOGOUT_LINK } from "../constants";
-import LOAD from "./load.gif";
+import LOAD from "./images/load.gif";
 import ScrollToBottom from "react-scroll-to-bottom";
-
 
 function Chat({ socket }) {
   // const divRef = useRef();
   const username = localStorage.getItem("number");
   const userId = localStorage.getItem("userId");
   const role = localStorage.getItem("role");
-  console.log("pppppppppppppppppppppppppppppppppppppppppppppppppppppppp");
-  console.log(role);
-
   const [messageList, setMessageList] = useState([]);
-  const [newMessageList, setNewMessageList] = useState([]);
   const [rep, setrep] = useState(true);
   const [userRep, setuserRep] = useState("");
   const [repBody, setrepBody] = useState("");
@@ -36,30 +31,23 @@ function Chat({ socket }) {
   const [top, setTop] = React.useState(0);
   const [lock, setLock] = React.useState(false);
 
+  // Use the scrollToPercent function to scroll to 50% of the scrollable area
   const navigate = useNavigate();
-
   const handleGoToSetting = () => {
     navigate("/settings");
   };
   useEffect(() => {
-    console.log("---------------------------------------------");
     if (messageList.length === 0) {
       setLoad(true);
-
       getAllMessages();
     }
 
     socket.on("receive_message", async (data) => {
       setMessageList((list) => [...list, data]);
       data["resId"] = userId;
-      document
-        .getElementById("scroll")
-        .scrollTo(0, document.getElementById("scroll").scrollHeight);
-      console.log(
-        "////////////////////////////////////////////////////////////"
-      );
       socket.emit("unreadReq", data);
     });
+
     document.addEventListener("visibilitychange", async function (event) {
       if (document.hidden) {
         socket.emit("logout", userId);
@@ -70,19 +58,9 @@ function Chat({ socket }) {
     });
   }, [socket]);
 
-  const onEmojiClick = (event, emojiObject) => {
-    console.log(event.emoji);
+  const onEmojiClick = (event) => {
     setChosenEmoji(event.emoji);
   };
-  window.addEventListener("beforeunload", async (e) => {
-    // *********** perform database operation here
-    e.preventDefault();
-    await socket.emit("logout", userId);
-
-    // before closing the browser ************** //
-    // added the delay otherwise database operation will not work
-    // return undefined;
-  });
 
   return (
     <>
@@ -100,35 +78,67 @@ function Chat({ socket }) {
             </button>
           </div>
           <div className={!rep ? "chat-body chat-window2" : "chat-body"}>
-            <ScrollToBottom
-              id="scroll"
-              className="message-container"
-              // scrollViewClassName="class-scroll"
-              // onScroll={scroll}
-            >
-              <OnlineMessage
-                messageList={messageList}
-                username={username}
-                newmessageList={newMessageList}
-                socket={socket}
-                setrep={setrep}
-                setuserRep={setuserRep}
-                setrepBody={setrepBody}
-                setReplayId={setReplayId}
-                setRepType={setRepType}
-                Rep={rep}
-                role={role}
-                setFirstUnreadMessage={setFirstUnreadMessage}
-                setUnread={setUnread}
-                firstUnreadMessage={firstUnreadMessage}
-                Unread={Unread}
-                numerOfMessages={numerOfMessages}
-                setMessageList={setMessageList}
-                setNumerOfMessages={setNumerOfMessages}
-                top={top}
-                setTop={setTop}
-              />
-            </ScrollToBottom>
+            {Unread > 0 ? (
+              <div
+                mode="bottom"
+                id="scroll"
+                className="message-container"
+                // scrollViewClassName="class-scroll"
+                // onScroll={scroll}
+              >
+                <OnlineMessage
+                  messageList={messageList}
+                  username={username}
+                  socket={socket}
+                  setrep={setrep}
+                  setuserRep={setuserRep}
+                  setrepBody={setrepBody}
+                  setReplayId={setReplayId}
+                  setRepType={setRepType}
+                  Rep={rep}
+                  role={role}
+                  setFirstUnreadMessage={setFirstUnreadMessage}
+                  setUnread={setUnread}
+                  firstUnreadMessage={firstUnreadMessage}
+                  Unread={Unread}
+                  numerOfMessages={numerOfMessages}
+                  setMessageList={setMessageList}
+                  setNumerOfMessages={setNumerOfMessages}
+                  top={top}
+                  setTop={setTop}
+                />
+              </div>
+            ) : (
+              <ScrollToBottom
+                mode="bottom"
+                id="scroll"
+                className="message-container"
+                // scrollViewClassName="class-scroll"
+                // onScroll={scroll}
+              >
+                <OnlineMessage
+                  messageList={messageList}
+                  username={username}
+                  socket={socket}
+                  setrep={setrep}
+                  setuserRep={setuserRep}
+                  setrepBody={setrepBody}
+                  setReplayId={setReplayId}
+                  setRepType={setRepType}
+                  Rep={rep}
+                  role={role}
+                  setFirstUnreadMessage={setFirstUnreadMessage}
+                  setUnread={setUnread}
+                  firstUnreadMessage={firstUnreadMessage}
+                  Unread={Unread}
+                  numerOfMessages={numerOfMessages}
+                  setMessageList={setMessageList}
+                  setNumerOfMessages={setNumerOfMessages}
+                  top={top}
+                  setTop={setTop}
+                />
+              </ScrollToBottom>
+            )}
           </div>
           <div className="emo" hidden={showPicker}>
             <Picker
@@ -170,25 +180,7 @@ function Chat({ socket }) {
       )}
     </>
   );
-  async function scroll(e) {
-    const all = e.target.scrollHeight;
-    const position = e.target.scrollTop;
 
-    setTop(position);
-
-    if (
-      parseInt((position / all) * 100) === 0 &&
-      numerOfMessages !== messageList.length &&
-      top > position &&
-      !lock
-    ) {
-      console.log("9999999999999999999999999999999999999999999999999999999");
-      setLock(true);
-      getAllMessages();
-      setTop(e.target.scrollHeight);
-      //document.getElementById("scroll").id = "d";
-    }
-  }
   async function getAllMessages() {
     console.log("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
     const myHeaders = new Headers({
@@ -222,9 +214,6 @@ function Chat({ socket }) {
           setMessageList((list) => [...json.data["AllMessage"], ...list]);
           setNumerOfMessages(json.data["numberOfMessages"]);
           setLoad(false);
-          document
-            .getElementById("scroll")
-            .scrollTo(0, document.getElementById("scroll").scrollHeight);
 
           setLock(false);
         }

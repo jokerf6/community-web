@@ -8,16 +8,18 @@ import { ErrorMessage, Formik } from "formik";
 import Reset from "./Modals/ResetModal/Reset";
 import { SIGNIN_LINK } from "../../constants";
 import Img from "../../General/loading/images/loading.gif";
+import Add from "./Modals/addUser/add";
 export default function LoginForm() {
   const [modalShow, setModalShow] = React.useState(false);
   const [loading, changeLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const navigate = useNavigate();
+  const [modalShow2, setModalShow2] = React.useState(false);
 
   return (
     <div className={Styles.form}>
       <Hello />
-
+      <Add modalShow2={modalShow2} setModalShow2={setModalShow2} />
       <Formik
         initialValues={{ phone: "", password: "" }}
         validate={(values) => {
@@ -92,6 +94,27 @@ export default function LoginForm() {
         )}
       </Formik>
       <Buttons />
+      <p
+        style={{
+          width: "100%",
+          textAlign: "center",
+        }}
+      >
+        Donot have an account ?{" "}
+        <span
+          style={{
+            color: "#7cc1f9",
+            fontWeight: "bolder",
+            textDecoration: "underline",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            setModalShow2(true);
+          }}
+        >
+          Sign up
+        </span>
+      </p>
     </div>
   );
   // -----------------------------------------------------------------------------------------------
@@ -123,7 +146,7 @@ export default function LoginForm() {
 
       navigate("/room");
     } else if (status !== "Success") {
-      setError("invalid username or password");
+      setError(json["message"]);
       console.log(error);
     }
     // console.log(cookies.get("username")); // Pacman

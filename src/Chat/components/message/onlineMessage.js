@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import "../../Chat.css";
-import DOWN from "../../down1.png";
-import CAMERA from "../../CAMERA.png";
+import DOWN from "../../images/down1.png";
+import CAMERA from "../../images/CAMERA.png";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import MIC from "./mic.png";
 import { BsDownload } from "react-icons/bs";
 import { CHAT_LINK } from "../../../constants";
 import { useNavigate } from "react-router-dom";
-import IMG from "../../logo.png";
+import IMG from "../../images/logo.png";
 import ScrollToBottom from "react-scroll-to-bottom";
 export default function OnlineMessage({
   messageList,
@@ -32,8 +32,6 @@ export default function OnlineMessage({
   top = { top },
   setTop = { setTop },
 }) {
-  const elementRef = useRef(null);
-
   const userId = localStorage.getItem("userId");
   const [drop, setDrop] = useState("");
 
@@ -53,6 +51,8 @@ export default function OnlineMessage({
     setOpen(!open);
     setDrop(e.target.id.split(".")[1]);
   }
+  const scollToRef = useRef();
+
   useEffect(() => {
     /* if (elementRef.current) {
       elementRef.current.scrollIntoView({ behavior: "smooth" });
@@ -112,6 +112,9 @@ export default function OnlineMessage({
       },
       [socket]
     );
+    if (Unread > 0) {
+      scollToRef.current.scrollIntoView();
+    }
   }, [socket]);
   function show(e) {
     setValid(e.target.id.split(".")[1]);
@@ -187,12 +190,12 @@ export default function OnlineMessage({
     );
   }
   return (
-    <ScrollToBottom>
+    <div id="scroll">
       {messageList.map((messageContent) => {
         return (
           <div>
             {firstUnreadMessage === messageContent.messageId ? (
-              <div className="new" id="-1" ref={elementRef}>
+              <div className="new" id="-1" ref={scollToRef}>
                 <hr />
                 <p className="newText">{Unread} new Messages</p>
                 <hr />
@@ -201,14 +204,21 @@ export default function OnlineMessage({
 
             <div
               className="message"
-              ref={Unread === 0 ? elementRef : undefined}
               id={username === messageContent.author ? "you" : "other"}
+
               //    onMouseEnter={show}
               //    onMouseLeave={hide}
             >
               <div
                 id={messageContent.type}
-                className={messageContent.type === "MEDIA" ? "medd" : "med1"}
+                className={
+                  messageContent.type === "MEDIA" ||
+                  messageContent.type === "PNG" ||
+                  messageContent.type === "JPG" ||
+                  messageContent.type === "MP4"
+                    ? "medd"
+                    : "med1"
+                }
               >
                 {messageContent.type === "VOICE" ? (
                   <div className="aud">
@@ -269,7 +279,7 @@ export default function OnlineMessage({
                                   ? CAMERA
                                   : MIC
                               }
-                                  className="im3"
+                              className="im3"
                             />
                             <span>
                               {messageContent.repType === "MEDIA"
@@ -298,7 +308,10 @@ export default function OnlineMessage({
                         !deleted.includes(messageContent.messageId) ? (
                           <br />
                         ) : undefined}
-                        {messageContent.type === "MEDIA" &&
+                        {(messageContent.type === "MEDIA" ||
+                          messageContent.type === "PNG" ||
+                          messageContent.type === "JPG" ||
+                          messageContent.type === "MP4") &&
                         messageContent.type !== "DELETED" &&
                         !deleted.includes(messageContent.messageId) ? (
                           <div
@@ -315,9 +328,14 @@ export default function OnlineMessage({
                             getExtension(
                               messageContent["mediaUrl"]
                             ).toLowerCase() === "jpeg" ? (
-                              <div className="img-size">
-                              style={{ width: "100%" }}
-                                <img src={messageContent["mediaUrl"]} alt ='' />
+                              <div>
+                                <img
+                                  style={{
+                                    width: "100%",
+                                  }}
+                                  src={messageContent["mediaUrl"]}
+                                  alt=""
+                                />
                               </div>
                             ) : undefined}
 
@@ -378,7 +396,7 @@ export default function OnlineMessage({
                       src={DOWN}
                       onClick={handleOpen}
                       id={"im." + messageContent.messageId}
-                      alt=''
+                      alt=""
                     />
                   </button>
                   <ul
@@ -414,7 +432,7 @@ export default function OnlineMessage({
           </div>
         );
       })}
-      </ScrollToBottom>
+    </div>
   );
   async function getAllMessages() {
     console.log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvv");

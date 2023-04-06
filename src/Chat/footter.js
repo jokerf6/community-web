@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import img1 from "./right-arrow (1) 1.png";
-import img2 from "./smiling-face 1.png";
-import img3 from "./upload 1.png";
-import exit from "./exit.png";
+import img2 from "./images/smiling-face 1.png";
+import img3 from "./images/upload 1.png";
+import exit from "./images/exit.png";
 import axios from "axios";
-import MIC from "./mic.png";
-import CAMERA from "./CAMERA.png";
+import MIC from "./images/mic.png";
+import CAMERA from "./images/CAMERA.png";
 import { AudioRecorder, useAudioRecorder } from "react-audio-voice-recorder";
 import "./Chat.css";
-import SEND from "./send.png";
-import REMOVE from "./remove.png";
+import SEND from "./images/send.png";
+import REMOVE from "./images/remove.png";
 import UploadBox from "./components/uploadBox/uploadBox";
 export default function Fotter({
   socket,

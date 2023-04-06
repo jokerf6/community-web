@@ -11,7 +11,7 @@ body {
   text-align: center;
 }
 .medd {
-  width: 30%;
+  max-width: 30%;
 }
 .joinChatContainer h3 {
   font-size: 2.5rem;
@@ -97,6 +97,7 @@ body {
   width: 100%;
   overflow-x: hidden;
 }
+
 .chat-window .chat-body .message-container::-webkit-scrollbar {
   width: 5px;
 }

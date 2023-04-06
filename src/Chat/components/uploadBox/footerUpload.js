@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../../Chat.css";
-import img3 from "../../upload 1.png";
-import exit from "../../exit.png";
-import img2 from "../../smiling-face 1.png";
-import SEND from "../../send.png";
+import exit from "../../images/exit.png";
+import img2 from "../../images/smiling-face 1.png";
+import SEND from "../../images/send.png";
 import axios from "axios";
 import "react-h5-audio-player/lib/styles.css";
 import Picker from "emoji-picker-react";
@@ -35,6 +34,12 @@ function FooterUpload({
   if (chosenEmoji2 !== "") {
     document.getElementById("inp2").value += chosenEmoji2;
     setChosenEmoji2("");
+  }
+  function getExtension(filename) {
+    console.log(filename);
+    if (filename) {
+      return filename.split(".").pop();
+    }
   }
 
   const [file, setFile] = useState();
@@ -119,7 +124,12 @@ function FooterUpload({
       id: userId,
       author: username,
       message: currentMessage,
-      type: "MEDIA",
+      type:
+        getExtension(result["data"]["url"]).toLowerCase() === "png" ||
+        getExtension(result["data"]["url"]).toLowerCase() === "jpg" ||
+        getExtension(result["data"]["url"]).toLowerCase() === "mp4"
+          ? getExtension(result["data"]["url"]).toUpperCase()
+          : "MEDIA",
       mediaUrl: result["data"]["url"],
 
       time:

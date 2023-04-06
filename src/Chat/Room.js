@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
 import io from "socket.io-client";
 import Chat from "./Chat";
-
 import "./Chat.css";
+import { SOCKET } from "../constants";
 
 const userId = localStorage.getItem("userId");
+const socket = io.connect(SOCKET);
 
-const socket = io.connect("https://jobber.prefectjob.com:3000");
 function Room() {
   useEffect(() => {
     socket.on("connect", () => {
       socket.emit("userOnline", userId); // replace with actual user ID
+      console.log("online");
     });
 
     socket.on("disconnect", () => {
@@ -21,8 +22,6 @@ function Room() {
       socket.emit("userOffline", userId); // replace with actual user ID
     };
   }, []);
-  console.log("hjkhjkhjkhjk");
-  console.log(localStorage.getItem("role"));
   return (
     <div className="chatContainer">
       <Chat socket={socket} />
