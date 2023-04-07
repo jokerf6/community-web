@@ -71,7 +71,7 @@ export default function OnlineMessage({
           setUnread(data["unReadNumber"]);
           if (!("Notification" in window)) {
             alert("This browser does not support system notifications!");
-          } else if (Notification.permission === "granted") {
+          } else {
             const notification = new Notification(
               "New message from Community",
               {
@@ -84,22 +84,6 @@ export default function OnlineMessage({
               function () {
                 window.open("http://localhost:3000/room");
               };
-          } else if (Notification.permission !== "denied") {
-            Notification.requestPermission((permission) => {
-              if (permission === "granted") {
-                const notification = new Notification(
-                  "New message from Community",
-                  {
-                    icon: IMG,
-                    body: data.body,
-                  }
-                );
-                notification.onclick = () =>
-                  function () {
-                    window.open("http://localhost:3000/room");
-                  };
-              }
-            });
           }
         }
         if (data["resId"] === userId && data["unReadNumber"] === 1) {
@@ -122,8 +106,6 @@ export default function OnlineMessage({
   function hide() {
     setValid("");
   }
-
-  console.log(document.getElementById("scroll"));
 
   window.addEventListener("click", function (e) {
     if (
@@ -215,6 +197,7 @@ export default function OnlineMessage({
                   messageContent.type === "MEDIA" ||
                   messageContent.type === "PNG" ||
                   messageContent.type === "JPG" ||
+                  messageContent.type === "JPEG" ||
                   messageContent.type === "MP4"
                     ? "medd"
                     : "med1"
@@ -311,6 +294,7 @@ export default function OnlineMessage({
                         {(messageContent.type === "MEDIA" ||
                           messageContent.type === "PNG" ||
                           messageContent.type === "JPG" ||
+                          messageContent.type === "JPEG" ||
                           messageContent.type === "MP4") &&
                         messageContent.type !== "DELETED" &&
                         !deleted.includes(messageContent.messageId) ? (

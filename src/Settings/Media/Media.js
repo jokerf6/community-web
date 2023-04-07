@@ -35,7 +35,7 @@ export default function Media() {
         setMedia((prevState) => [...prevState, ...data.data.media]);
         // setMedia(data.data.media);
         // setMedia((list) => [...data.data.media, ...list]);
-			  // setMedia((prevState) => [...prevState, data.data.media]);
+        // setMedia((prevState) => [...prevState, data.data.media]);
         setNumberOfMedia(data.data.allMedia);
       })
       .catch((err) => {
@@ -64,16 +64,22 @@ export default function Media() {
             <div className="media">
               {media.map((photo) => (
                 <div>
-                  {
-                    (getExtension(photo.mediaUrl).toLowerCase() === "png" ||
-                      getExtension(photo.mediaUrl).toLowerCase() === "jpg" ||
-                      getExtension(photo.mediaUrl).toLowerCase() === "jpeg")
-                    && (
+                  {getExtension(photo.mediaUrl).toLowerCase() === "png" ||
+                  getExtension(photo.mediaUrl).toLowerCase() === "jpg" ||
+                  getExtension(photo.mediaUrl).toLowerCase() === "jpeg" ? (
                     <img
                       src={photo.mediaUrl}
                       className="setting-image"
                       alt=""
                     />
+                  ) : (
+                    getExtension(photo.mediaUrl).toLowerCase() === "mp4" || (
+                      <video
+                        src={photo.mediaUrl}
+                        className="setting-image"
+                        alt=""
+                      />
+                    )
                   )}
                 </div>
               ))}
@@ -84,4 +90,3 @@ export default function Media() {
     </>
   );
 }
-

@@ -71,7 +71,7 @@ const Sidebar = ({ cls }) => {
                 Community Settings
               </CDBSidebarMenuItem>
               <CDBSidebarMenuItem
-                icon="cog"
+                icon="columns"
                 className={isActive4 ? "colored" : ""}
                 onClick={handleClick4}
               >

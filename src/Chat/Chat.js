@@ -113,6 +113,7 @@ function Chat({ socket }) {
                 mode="bottom"
                 id="scroll"
                 className="message-container"
+
                 // scrollViewClassName="class-scroll"
                 // onScroll={scroll}
               >

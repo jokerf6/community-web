@@ -127,6 +127,7 @@ function FooterUpload({
       type:
         getExtension(result["data"]["url"]).toLowerCase() === "png" ||
         getExtension(result["data"]["url"]).toLowerCase() === "jpg" ||
+        getExtension(result["data"]["url"]).toLowerCase() === "jpeg" ||
         getExtension(result["data"]["url"]).toLowerCase() === "mp4"
           ? getExtension(result["data"]["url"]).toUpperCase()
           : "MEDIA",

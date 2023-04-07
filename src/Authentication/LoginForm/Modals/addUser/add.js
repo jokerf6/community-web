@@ -50,10 +50,12 @@ export default function Add({ modalShow2, setModalShow2 }) {
           onClick={async () => {
             setLoading(true);
             //setModalShow2(false);
-            const currentDate = new Date();
+
+            const date = new Date();
+            date.setDate(date.getDate() + 30);
             const person = {
               number: number,
-              extendDate: currentDate,
+              extendDate: date,
             };
             let requestJson = JSON.stringify(person);
 
