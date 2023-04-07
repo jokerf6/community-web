@@ -6,20 +6,14 @@ import { Toast } from "react-bootstrap";
 import "./Modal.css";
 import "react-calendar/dist/Calendar.css";
 
-export default function Extend({ show, onHide, id }) {
+export default function Extend({ show, onHide, id, setFetchAgin }) {
   const [value, onChange] = useState(new Date());
   const [toast, setToast] = useState(false);
   const [error, setError] = useState("");
-
-  // console.log(date);
-  // console.log(id);
   const myHeaders = new Headers({
     "Content-Type": "application/json",
     Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
   });
-  // useEffect(() => {
-  //     ExtendUser();
-  // }, [])
   function ExtendUser() {
     const date = new Date();
     const date2 = new Date(value);
@@ -51,6 +45,8 @@ export default function Extend({ show, onHide, id }) {
       .catch((err) => {
         console.log(err);
       });
+    setFetchAgin((prevState) => !prevState);
+    
   }
   return (
     <Modal
@@ -59,6 +55,7 @@ export default function Extend({ show, onHide, id }) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
       onHide={() => onHide}
+      className="modal"
     >
       <Toast onClose={() => setToast(false)} show={toast} delay={3000} autohide>
         <Toast.Header>

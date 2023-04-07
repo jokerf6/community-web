@@ -9,7 +9,9 @@ export default function End({
   number,
   onHide,
   id,
+  setFetchAgin,
 }) {
+  
   const myHeaders = new Headers({
     "Content-Type": "application/json",
     Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
@@ -26,29 +28,8 @@ export default function End({
       .catch((err) => {
         console.log(err);
       });
-    const filter = allUsers.filter((x) => {
-      return x["id"] === id;
-    });
-    const data = allUsers;
-    const index = data.indexOf(filter[0]);
-    console.log(data[index]);
-    const date = new Date();
-    var now_utc = Date.UTC(
-      date.getUTCFullYear(),
-      date.getUTCMonth(),
-      date.getUTCDate(),
-      date.getUTCHours(),
-      date.getUTCMinutes(),
-      date.getUTCSeconds()
-    );
-    const convertedDate = new Date(now_utc);
-    data[index]["active"] = false;
-    data[index]["extend"] = convertedDate.toISOString();
-    setAllUsers([...data]);
+    setFetchAgin((prevState) => !prevState);
   }
-  useEffect(() => {
-    // EndSession();
-  }, []);
   return (
     <Modal
       show={show}
@@ -57,7 +38,7 @@ export default function End({
       centered
       className="modal"
     >
-      <Modal.Body className="body-modal">
+      <Modal.Body className="body-modal" style={{padding:'10%'}}>
         <h4>Are You Sure ?</h4>
         <p className="paragraph">You want to end session for this user</p>
         <p className="end-number">{number}</p>

@@ -20,7 +20,6 @@ export default function Participants() {
   const [inputText, setInputText] = useState("");
   const [allUsers, setAllUsers] = useState([]);
 
-  const URL = "http://127.0.0.1:4001/user/all";
   const myHeaders = new Headers({
     "Content-Type": "application/json",
     Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
@@ -54,6 +53,12 @@ export default function Participants() {
       });
     setloading(false);
   }
+  const [fetchAgin, setFetchAgin] = useState(false);  
+  useEffect(() => {
+    getAllUsers();
+  }, [fetchAgin])
+
+
   let inputHandler = (e) => {
     var lowerCase = e.target.value.toLowerCase();
     setInputText(lowerCase);
@@ -107,7 +112,7 @@ export default function Participants() {
 
           <div className="users">
             {filteredData
-              .filter((user) => user.role === "ADMIN")
+              .filter((user) => user.role === "ADMIN" && user.active === true)
               .map((user) => (
                 <Row style={{ display: "flex", alignItems: "center" }}>
                   <Col
@@ -127,7 +132,6 @@ export default function Participants() {
                           const data = filteredData;
                           const index = data.indexOf(user);
                           data[index]["role"] = "USER";
-
                           setAllUsers(data);
                           changeRole(user.id);
                         }}
@@ -145,12 +149,6 @@ export default function Participants() {
                     >
                       End session
                     </button>
-                    <End
-                      number={number}
-                      id={id}
-                      show={modalShow2}
-                      onHide={() => setModalShow2(false)}
-                    />
                   </Col>
                 </Row>
               ))}
@@ -175,11 +173,28 @@ export default function Participants() {
                       </p>
                     </div>
                     <div className="star-div">
-                      <IoStarOutline className="full-star" />
+                      <IoStarOutline
+                        className="full-star"
+                        onClick={() => {
+                          const data = filteredData;
+                          const index = data.indexOf(user);
+                          data[index]["role"] = "ADMIN";
+                          setAllUsers(data);
+                          changeRole(user.id);
+                        }}
+                      />
                     </div>
                   </Col>
                   <Col lg={2}>
-                    <button className="extend">Extend</button>
+                    <button
+                      className="extend"
+                      onClick={() => {
+                        setModalExtend(true);
+                        setId(user.id);
+                      }}
+                    >
+                      Extend
+                    </button>
                   </Col>
                   <Col lg={2}>
                     <button
@@ -192,12 +207,6 @@ export default function Participants() {
                     >
                       End session
                     </button>
-                    <End
-                      show={modalShow2}
-                      onHide={() => setModalShow2(false)}
-                      number={number}
-                      id={id}
-                    />
                   </Col>
                 </Row>
               ))}
@@ -238,15 +247,23 @@ export default function Participants() {
                     >
                       Extend
                     </button>
-                    <Extend
-                      show={modalExtend}
-                      onHide={() => setModalExtend(false)}
-                      id={id}
-                    />
                   </Col>
                 </Row>
               ))}
-          </div>
+            </div>
+            <End
+              show={modalShow2}
+              onHide={() => setModalShow2(false)}
+              number={number}
+              id={id}
+              setFetchAgin = {setFetchAgin}
+            />
+            <Extend
+              show={modalExtend}
+              onHide={() => setModalExtend(false)}
+              setFetchAgin = {setFetchAgin}
+              id={id}
+            />
         </div>
       )}
     </>

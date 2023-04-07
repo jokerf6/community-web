@@ -20,13 +20,22 @@ export default function Media() {
   }, []);
 
   function getMedia() {
-    fetch(URL + `?take=${{}}&skip=${numberOfMedia}`, {
+    let rem = numberOfMedia - media.length;
+    if (rem >= 6 || rem === 0) {
+      rem = 6;
+    }
+    console.log(rem);
+    console.log(media);
+    fetch(URL + `?take=${rem}&skip=${media.length}`, {
       method: "GET",
       headers: myHeaders,
     })
       .then((response) => response.json())
       .then((data) => {
-        setMedia(data.data.media);
+        setMedia((prevState) => [...prevState, ...data.data.media]);
+        // setMedia(data.data.media);
+        // setMedia((list) => [...data.data.media, ...list]);
+			  // setMedia((prevState) => [...prevState, data.data.media]);
         setNumberOfMedia(data.data.allMedia);
       })
       .catch((err) => {
@@ -34,7 +43,6 @@ export default function Media() {
       });
     setloading(false);
   }
-
   return (
     <>
       {loading ? (
@@ -56,9 +64,11 @@ export default function Media() {
             <div className="media">
               {media.map((photo) => (
                 <div>
-                  {(getExtension(photo.mediaUrl).toLowerCase() === "png" ||
-                    getExtension(photo.mediaUrl).toLowerCase() === "jpg" ||
-                    getExtension(photo.mediaUrl).toLowerCase() === "jpeg") && (
+                  {
+                    (getExtension(photo.mediaUrl).toLowerCase() === "png" ||
+                      getExtension(photo.mediaUrl).toLowerCase() === "jpg" ||
+                      getExtension(photo.mediaUrl).toLowerCase() === "jpeg")
+                    && (
                     <img
                       src={photo.mediaUrl}
                       className="setting-image"
@@ -74,3 +84,4 @@ export default function Media() {
     </>
   );
 }
+
