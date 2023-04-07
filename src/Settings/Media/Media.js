@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Media.css";
 import load from "../../Chat/images/load.gif";
 export default function Media() {
@@ -10,19 +10,31 @@ export default function Media() {
     "Content-Type": "application/json",
     Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
   });
-  function getExtension(filename) {
-    if (filename) {
-      return filename.split(".").pop();
-    }
-  }
+  const [isAtEnd, setIsAtEnd] = useState(false);
   useEffect(() => {
-    getMedia();
+    function handleScroll() {
+			const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+			const scrolled = window.scrollY;
+			if (scrolled === scrollable) {
+        setIsAtEnd(true);
+        getMedia();
+				console.log('End');
+      }
+      else {
+        setIsAtEnd(false);
+        // getMedia();
+        console.log('not yet');
+			}
+		}
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  
 
   function getMedia() {
     let rem = numberOfMedia - media.length;
-    if (rem >= 6 || rem === 0) {
-      rem = 6;
+    if (rem >= 9 || rem === 0) {
+      rem = 9;
     }
     console.log(rem);
     console.log(media);
@@ -33,9 +45,6 @@ export default function Media() {
       .then((response) => response.json())
       .then((data) => {
         setMedia((prevState) => [...prevState, ...data.data.media]);
-        // setMedia(data.data.media);
-        // setMedia((list) => [...data.data.media, ...list]);
-			  // setMedia((prevState) => [...prevState, data.data.media]);
         setNumberOfMedia(data.data.allMedia);
       })
       .catch((err) => {
@@ -65,16 +74,12 @@ export default function Media() {
               {media.map((photo) => (
                 <div>
                   {
-                    (getExtension(photo.mediaUrl).toLowerCase() === "png" ||
-                      getExtension(photo.mediaUrl).toLowerCase() === "jpg" ||
-                      getExtension(photo.mediaUrl).toLowerCase() === "jpeg")
-                    && (
                     <img
                       src={photo.mediaUrl}
                       className="setting-image"
                       alt=""
                     />
-                  )}
+                  }
                 </div>
               ))}
             </div>
