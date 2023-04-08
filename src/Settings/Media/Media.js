@@ -6,6 +6,8 @@ export default function Media() {
   const [media, setMedia] = useState([]);
   const [loading, setloading] = useState(true);
   const [numberOfMedia, setNumberOfMedia] = useState();
+  const [ScrollLoading, setScrollLoading] = useState();
+
   const myHeaders = new Headers({
     "Content-Type": "application/json",
     Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
@@ -19,28 +21,28 @@ export default function Media() {
     getMedia();
   }, []);
 
-  function getMedia() {
+  async function getMedia() {
     let rem = numberOfMedia - media.length;
-    if (rem >= 6 || rem === 0) {
-      rem = 6;
-    }
+
     console.log(rem);
     console.log(media);
-    fetch(URL + `?take=${rem}&skip=${media.length}`, {
-      method: "GET",
-      headers: myHeaders,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setMedia((prevState) => [...prevState, ...data.data.media]);
-        // setMedia(data.data.media);
-        // setMedia((list) => [...data.data.media, ...list]);
-        // setMedia((prevState) => [...prevState, data.data.media]);
-        setNumberOfMedia(data.data.allMedia);
+    if (rem !== 0) {
+      await fetch(URL + `?take=${Math.min(rem, 15)}&skip=${media.length}`, {
+        method: "GET",
+        headers: myHeaders,
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          setMedia((prevState) => [...prevState, ...data.data.media]);
+          // setMedia(data.data.media);
+          // setMedia((list) => [...data.data.media, ...list]);
+          // setMedia((prevState) => [...prevState, data.data.media]);
+          setNumberOfMedia(data.data.allMedia);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
     setloading(false);
   }
   return (
@@ -61,7 +63,31 @@ export default function Media() {
           {media.length === 0 ? (
             <p className="noData">There are no people in the waiting list</p>
           ) : (
-            <div className="media">
+            <div
+              className="media"
+              onScroll={async (e) => {
+                const all = e.target.scrollHeight - e.target.clientHeight;
+                const current = e.target.scrollTop;
+                const percent = parseInt((current / all) * 100);
+                console.log(percent);
+                if (
+                  percent > 90 &&
+                  !ScrollLoading &&
+                  numberOfMedia !== media.length
+                ) {
+                  console.log("yes");
+                  setScrollLoading(true);
+                  await getMedia();
+
+                  setScrollLoading(false);
+                  console.log(
+                    "--------------------------------------------------"
+                  );
+                  e.target.scrollTo(0, all / 2);
+                  console.log(e.target);
+                }
+              }}
+            >
               {media.map((photo) => (
                 <div>
                   {getExtension(photo.mediaUrl).toLowerCase() === "png" ||

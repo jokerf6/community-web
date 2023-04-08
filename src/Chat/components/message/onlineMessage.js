@@ -9,8 +9,9 @@ import { BsDownload } from "react-icons/bs";
 import { CHAT_LINK } from "../../../constants";
 import { useNavigate } from "react-router-dom";
 import IMG from "../../images/logo.png";
-import ScrollToBottom from "react-scroll-to-bottom";
+import ScrollToBottom, { useScrollToBottom } from "react-scroll-to-bottom";
 export default function OnlineMessage({
+  atTop,
   messageList,
   username,
   newmessageList,
@@ -29,8 +30,9 @@ export default function OnlineMessage({
   numerOfMessages,
   setMessageList,
   setNumerOfMessages,
-  top = { top },
-  setTop = { setTop },
+  top,
+  setTop,
+  setScroll,
 }) {
   const userId = localStorage.getItem("userId");
   const [drop, setDrop] = useState("");
@@ -52,8 +54,11 @@ export default function OnlineMessage({
     setDrop(e.target.id.split(".")[1]);
   }
   const scollToRef = useRef();
+  const lastDivRef = useRef();
 
   useEffect(() => {
+    console.log(lastDivRef.current);
+
     /* if (elementRef.current) {
       elementRef.current.scrollIntoView({ behavior: "smooth" });
     }*/
@@ -68,6 +73,7 @@ export default function OnlineMessage({
           console.log(data);
         }
         if (data["resId"] === userId && data["unReadNumber"] > 0) {
+          setScroll(true);
           setUnread(data["unReadNumber"]);
           if (!("Notification" in window)) {
             alert("This browser does not support system notifications!");
@@ -90,16 +96,23 @@ export default function OnlineMessage({
           setFirstUnreadMessage(data["unReadNumberId"]);
           setUnread(data["unReadNumber"]);
         } else if (data["resId"] === userId && data["unReadNumber"] === 0) {
+          setScroll(false);
           setFirstUnreadMessage("");
           setUnread(0);
         }
       },
       [socket]
     );
+    console.log("spoposps");
+    console.log(scollToRef);
     if (Unread > 0) {
       scollToRef.current.scrollIntoView();
+    } else if (Unread === 0 && lastDivRef.current) {
+      lastDivRef.current.scrollIntoView();
     }
+    setScroll(true);
   }, [socket]);
+
   function show(e) {
     setValid(e.target.id.split(".")[1]);
   }
@@ -119,7 +132,9 @@ export default function OnlineMessage({
       }
     }
   });
-
+  if (document.getElementById("scroll")) {
+    console.log(document.getElementById("scroll").offsetHeight);
+  }
   function replay(e) {
     if (
       e.target.parentNode.parentNode.parentNode.parentNode.children[0].id ===
@@ -152,6 +167,7 @@ export default function OnlineMessage({
       return filename.split(".").pop();
     }
   }
+
   function SplitFunction(filename) {
     if (filename) {
       return filename.split("uploads/").pop().split("-")[0];
@@ -171,9 +187,10 @@ export default function OnlineMessage({
       }
     );
   }
+
   return (
-    <div id="scroll">
-      {messageList.map((messageContent) => {
+    <div>
+      {messageList.map((messageContent, i) => {
         return (
           <div>
             {firstUnreadMessage === messageContent.messageId ? (
@@ -412,50 +429,11 @@ export default function OnlineMessage({
                   </ul>
                 </div>
               ) : undefined}
+              <p ref={lastDivRef}></p>
             </div>
           </div>
         );
       })}
     </div>
   );
-  async function getAllMessages() {
-    console.log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
-    console.log(
-      Math.min(numerOfMessages - messageList.length, 15),
-      messageList.length
-    );
-    const myHeaders = new Headers({
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
-    });
-
-    await fetch(
-      CHAT_LINK +
-        `?take=${Math.min(numerOfMessages - messageList.length, 15)}&skip=${
-          messageList.length
-        }`,
-      {
-        method: "GET",
-        headers: myHeaders,
-      }
-    )
-      .then((response) => response.json())
-      .then((json) => {
-        if (json.message === "Unauthorized") {
-          navigate("/login");
-        } else {
-          if (json.data[["AllMessage"]][0].unReadNumber > 0) {
-            setUnread(json.data["AllMessage"][0].unReadNumber);
-            setFirstUnreadMessage(json.data["AllMessage"][0].unReadNumberId);
-          }
-          console.log(json.data["AllMessage"]);
-          setMessageList((list) => [...json.data["AllMessage"], ...list]);
-          console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
-          console.log(json.data["AllMessage"]);
-          setNumerOfMessages(json.data["numberOfMessages"]);
-          document.getElementById("scroll").scrollTo(0, 0);
-          setLoad(false);
-        }
-      });
-  }
 }

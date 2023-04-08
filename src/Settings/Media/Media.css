@@ -8,10 +8,6 @@
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
 }
 
-.media::-webkit-scrollbar {
-  display: none;
-}
-
 .setting-image {
   width: 100%;
   height: 250px;

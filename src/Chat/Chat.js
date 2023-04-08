@@ -9,10 +9,10 @@ import Picker from "emoji-picker-react";
 import Notification from "./components/message/toast";
 import { CHAT_LINK, LOGOUT_LINK } from "../constants";
 import LOAD from "./images/load.gif";
-import ScrollToBottom from "react-scroll-to-bottom";
-
+import ScrollToBottom, { useAtTop } from "react-scroll-to-bottom";
 function Chat({ socket }) {
   // const divRef = useRef();
+
   const username = localStorage.getItem("number");
   const userId = localStorage.getItem("userId");
   const role = localStorage.getItem("role");
@@ -30,7 +30,8 @@ function Chat({ socket }) {
   const [numerOfMessages, setNumerOfMessages] = useState(0);
   const [top, setTop] = React.useState(0);
   const [lock, setLock] = React.useState(false);
-
+  const [scroll, setScroll] = React.useState(true);
+  const [ScrollLoading, setScrollLoading] = React.useState(false);
   // Use the scrollToPercent function to scroll to 50% of the scrollable area
   const navigate = useNavigate();
   const handleGoToSetting = () => {
@@ -57,7 +58,7 @@ function Chat({ socket }) {
       }
     });
   }, [socket]);
-
+  //
   const onEmojiClick = (event) => {
     setChosenEmoji(event.emoji);
   };
@@ -78,11 +79,33 @@ function Chat({ socket }) {
             </button>
           </div>
           <div className={!rep ? "chat-body chat-window2" : "chat-body"}>
-            {Unread > 0 ? (
+            {scroll ? (
               <div
                 mode="bottom"
                 id="scroll"
                 className="message-container"
+                onScroll={async (e) => {
+                  const all = e.target.scrollHeight - e.target.clientHeight;
+                  const current = e.target.scrollTop;
+                  const percent = parseInt((current / all) * 100);
+                  console.log(percent);
+                  if (
+                    percent < 10 &&
+                    !ScrollLoading &&
+                    numerOfMessages !== messageList.length
+                  ) {
+                    console.log("yes");
+                    setScrollLoading(true);
+                    await getAllMessages();
+
+                    setScrollLoading(false);
+                    console.log(
+                      "--------------------------------------------------"
+                    );
+                    e.target.scrollTo(0, all / 2);
+                    console.log(e.target);
+                  }
+                }}
                 // scrollViewClassName="class-scroll"
                 // onScroll={scroll}
               >
@@ -106,6 +129,7 @@ function Chat({ socket }) {
                   setNumerOfMessages={setNumerOfMessages}
                   top={top}
                   setTop={setTop}
+                  setScroll={setScroll}
                 />
               </div>
             ) : (
@@ -113,9 +137,7 @@ function Chat({ socket }) {
                 mode="bottom"
                 id="scroll"
                 className="message-container"
-
                 // scrollViewClassName="class-scroll"
-                // onScroll={scroll}
               >
                 <OnlineMessage
                   messageList={messageList}
@@ -137,6 +159,7 @@ function Chat({ socket }) {
                   setNumerOfMessages={setNumerOfMessages}
                   top={top}
                   setTop={setTop}
+                  setScroll={setScroll}
                 />
               </ScrollToBottom>
             )}
@@ -181,9 +204,7 @@ function Chat({ socket }) {
       )}
     </>
   );
-
   async function getAllMessages() {
-    console.log("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
     const myHeaders = new Headers({
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
@@ -191,9 +212,10 @@ function Chat({ socket }) {
 
     await fetch(
       CHAT_LINK +
-        `?take=${Math.min(numerOfMessages - messageList.length, 15)}&skip=${
-          messageList.length
-        }`,
+        `?take=${Math.max(
+          Math.min(numerOfMessages - messageList.length, 15),
+          Unread
+        )}&skip=${messageList.length}`,
       {
         method: "GET",
         headers: myHeaders,
