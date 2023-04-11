@@ -26,7 +26,7 @@ export default function Extend({ show, onHide, id, setFetchAgin }) {
       extendDate: date2,
     };
     console.log(item);
-    fetch(`http://127.0.0.1:4001/user/${id}/extendDate`, {
+    fetch(`http://148.72.245.122:4001/user/${id}/extendDate`, {
       method: "PATCH",
       headers: myHeaders,
       body: JSON.stringify(item),

@@ -338,7 +338,7 @@ export default function Fotter({
     formData.append("file", audiofile);
 
     const result = await axios.post(
-      `http://127.0.0.1:4001/upload/file`,
+      `http://148.72.245.122:4001/upload/file`,
       formData,
       {
         crossDomain: true,

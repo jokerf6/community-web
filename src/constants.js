@@ -1,6 +1,6 @@
 /**********Server***********/
-export const SERVER = "http://127.0.0.1:4001";
-export const SOCKET = "http://127.0.0.1:5000";
+export const SERVER = "http://148.72.245.122:4001";
+export const SOCKET = "http://148.72.245.122:5000";
 
 /**********Authentication***********/
 export const SIGNIN_LINK = `${SERVER}/auth/signin`;
