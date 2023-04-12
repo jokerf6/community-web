@@ -400,11 +400,14 @@ export default function OnlineMessage({
                       alt=""
                     />
                   </button>
+                  {
+                    username === messageContent.author ?
                   <ul
                     className="menu"
                     hidden={true}
                     id={"menu." + messageContent.messageId}
                   >
+                   
                     <li className="menu-item" id={messageContent.messageId}>
                       <button
                         onClick={replay}
@@ -427,6 +430,25 @@ export default function OnlineMessage({
                       </button>
                     </li>
                   </ul>
+                  :
+                  <ul
+                    className="menu"
+                    hidden={true}
+                    id={"menu." + messageContent.messageId}
+                  >
+                   
+                    <li className="menu-item" id={messageContent.messageId}>
+                      <button
+                        onClick={replay}
+                        type="button"
+                        id={messageContent.messageId}
+                      >
+                        Replay
+                      </button>
+                    </li>
+             
+                  </ul>
+              }
                 </div>
               ) : undefined}
               <p ref={lastDivRef}></p>
