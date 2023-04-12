@@ -35,7 +35,7 @@ function Chat({ socket }) {
   // Use the scrollToPercent function to scroll to 50% of the scrollable area
   const navigate = useNavigate();
   const handleGoToSetting = () => {
-    navigate("/settings");
+    navigate("/Layout");
   };
   useEffect(() => {
     if (messageList.length === 0) {
