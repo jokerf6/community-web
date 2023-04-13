@@ -17,7 +17,7 @@ export default function End({
     Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
   });
   async function EndSession() {
-    await fetch(`http://148.72.245.122:4001/user/${id}/endSession`, {
+    await fetch(`https://thestockideas.com/api/v1/user/${id}/endSession`, {
       method: "GET",
       headers: myHeaders,
     })

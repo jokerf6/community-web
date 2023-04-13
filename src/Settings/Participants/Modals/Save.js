@@ -18,7 +18,7 @@ function CalendarModal({ setAllUsers, show, number, setShow, allUsers, onHide, O
 
 
   console.log(date);
-  const URL = "http://148.72.245.122:4001/user/add";
+  const URL = "https://thestockideas.com/api/v1/user/add";
 
   const myHeaders = new Headers({
     "Content-Type": "application/json",

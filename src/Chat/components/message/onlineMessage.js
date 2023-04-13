@@ -175,7 +175,7 @@ export default function OnlineMessage({
   }
   async function download(id, name) {
     await fetch(
-      `http://148.72.245.122:4001/api/v1/downloads/uploads/${id}`
+      `https://thestockideas.com/api/v1/api/v1/downloads/uploads/${id}`
     ).then((response) => {
       response.blob().then((blob) => {
         let url = window.URL.createObjectURL(blob);

@@ -109,7 +109,7 @@ function FooterUpload({
     formData.append("file", notUploadedFile);
 
     const result = await axios.post(
-      `http://148.72.245.122:4001/upload/file`,
+      `https://thestockideas.com/api/v1/upload/file`,
       formData,
       {
         crossDomain: true,

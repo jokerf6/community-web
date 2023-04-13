@@ -1,6 +1,6 @@
 /**********Server***********/
-export const SERVER = "http://148.72.245.122:4001";
-export const SOCKET = "http://148.72.245.122:5000";
+export const SERVER = "https://thestockideas.com/api/v1";
+export const SOCKET = "https://thestockideas.com/ws";
 
 /**********Authentication***********/
 export const SIGNIN_LINK = `${SERVER}/auth/signin`;

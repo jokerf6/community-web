@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Community.css";
 
 export default function Community() {
-  const URL = "http://148.72.245.122:4001/changeDefaultPassword";
+  const URL = "https://thestockideas.com/api/v1/changeDefaultPassword";
   const [userPassword, setUser] = useState("");
   const [rootPassword, setRoot] = useState("");
   const myHeaders = new Headers({
@@ -12,6 +12,7 @@ export default function Community() {
 
   useEffect(() => {
     getUser();
+
   }, []);
 
   function getUser() {
