@@ -6,7 +6,8 @@ import { SOCKET } from "../constants";
 
 const userId = localStorage.getItem("userId");
 const socket = io.connect(SOCKET);
-
+console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+console.log(socket)
 function Room() {
   useEffect(() => {
     socket.on("connect", () => {

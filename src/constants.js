@@ -1,6 +1,6 @@
 /**********Server***********/
 export const SERVER = "https://thestockideas.com/api/v1";
-export const SOCKET = "https://thestockideas.com/ws";
+export const SOCKET = "https://thestockideas.com/socket.io";
 
 /**********Authentication***********/
 export const SIGNIN_LINK = `${SERVER}/auth/signin`;
