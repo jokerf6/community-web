@@ -10,6 +10,7 @@ import "./Chat.css";
 import SEND from "./images/send.png";
 import REMOVE from "./images/remove.png";
 import UploadBox from "./components/uploadBox/uploadBox";
+import { UPLOAD_LINK } from "../constants";
 export default function Fotter({
   socket,
   username,
@@ -337,13 +338,9 @@ export default function Fotter({
 
     formData.append("file", audiofile);
 
-    const result = await axios.post(
-      `https://thestockideas.com/api/v1/upload/file`,
-      formData,
-      {
-        crossDomain: true,
-      }
-    );
+    const result = await axios.post(UPLOAD_LINK, formData, {
+      crossDomain: true,
+    });
     console.log(result["data"]);
     console.log("yessssssssssssssss");
 

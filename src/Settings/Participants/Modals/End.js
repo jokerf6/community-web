@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import "./Modal.css";
+import { CHANGEROLE_LINK } from "../../../constants";
 
 export default function End({
   allUsers,
@@ -11,13 +12,12 @@ export default function End({
   id,
   setFetchAgin,
 }) {
-  
   const myHeaders = new Headers({
     "Content-Type": "application/json",
     Authorization: `Bearer ${localStorage.getItem("Access Token")}`,
   });
   async function EndSession() {
-    await fetch(`https://thestockideas.com/api/v1/user/${id}/endSession`, {
+    await fetch(CHANGEROLE_LINK + `/${id}/endSession`, {
       method: "GET",
       headers: myHeaders,
     })
@@ -38,7 +38,7 @@ export default function End({
       centered
       className="modal"
     >
-      <Modal.Body className="body-modal" style={{padding:'10%'}}>
+      <Modal.Body className="body-modal" style={{ padding: "10%" }}>
         <h4>Are You Sure ?</h4>
         <p className="paragraph">You want to end session for this user</p>
         <p className="end-number">{number}</p>

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./Community.css";
+import { DEDAULT_PASSWORD_LINK } from "../../constants";
 
 export default function Community() {
-  const URL = "https://thestockideas.com/api/v1/changeDefaultPassword";
+  const URL = DEDAULT_PASSWORD_LINK;
   const [userPassword, setUser] = useState("");
   const [rootPassword, setRoot] = useState("");
   const myHeaders = new Headers({
@@ -12,7 +13,6 @@ export default function Community() {
 
   useEffect(() => {
     getUser();
-
   }, []);
 
   function getUser() {

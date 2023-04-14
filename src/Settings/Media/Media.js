@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./Media.css";
 import load from "../../Chat/images/load.gif";
+import { MEDIA_LINK } from "../../constants";
 export default function Media() {
-  const URL = "https://thestockideas.com/api/v1/media";
+  const URL = MEDIA_LINK;
   const [media, setMedia] = useState([]);
   const [loading, setloading] = useState(true);
   const [numberOfMedia, setNumberOfMedia] = useState();

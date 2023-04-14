@@ -6,7 +6,7 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import MIC from "./mic.png";
 import { BsDownload } from "react-icons/bs";
-import { CHAT_LINK } from "../../../constants";
+import { CHAT_LINK, DOWNLOAD_LINK } from "../../../constants";
 import { useNavigate } from "react-router-dom";
 import IMG from "../../images/logo.png";
 import ScrollToBottom, { useScrollToBottom } from "react-scroll-to-bottom";
@@ -174,9 +174,7 @@ export default function OnlineMessage({
     }
   }
   async function download(id, name) {
-    await fetch(
-      `https://thestockideas.com/api/v1/api/v1/downloads/uploads/${id}`
-    ).then((response) => {
+    await fetch(DOWNLOAD_LINK + `/${id}`).then((response) => {
       response.blob().then((blob) => {
         let url = window.URL.createObjectURL(blob);
         let a = document.createElement("a");
@@ -400,55 +398,51 @@ export default function OnlineMessage({
                       alt=""
                     />
                   </button>
-                  {
-                    username === messageContent.author ?
-                  <ul
-                    className="menu"
-                    hidden={true}
-                    id={"menu." + messageContent.messageId}
-                  >
-                   
-                    <li className="menu-item" id={messageContent.messageId}>
-                      <button
-                        onClick={replay}
-                        type="button"
-                        id={messageContent.messageId}
-                      >
-                        Replay
-                      </button>
-                    </li>
-                    <li
-                      className="menu-item"
-                      id={"delete." + messageContent.messageId}
+                  {username === messageContent.author ? (
+                    <ul
+                      className="menu"
+                      hidden={true}
+                      id={"menu." + messageContent.messageId}
                     >
-                      <button
-                        onClick={(e) =>
-                          socket.emit("delete", messageContent.messageId)
-                        }
+                      <li className="menu-item" id={messageContent.messageId}>
+                        <button
+                          onClick={replay}
+                          type="button"
+                          id={messageContent.messageId}
+                        >
+                          Replay
+                        </button>
+                      </li>
+                      <li
+                        className="menu-item"
+                        id={"delete." + messageContent.messageId}
                       >
-                        Delete
-                      </button>
-                    </li>
-                  </ul>
-                  :
-                  <ul
-                    className="menu"
-                    hidden={true}
-                    id={"menu." + messageContent.messageId}
-                  >
-                   
-                    <li className="menu-item" id={messageContent.messageId}>
-                      <button
-                        onClick={replay}
-                        type="button"
-                        id={messageContent.messageId}
-                      >
-                        Replay
-                      </button>
-                    </li>
-             
-                  </ul>
-              }
+                        <button
+                          onClick={(e) =>
+                            socket.emit("delete", messageContent.messageId)
+                          }
+                        >
+                          Delete
+                        </button>
+                      </li>
+                    </ul>
+                  ) : (
+                    <ul
+                      className="menu"
+                      hidden={true}
+                      id={"menu." + messageContent.messageId}
+                    >
+                      <li className="menu-item" id={messageContent.messageId}>
+                        <button
+                          onClick={replay}
+                          type="button"
+                          id={messageContent.messageId}
+                        >
+                          Replay
+                        </button>
+                      </li>
+                    </ul>
+                  )}
                 </div>
               ) : undefined}
               <p ref={lastDivRef}></p>

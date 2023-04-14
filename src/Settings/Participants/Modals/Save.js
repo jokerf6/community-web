@@ -6,19 +6,27 @@ import "./Modal.css";
 import "react-calendar/dist/Calendar.css";
 import Congrats from "../../../Authentication/LoginForm/Modals/CongratsModal/Congrats";
 import { Toast } from "react-bootstrap";
+import { CHANGEROLE_LINK } from "../../../constants";
 
-
-
-function CalendarModal({ setAllUsers, show, number, setShow, allUsers, onHide, OnHideCalendar, setShow1, setShow2,}) {
-    const [modalShow, setModalShow] = useState(false);
-    const [value, onChange] = useState(new Date());
-    const [date, setDate] = useState(new Date());
-    const [toast, setToast] = useState(false);
-    const [error, setError] = useState("");
-
+function CalendarModal({
+  setAllUsers,
+  show,
+  number,
+  setShow,
+  allUsers,
+  onHide,
+  OnHideCalendar,
+  setShow1,
+  setShow2,
+}) {
+  const [modalShow, setModalShow] = useState(false);
+  const [value, onChange] = useState(new Date());
+  const [date, setDate] = useState(new Date());
+  const [toast, setToast] = useState(false);
+  const [error, setError] = useState("");
 
   console.log(date);
-  const URL = "https://thestockideas.com/api/v1/user/add";
+  const URL = CHANGEROLE_LINK + "/add";
 
   const myHeaders = new Headers({
     "Content-Type": "application/json",
@@ -44,7 +52,7 @@ function CalendarModal({ setAllUsers, show, number, setShow, allUsers, onHide, O
           } else {
             setModalShow(true);
             setAllUsers((list) => [...list, data["data"]]);
-        }
+          }
         });
       })
       .catch((err) => {
@@ -150,17 +158,17 @@ export default function Save({ setAllUsers, show, setShow, allUsers, onHide }) {
           >
             Choose Time
           </button>
-          {modalShow &&
+          {modalShow && (
             <CalendarModal
-                    setAllUsers={setAllUsers}
-                    show={modalShow}
-                    onHide={onHide}
-                    number={number}
-                    OnHideCalendar = {()=> setModalShow(false)} 
-                        // number={number}
-                        // onHide={onHide}
-                    />
-                }
+              setAllUsers={setAllUsers}
+              show={modalShow}
+              onHide={onHide}
+              number={number}
+              OnHideCalendar={() => setModalShow(false)}
+              // number={number}
+              // onHide={onHide}
+            />
+          )}
           {/* <CalendarModal
                     show={modalShow}
                     onHide={() => setModalShow(false)}

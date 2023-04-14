@@ -5,6 +5,7 @@ import { Toast } from "react-bootstrap";
 
 import "./Modal.css";
 import "react-calendar/dist/Calendar.css";
+import { CHANGEROLE_LINK } from "../../../constants";
 
 export default function Extend({ show, onHide, id, setFetchAgin }) {
   const [value, onChange] = useState(new Date());
@@ -26,7 +27,7 @@ export default function Extend({ show, onHide, id, setFetchAgin }) {
       extendDate: date2,
     };
     console.log(item);
-    fetch(`https://thestockideas.com/api/v1/user/${id}/extendDate`, {
+    fetch(CHANGEROLE_LINK + `/${id}/extendDate`, {
       method: "PATCH",
       headers: myHeaders,
       body: JSON.stringify(item),
@@ -46,7 +47,6 @@ export default function Extend({ show, onHide, id, setFetchAgin }) {
         console.log(err);
       });
     setFetchAgin((prevState) => !prevState);
-    
   }
   return (
     <Modal
